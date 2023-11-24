@@ -1,0 +1,14 @@
+Quanto fa 3+1?
+4
+Quanto fa 3+2?
+5
+Quanto fa 3+3?
+6
+Quanto fa 3+4?
+7
+Quanto fa 3+5?
+8
+Quanto fa 3+6?
+9
+Quanto fa 3+7?
+10

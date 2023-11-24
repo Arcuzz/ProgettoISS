@@ -1,0 +1,14 @@
+Quanto fa 2+1?
+3
+Quanto fa 2+2?
+4
+Quanto fa 2+3?
+5
+Quanto fa 2+4?
+6
+Quanto fa 2+5?
+7
+Quanto fa 2+6?
+8
+Quanto fa 2+7?
+9

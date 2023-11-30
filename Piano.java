@@ -10,8 +10,82 @@ public class Piano{
         this.livello = livello;
         this.difficoltà = difficoltà;
 
-        if(difficoltà.equalsIgnoreCase("facile")) this.mat = new int[7][7];
-        inizializzaMatrice(7, 5, 5);
+        switch (livello) {
+            case 1:
+            this.mat = new int[5][5];
+                switch (difficoltà) {
+                    case "facile":
+                        inizializzaMatrice(5, 3, 3);
+                        break;
+                    case "media":
+                        inizializzaMatrice(5, 3, 2);
+                        break;
+                    case "difficile":
+                        inizializzaMatrice(5, 3, 1);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+            case 2:
+                this.mat = new int[7][7];
+                switch (difficoltà) {
+                    case "facile":
+                        inizializzaMatrice(7, 5, 5);
+                        break;
+                    case "media":
+                        inizializzaMatrice(7, 5, 3);
+                        break;
+                    case "difficile":
+                        inizializzaMatrice(7, 5, 1);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+            case 3:
+                this.mat = new int[9][9];
+                switch (difficoltà) {
+                    case "facile":
+                        inizializzaMatrice(9, 8, 8);
+                        break;
+                    case "media":
+                        inizializzaMatrice(9, 8, 5);
+                        break;
+                    case "difficile":
+                        inizializzaMatrice(9, 8, 3);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+            case 4:
+                this.mat = new int[9][9];
+                switch (difficoltà) {
+                    case "facile":
+                        inizializzaMatrice(9, 11, 11);
+                        break;
+                    case "media":
+                        inizializzaMatrice(9, 11, 7);
+                        break;
+                    case "difficile":
+                        inizializzaMatrice(9, 11, 5);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+            case 5:
+                this.mat = new int[9][9];
+                inizializzaMatrice(9, 13, 5);
+        
+            default:
+                break;
+        }
     }
 
     private void inizializzaMatrice(int index, int domande, int npc){
@@ -42,18 +116,18 @@ public class Piano{
                 if(val != 0){
                     if(val == 3){
                         this.mat[n_rig][n_col] = val;
-                        riempiMatrice(n_rig, n_col, rand, counter);
+                        riempiMatrice(n_rig, n_col, rand, counter, index);
                     }
                     else if (val == 1 || val == 2) {
                         int altroVal = (val == 1) ? 2 : 1;
                         if (counter.get(val) > 0) {
                             this.mat[n_rig][n_col] = val;
                             counter.put(val, counter.get(val) - 1);
-                            riempiMatrice(n_rig, n_col, rand, counter);
+                            riempiMatrice(n_rig, n_col, rand, counter, index);
                         } else if (counter.get(val) == 0 && counter.get(altroVal) > 0) {
                             this.mat[n_rig][n_col] = altroVal;
                             counter.put(altroVal, counter.get(altroVal) - 1);
-                            riempiMatrice(n_rig, n_col, rand, counter);
+                            riempiMatrice(n_rig, n_col, rand, counter, index);
                         }
                     }
                 }
@@ -77,7 +151,7 @@ public class Piano{
     
     
     public static void main(String[] args){
-        Piano pi = new Piano(1, "facile");
+        Piano pi = new Piano(4, "media");
         pi.stampaMatrice();
     }
 }

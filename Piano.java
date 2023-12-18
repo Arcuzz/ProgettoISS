@@ -11,18 +11,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Piano{
-    public String difficoltà;
+    public String difficolta;
     public int livello;
     public Stanza[][] mat;
     
-    public Piano(int livello, String difficoltà){
+    public Piano(int livello, String difficolta){
         this.livello = livello;
-        this.difficoltà = difficoltà;
+        this.difficolta = difficolta;
 
         switch (livello) {
             case 1:
             this.mat = new Stanza[5][5];
-                switch (difficoltà) {
+                switch (difficolta) {
                     case "facile":
                         inizializzaMatrice(5, creaDomande(3), creaNpcs(3));
                         break;
@@ -39,7 +39,7 @@ public class Piano{
 
             case 2:
                 this.mat = new Stanza[7][7];
-                switch (difficoltà) {
+                switch (difficolta) {
                     case "facile":
                         inizializzaMatrice(7, creaDomande(5), creaNpcs(5));
                         break;
@@ -56,7 +56,7 @@ public class Piano{
 
             case 3:
                 this.mat = new Stanza[9][9];
-                switch (difficoltà) {
+                switch (difficolta) {
                     case "facile":
                         inizializzaMatrice(9, creaDomande(8), creaNpcs(8));
                         break;
@@ -73,7 +73,7 @@ public class Piano{
 
             case 4:
                 this.mat = new Stanza[9][9];
-                switch (difficoltà) {
+                switch (difficolta) {
                     case "media":
                         inizializzaMatrice(9, creaDomande(11), creaNpcs(7));
                         break;

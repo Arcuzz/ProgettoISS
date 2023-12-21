@@ -64,9 +64,4 @@ public class Difficulty {
         System.out.println("Difficolta: " + this.difficolta);
         System.out.println("Numero piani: " + this.numPiani);
     }
-
-    public static void main(String[] args){
-        Difficulty sceltaDiff = new Difficulty();
-        sceltaDiff.printData();
-    }
 }

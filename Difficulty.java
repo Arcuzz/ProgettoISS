@@ -1,3 +1,4 @@
+package pac;
 import java.util.*;
 public class Difficulty {
     public String difficolta;
@@ -28,10 +29,10 @@ public class Difficulty {
     public int staticaScelta(){
         int scelta;
         do{
-            System.out.println("Scegli 1 per difficoltà statica, 2 per crescente:");
+            System.out.println("Scegli 1 per difficolta statica, 2 per crescente:");
             scelta = input.nextInt();
             while(scelta!=1 && scelta!=2){
-                System.out.println("Input sbagliato 1! Riprova:");
+                System.out.println("Input sbagliato! Riprova:");
                 scelta = input.nextInt();
             }
         }while(!sceltaSicura());
@@ -43,7 +44,7 @@ public class Difficulty {
             System.out.println("Scegli 1 per facile, 2 media, 3 difficile:");
             scelta = input.nextInt();
             while(scelta!=1 && scelta!=2 && scelta!=3){
-                System.out.println("Input sbagliato 2! Riprova:");
+                System.out.println("Input sbagliato! Riprova:");
                 scelta = input.nextInt();
             }
         }while(!sceltaSicura());
@@ -54,7 +55,7 @@ public class Difficulty {
         input.nextLine();   //non so perché senza questo nextline in più non funziona
         String choice = input.nextLine();
         while(!choice.equalsIgnoreCase("si") && !choice.equalsIgnoreCase("no")){
-            System.out.println("Input sbagliato 3! Riprova:");
+            System.out.println("Input sbagliato! Riprova:");
             choice = input.nextLine();
         }
         return choice.equalsIgnoreCase("si") || !choice.equalsIgnoreCase("no");

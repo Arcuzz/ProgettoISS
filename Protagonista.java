@@ -2,45 +2,29 @@ package pac;
 
 import java.util.Scanner;
 
-import pac.Piano;
-import pac.Stanza;
-
 public class Protagonista {
     public String nome;
-    public int livello;
+    public int livello = 1;
     public int x;
     public int y;
     public Piano piano;
     public Stanza visited[][];
 
+    public int last_d = 0;
+
     public static final int[][] direzioni = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
     public Protagonista(String nome){
         this.nome = nome;
-        this.livello = 0;
     }
 
-    public void creaPiano(String difficoltà, int livello){
-        this.piano = new Piano(livello, difficoltà);
-        this.x = posizioneIniziale()[0];
-        this.y = posizioneIniziale()[1];
+    public void start(Piano piano){
+        this.piano = piano;
+        this.x = this.piano.start[0];
+        this.y = this.piano.start[1];
         this.visited = new Stanza[this.piano.mat[0].length][this.piano.mat.length];
         this.visited[this.x][this.y] = this.piano.mat[this.x][this.y];
         aggiungi_adj();
-    }
-
-    public int[] posizioneIniziale(){
-        int[] pos = new int[2];
-        for(int i = 0; i < this.piano.mat.length; i++){
-            for(int j = 0; j < this.piano.mat[i].length; j++){
-                if(this.piano.mat[i][j] != null && this.piano.mat[i][j].id == 'S'){
-                    pos[0] = i;
-                    pos[1] = j;
-                    return pos;
-                }  
-            }
-        }
-        return null;
     }
 
     public void aggiungi_adj(){
@@ -77,19 +61,33 @@ public class Protagonista {
                     else System.out.println("Direzione non valida");
                     break;
                 case "w":
-                    if(legal_coord(this.x-1, this.y) &&this.piano.mat[this.x-1][this.y] != null) this.x = this.x - 1;
+                    if(legal_coord(this.x-1, this.y) && this.piano.mat[this.x-1][this.y] != null) this.x = this.x - 1;
                     else System.out.println("Direzione non valida");
                     break;
                 case "s":
                     if(legal_coord(this.x+1, this.y) && this.piano.mat[this.x+1][this.y] != null) this.x = this.x + 1;
-                    else System.out.println("Direzione non valida, riprova");
+                    else System.out.println("Direzione non valida");
                     break;
                 default:
                     break;
             }
+            if (this.piano.mat[this.x][this.y].id == 'D') this.piano.dom_sup++;
+            if (this.piano.dom_sup == this.piano.n_dom && !last()){
+                System.out.println("Hai finito le domande del piano, vuoi andare al succesivo? [S/n]");
+                this.last_d++;
+            }
+            else{
+                if (this.piano.mat[this.x][this.y].id == 'S' && this.piano.dom_sup == this.piano.n_dom){
+                    System.out.println("Hai finito le domande del piano, vuoi andare al succesivo? [S/n]");
+                }
+            }
             aggiungi_adj();
         }
-        sca.close();
+    }
+
+    public boolean last(){
+        if (this.last_d > 0) return true;
+        return false;
     }
 
     public void vision(){

@@ -1,108 +1,45 @@
 package pac;
 
-import pac.Domanda;
-import pac.Stanza;
-import pac.Npc;
-import pac.Start;
-import pac.Vuota;
-
 import java.util.Random;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Piano{
-    public String difficolta;
     public int livello;
+    public String tema;
     public Stanza[][] mat;
+    public int[] start;
+    public int dom_sup = 0;
+    public int n_dom;
+    public int n_npc;
     
-    public Piano(int livello, String difficolta){
+    public Piano(int livello){
         this.livello = livello;
-        this.difficolta = difficolta;
 
-        switch (livello) {
-            case 1:
-            this.mat = new Stanza[5][5];
-                switch (difficolta) {
-                    case "facile":
-                        inizializzaMatrice(5, creaDomande(3), creaNpcs(3));
-                        break;
-                    case "media":
-                        inizializzaMatrice(5, creaDomande(3), creaNpcs(2));
-                        break;
-                    case "difficile":
-                        inizializzaMatrice(5, creaDomande(3), creaNpcs(1));
-                        break;
-                    default:
-                        break;
-                }
-                break;
-
-            case 2:
-                this.mat = new Stanza[7][7];
-                switch (difficolta) {
-                    case "facile":
-                        inizializzaMatrice(7, creaDomande(5), creaNpcs(5));
-                        break;
-                    case "media":
-                        inizializzaMatrice(7, creaDomande(5), creaNpcs(3));
-                        break;
-                    case "difficile":
-                        inizializzaMatrice(7, creaDomande(5), creaNpcs(1));
-                        break;
-                    default:
-                        break;
-                }
-                break;
-
-            case 3:
-                this.mat = new Stanza[9][9];
-                switch (difficolta) {
-                    case "facile":
-                        inizializzaMatrice(9, creaDomande(8), creaNpcs(8));
-                        break;
-                    case "media":
-                        inizializzaMatrice(9, creaDomande(8), creaNpcs(5));
-                        break;
-                    case "difficile":
-                        inizializzaMatrice(9, creaDomande(8), creaNpcs(3));
-                        break;
-                    default:
-                        break;
-                }
-                break;
-
-            case 4:
-                this.mat = new Stanza[9][9];
-                switch (difficolta) {
-                    case "media":
-                        inizializzaMatrice(9, creaDomande(11), creaNpcs(7));
-                        break;
-                    case "difficile":
-                        inizializzaMatrice(9, creaDomande(11), creaNpcs(5));
-                        break;
-                    default:
-                        break;
-                }
-                break;
-
-            case 5:
-                this.mat = new Stanza[9][9];
-                inizializzaMatrice(9, creaDomande(13), creaNpcs(5));
-                break;
-            default:
-                break;
+        if(this.livello < 3){
+            this.mat = new Stanza[this.livello*2+3][this.livello*2+3];
+            inizializzaMatrice(this.livello*2+3, creaDomande(), creaNpcs(this.livello));
+        }else{
+            this.mat = new Stanza[9][9];
+            inizializzaMatrice(9, creaDomande(), creaNpcs(this.livello));
         }
     }
 
-    public ArrayList<Domanda> creaDomande(int num){
+    public ArrayList<Domanda> creaDomande(){
         ArrayList<Domanda> domande = new ArrayList<>();
-        for (int i = 0; i < num; i++) domande.add(i, new Domanda(i, i));
-        return domande;
+        try {
+            Questions q = new Questions(this.livello+2*this.livello, this.livello);
+            for (int i = 0; i < q.domande.size(); i++) domande.add(i, new Domanda(q.domande.get(i)));
+            this.n_dom = domande.size()-1;
+            return domande;
+        } catch (FileNotFoundException e) {
+            return null;
+        }
     }
 
     public ArrayList<Npc> creaNpcs(int num){
         ArrayList<Npc> npc = new ArrayList<>();
-        for (int i = 0; i < num; i++) npc.add(i, new Npc("Aldo")); 
+        for (int i = 0; i < num; i++) npc.add(i, new Npc("Aldo", new Impiccato("Giovanni", 10, "facile"))); 
         return npc;
     }
 
@@ -112,6 +49,9 @@ public class Piano{
         int x = rand.nextInt(index);
         int y = rand.nextInt(index);
         this.mat[x][y] = new Start();
+        this.start = new int[2];
+        this.start[0] = x;
+        this.start[1] = y;
         riempiMatrice(x, y, rand, dom, npc, index);
     }
 
@@ -200,4 +140,3 @@ public class Piano{
         System.out.println("Ci sono " + c_dom + " domande e " + c_npc + " npc");
     }
 }
-

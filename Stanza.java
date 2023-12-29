@@ -9,24 +9,25 @@ public class Stanza {
 }
 
 class Domanda extends Stanza{
-    public int indice_domanda;
-    public int indice_risposta;
+    public Prova prova;
+    public boolean risposta;
 
-    public Domanda(int indice, int risposta){
+    public Domanda(Prova prova){
         super('D');
-        this.indice_domanda = indice;
-        this.indice_risposta = risposta;
+        this.prova = prova;
+        this.risposta = false;
     }
 }
 
 class Npc extends Stanza{
     // public Personaggio npc;
     public String nome;
+    public Minigiochi mini;
 
-    public Npc(String nome){
+    public Npc(String nome, Minigiochi mini){
         super('N');
         this.nome = nome;
-
+        this.mini = mini;
     }
 }
 

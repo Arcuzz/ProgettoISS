@@ -16,14 +16,13 @@ public class Prova {
     public void printDomanda(){
         System.out.println(this.domanda);
     }
-    public boolean faiDomanda(){
-        Scanner input = new Scanner(System.in);
+    public boolean faiDomanda(Scanner scan){
         String answer = "";
         while(!answer.equalsIgnoreCase(this.risposta)){
             printDomanda();
             if(contaErrori>2) System.out.println("Indizio: "+this.indizioPrincipale);
             System.out.println("Risposta: ");
-            answer = input.nextLine();
+            answer = scan.nextLine();
             if(answer.equalsIgnoreCase(this.risposta)){
                 System.out.println("Risposta esatta con "+this.contaErrori+" tentativi! Vai avanti");
                 return true;

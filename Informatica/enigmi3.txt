@@ -1,0 +1,33 @@
+Quale comando viene usato in Linux per elencare le interfacce di rete?
+ifconfig
+Unione di se e configurazione
+Quale non è una tipologia di memory card? \nA) CompactFlash \nB) SmartMedia \nC) RFC \nD) SD
+C
+Pensa ai loro acronimi
+Che cos'è un modem? \nA) Un modello matematico che viene solitamente applicato nello studio dei pianeti \nB) Un apparecchio utilizzato per collegare due computer via linea telefonica \nC) Uno strumento che consente di convertire testi e immagini in forma di file \nD) L'unità di base alla memoria di un computer
+B
+Sta per modulatore - demodulatore
+Come si chiama il protocollo utilizzato nel WWW?
+http
+Hypertext Transfer Protocol
+Che parola useresti per definire un algoritmo basato sul fare la scelta più conveniente del momento?
+Greedy
+Avaro
+Cosa significa BIOS?	(non mettere punteggiatura)
+Basic Input Output System
+Un sistema basilare di input e output
+Settima domanda informatica 3 esempio
+Settima risposta informatica 3 esempio
+Settimo indizio informatica 3 esempio
+8
+8
+8
+9
+9
+9
+10
+10
+10
+11
+11
+11

@@ -1,21 +1,24 @@
-Quanto fa 1+1?
-2
-Indizio principale esempio
-Quanto fa 1+2?
-3
-Indizio principale esempio
-Quanto fa 1+3?
+Qual è l'area di un triangolo rettangolo con i due cateti lunghi 20?
+200
+Base e altezza sono uguali
+Come si chiamano due rette che non si toccano mai tra loro?
+Parallele
+Si usa anche per un modo di parcheggiare
+Quanti metri sono 1000 chilometri?
+1000000
+Conta bene gli zeri
+Quanti numeri primi hanno una cifra?
 4
-Indizio principale esempio
-Quanto fa 1+4?
-5
-Indizio principale esempio
-Quanto fa 1+5?
-6
-Indizio principale esempio
-Quanto fa 1+6?
-7
-Indizio principale esempio
-Quanto fa 1+7?
-8
-Indizio principale esempio
+Uno non è un numero primo
+Quanti pasti completi posso fare se un menù ha 3 primi, 4 secondi e 2 dessert?
+24
+Immagina ogni combinazione possibile
+Quanto vale la x nella proporzione 38 : x = 16 : 24 ?
+57
+Considerala come un'equazione
+Quale numero è divisibile per 3 tra 157, 146, 144, 233 ?
+144
+Prova a sommare le cifre tra loro
+Quanto è il 220% di 620?
+1364
+Il 200% di un numero è il doppio

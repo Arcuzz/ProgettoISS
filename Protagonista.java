@@ -42,15 +42,14 @@ public class Protagonista {
         else return false;
     }
 
-    public void move(){
+    public void move(Scanner scan){
         String in = "";
-        Scanner sca = new Scanner(System.in);
 
         while (!in.equals("exit")) {
             vision();
             System.out.println("In che direzione vuoi andare?");
             System.out.println("d per destra, a per sinitra, w per sopra, s per sotto: ");
-            if(sca.hasNextLine()) in = sca.nextLine();
+            if(scan.hasNextLine()) in = scan.nextLine();
             switch (in) {
                 case "d":
                     if(legal_coord(this.x, this.y+1) && this.piano.mat[this.x][this.y+1] != null) this.y = this.y + 1;
@@ -71,14 +70,27 @@ public class Protagonista {
                 default:
                     break;
             }
-            if (this.piano.mat[this.x][this.y].id == 'D') this.piano.dom_sup++;
+            if (this.piano.mat[this.x][this.y].id == 'D' && !((Domanda)this.piano.mat[this.x][this.y]).risposta){
+                Domanda d = (Domanda)this.piano.mat[this.x][this.y];
+                d.idle(scan);
+                this.piano.dom_sup++;
+            }
+            else if (this.piano.mat[this.x][this.y].id == 'N' && !((Npc)this.piano.mat[this.x][this.y]).res){
+                Npc n = (Npc)this.piano.mat[this.x][this.y];
+                n.idle(scan);
+            }
+            System.out.println(this.piano.dom_sup + " " + this.piano.n_dom);
             if (this.piano.dom_sup == this.piano.n_dom && !last()){
                 System.out.println("Hai finito le domande del piano, vuoi andare al succesivo? [S/n]");
+                in = scan.nextLine();
+                if(in.equalsIgnoreCase("s")) break;
                 this.last_d++;
             }
             else{
                 if (this.piano.mat[this.x][this.y].id == 'S' && this.piano.dom_sup == this.piano.n_dom){
                     System.out.println("Hai finito le domande del piano, vuoi andare al succesivo? [S/n]");
+                    in = scan.nextLine();
+                    if(in.equalsIgnoreCase("s")) break;
                 }
             }
             aggiungi_adj();
@@ -87,7 +99,7 @@ public class Protagonista {
 
     public boolean last(){
         if (this.last_d > 0) return true;
-        return false;
+        else return false;
     }
 
     public void vision(){

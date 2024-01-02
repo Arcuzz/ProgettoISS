@@ -7,39 +7,42 @@ import java.util.ArrayList;
 public class Piano{
     public int livello;
     public String tema;
+    public String difficoltà;
     public Stanza[][] mat;
     public int[] start;
     public int dom_sup = 0;
     public int n_dom;
-    public int n_npc;
     
-    public Piano(int livello){
+    public Piano(int livello, String difficoltà, String tema){
         this.livello = livello;
+        this.difficoltà = difficoltà;
+        this.tema = tema;
 
         if(this.livello < 3){
             this.mat = new Stanza[this.livello*2+3][this.livello*2+3];
-            inizializzaMatrice(this.livello*2+3, creaDomande(), creaNpcs(this.livello));
+            inizializzaMatrice(this.livello*2+3, creaDomande(), creaNpcs());
         }else{
             this.mat = new Stanza[9][9];
-            inizializzaMatrice(9, creaDomande(), creaNpcs(this.livello));
+            inizializzaMatrice(9, creaDomande(), creaNpcs());
         }
     }
 
     public ArrayList<Domanda> creaDomande(){
         ArrayList<Domanda> domande = new ArrayList<>();
         try {
-            Questions q = new Questions(this.livello+2*this.livello, this.livello);
+            System.out.println(this.livello + " " + this.tema + " " + this.difficoltà);
+            Questions q = new Questions(this.livello, this.tema, this.difficoltà);
             for (int i = 0; i < q.domande.size(); i++) domande.add(i, new Domanda(q.domande.get(i)));
-            this.n_dom = domande.size()-1;
+            this.n_dom = domande.size();
             return domande;
         } catch (FileNotFoundException e) {
             return null;
         }
     }
 
-    public ArrayList<Npc> creaNpcs(int num){
+    public ArrayList<Npc> creaNpcs(){
         ArrayList<Npc> npc = new ArrayList<>();
-        for (int i = 0; i < num; i++) npc.add(i, new Npc("Aldo", new Impiccato("Giovanni", 10, "facile"))); 
+        for (int i = 0; i < this.livello; i++) npc.add(i, new Npc("Aldo", new Impiccato("Giovanni", 10, "facile"))); 
         return npc;
     }
 

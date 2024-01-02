@@ -41,7 +41,7 @@ public class Difficulty {
             System.out.println("Scegli 1 per difficoltà statica, 2 per crescente:");
             scelta = scan.nextInt();
             while(scelta!=1 && scelta!=2){
-                System.out.println("Input sbagliato 1! Riprova:");
+                System.out.println("Input sbagliato! Riprova:");
                 scelta = scan.nextInt();
             }
         }while(!sceltaSicura(scan));
@@ -54,7 +54,7 @@ public class Difficulty {
             System.out.println("Scegli 1 per facile, 2 media, 3 difficile:");
             scelta = scan.nextInt();
             while(scelta!=1 && scelta!=2 && scelta!=3){
-                System.out.println("Input sbagliato 2! Riprova:");
+                System.out.println("Input sbagliato! Riprova:");
                 scelta = scan.nextInt();
             }
         }while(!sceltaSicura(scan));
@@ -65,7 +65,7 @@ public class Difficulty {
         scan.nextLine();   //non so perché senza questo nextline in più non funziona
         String choice = scan.nextLine();
         while(!choice.equalsIgnoreCase("si") && !choice.equalsIgnoreCase("no")){
-            System.out.println("Input sbagliato 3! Riprova:");
+            System.out.println("Input sbagliato! Riprova:");
             choice = scan.nextLine();
         }
         return choice.equalsIgnoreCase("si") || !choice.equalsIgnoreCase("no");

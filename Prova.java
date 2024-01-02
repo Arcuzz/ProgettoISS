@@ -1,9 +1,9 @@
+package pac;
 import java.util.*;
 public class Prova {
     public String domanda;
     public String risposta;
     public String indizioPrincipale;
-    public ArrayList<String> indiziGenerici = new ArrayList<>();
     public int ranking;
     public int contaErrori;
     public Prova(String dom, String ris, String hint, int rank){
@@ -16,20 +16,26 @@ public class Prova {
     public void printDomanda(){
         System.out.println(this.domanda);
     }
-    public void faiDomanda(){
+    public boolean faiDomanda(){
         Scanner input = new Scanner(System.in);
         String answer = "";
         while(!answer.equalsIgnoreCase(this.risposta)){
             printDomanda();
+            if(contaErrori>2) System.out.println("Indizio: "+this.indizioPrincipale);
             System.out.println("Risposta: ");
             answer = input.nextLine();
             if(answer.equalsIgnoreCase(this.risposta)){
-                System.out.println("Risposta esatta! Vai avanti");
+                System.out.println("Risposta esatta con "+this.contaErrori+" tentativi! Vai avanti");
+                return true;
+            }
+            contaErrori++;
+            System.out.println("Risposta sbagliata! Riprova o scrivi \"stop\" per uscire");
+            if(answer.equalsIgnoreCase("stop")){
+                System.out.println("Sei uscito senza rispondere correttamente, ritorno al movimento");
                 break;
             }
-            System.out.println("Risposta sbagliata! Riprova");
-            contaErrori++;
         }
+        return false;
     }
 
     public void summary(){

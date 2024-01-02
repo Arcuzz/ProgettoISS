@@ -1,19 +1,28 @@
 package pac;
 import java.util.*;
+
 public class Difficulty {
-    public String difficolta;
+    public String difficoltà;
     public int numPiani;
     public boolean statica;
-    Scanner input = new Scanner(System.in);
-    public Difficulty(){
-        int stat = staticaScelta();
+
+    public Difficulty(Scanner scan){
+        int stat = staticaScelta(scan);
         if(stat==1){
             this.statica = true;
-            int level = staticaLivello();
+            int level = staticaLivello(scan);
             switch (level) {
-                case 1 -> setDiff("facile", 3);
-                case 2 -> setDiff("media", 4);
-                case 3 -> setDiff("difficile", 5);
+                case 1:
+                    setDiff("facile", 3);
+                    break;
+                case 2:
+                    setDiff("media", 4);
+                    break;
+                case 3:
+                    setDiff("difficile", 5);
+                    break;
+                default:
+                    break;
             }
         }
         else{
@@ -23,46 +32,47 @@ public class Difficulty {
     }
 
     public void setDiff(String diff, int num){
-        this.difficolta = diff;
+        this.difficoltà = diff;
         this.numPiani = num;
     }
-    public int staticaScelta(){
+    public int staticaScelta(Scanner scan){
         int scelta;
         do{
-            System.out.println("Scegli 1 per difficolta statica, 2 per crescente:");
-            scelta = input.nextInt();
+            System.out.println("Scegli 1 per difficoltà statica, 2 per crescente:");
+            scelta = scan.nextInt();
             while(scelta!=1 && scelta!=2){
-                System.out.println("Input sbagliato! Riprova:");
-                scelta = input.nextInt();
+                System.out.println("Input sbagliato 1! Riprova:");
+                scelta = scan.nextInt();
             }
-        }while(!sceltaSicura());
+        }while(!sceltaSicura(scan));
         return scelta;
     }
-    public int staticaLivello(){
+
+    public int staticaLivello(Scanner scan){
         int scelta;
         do{
             System.out.println("Scegli 1 per facile, 2 media, 3 difficile:");
-            scelta = input.nextInt();
+            scelta = scan.nextInt();
             while(scelta!=1 && scelta!=2 && scelta!=3){
-                System.out.println("Input sbagliato! Riprova:");
-                scelta = input.nextInt();
+                System.out.println("Input sbagliato 2! Riprova:");
+                scelta = scan.nextInt();
             }
-        }while(!sceltaSicura());
+        }while(!sceltaSicura(scan));
         return scelta;
     }
-    public boolean sceltaSicura(){
+    public boolean sceltaSicura(Scanner scan){
         System.out.println("Sei sicuro della tua scelta? (scrivi si/no):");
-        input.nextLine();   //non so perché senza questo nextline in più non funziona
-        String choice = input.nextLine();
+        scan.nextLine();   //non so perché senza questo nextline in più non funziona
+        String choice = scan.nextLine();
         while(!choice.equalsIgnoreCase("si") && !choice.equalsIgnoreCase("no")){
-            System.out.println("Input sbagliato! Riprova:");
-            choice = input.nextLine();
+            System.out.println("Input sbagliato 3! Riprova:");
+            choice = scan.nextLine();
         }
         return choice.equalsIgnoreCase("si") || !choice.equalsIgnoreCase("no");
     }
     public void printData(){
         System.out.println("Statica: " + this.statica);
-        System.out.println("Difficolta: " + this.difficolta);
+        System.out.println("difficoltà: " + this.difficoltà);
         System.out.println("Numero piani: " + this.numPiani);
     }
 }

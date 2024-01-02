@@ -3,15 +3,16 @@ package pac;
 import java.util.Scanner;
 
 public abstract class Minigiochi {
+    public abstract void inizializza();
     public abstract void startGame();
-    public abstract void play();
+    public abstract void play(Scanner sca);
 }
 
 class Impiccato extends Minigiochi{
-    private String secret;
-    private StringBuilder guessed;
-    private int remainingAttempts;
-    private String difficoltà;
+    public String secret;
+    public StringBuilder guessed;
+    public int remainingAttempts;
+    public String difficoltà;
 
     public Impiccato(String secret, int maxAttempts, String difficoltà){
         this.secret = secret;
@@ -20,7 +21,8 @@ class Impiccato extends Minigiochi{
         inizializza();
     }
 
-    private void inizializza(){
+    @Override
+    public void inizializza(){
         this.guessed = new StringBuilder(this.secret.length());
         if (this.difficoltà.equals("facile")){
             this.guessed.insert(0, this.secret.charAt(0));
@@ -38,10 +40,9 @@ class Impiccato extends Minigiochi{
     }
 
     @Override
-    public void play(){
-        Scanner sca = new Scanner(System.in);
-        String in;
-        while (this.remainingAttempts > 0 && !this.secret.equalsIgnoreCase(guessed.toString())) {
+    public void play(Scanner sca){
+        String in = "";
+        while (this.remainingAttempts > 0 && !this.secret.equalsIgnoreCase(guessed.toString()) && !in.equals("exit")) {
             System.out.println("Parola da indovinare:");
             System.out.println(this.guessed);
             System.out.println("Hai a disposizione " + this.remainingAttempts + " tentativi");
@@ -62,14 +63,6 @@ class Impiccato extends Minigiochi{
                     }
                 }else this.remainingAttempts --;  
             }
-        }if(this.remainingAttempts == 0) System.out.println("GAME OVER");
-        sca.close();
-    }
-
-    public static void main(String[] args) {
-        System.out.println("asd");
-        Impiccato imp = new Impiccato("Giovanni", 10, "facile");
-        imp.inizializza();
-        imp.play();
+        }
     }
 }

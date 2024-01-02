@@ -10,7 +10,7 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
         Protagonista pr = new Protagonista("Giovanni");
-        String[] tem = {"Matematica", "Matematica", "Matematica", "Matematica", "Matematica"};
+        String[] tem = {"Logica","Matematica", "Informatica", "Italiano", "Inglese"};
         Difficulty diff = new Difficulty(scan);
         Torre tor = new Torre(tem, diff, pr);
         tor.game(scan);

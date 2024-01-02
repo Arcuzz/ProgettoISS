@@ -7,15 +7,15 @@ import java.util.ArrayList;
 public class Piano{
     public int livello;
     public String tema;
-    public String difficoltà;
+    public String difficolta;
     public Stanza[][] mat;
     public int[] start;
     public int dom_sup = 0;
     public int n_dom;
     
-    public Piano(int livello, String difficoltà, String tema){
+    public Piano(int livello, String difficolta, String tema){
         this.livello = livello;
-        this.difficoltà = difficoltà;
+        this.difficolta = difficolta;
         this.tema = tema;
 
         if(this.livello < 3){
@@ -30,8 +30,8 @@ public class Piano{
     public ArrayList<Domanda> creaDomande(){
         ArrayList<Domanda> domande = new ArrayList<>();
         try {
-            System.out.println(this.livello + " " + this.tema + " " + this.difficoltà);
-            Questions q = new Questions(this.livello, this.tema, this.difficoltà);
+            System.out.println(this.livello + " " + this.tema + " " + this.difficolta);
+            Questions q = new Questions(this.livello, this.tema, this.difficolta);
             for (int i = 0; i < q.domande.size(); i++) domande.add(i, new Domanda(q.domande.get(i)));
             this.n_dom = domande.size();
             return domande;

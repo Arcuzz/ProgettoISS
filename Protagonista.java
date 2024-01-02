@@ -9,7 +9,7 @@ public class Protagonista {
     public int y;
     public Piano piano;
     public Stanza visited[][];
-
+    public int punteggio = 0;
     public int last_d = 0;
 
     public static final int[][] direzioni = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
@@ -51,19 +51,19 @@ public class Protagonista {
             System.out.println("d per destra, a per sinitra, w per sopra, s per sotto: ");
             if(scan.hasNextLine()) in = scan.nextLine();
             switch (in) {
-                case "d":
+                case "d","D":
                     if(legal_coord(this.x, this.y+1) && this.piano.mat[this.x][this.y+1] != null) this.y = this.y + 1;
                     else System.out.println("Direzione non valida");
                     break;
-                case "a":
+                case "a","A":
                     if(legal_coord(this.x, this.y-1) && this.piano.mat[this.x][this.y-1] != null) this.y = this.y - 1;
                     else System.out.println("Direzione non valida");
                     break;
-                case "w":
+                case "w","W":
                     if(legal_coord(this.x-1, this.y) && this.piano.mat[this.x-1][this.y] != null) this.x = this.x - 1;
                     else System.out.println("Direzione non valida");
                     break;
-                case "s":
+                case "s","S":
                     if(legal_coord(this.x+1, this.y) && this.piano.mat[this.x+1][this.y] != null) this.x = this.x + 1;
                     else System.out.println("Direzione non valida");
                     break;
@@ -73,11 +73,17 @@ public class Protagonista {
             if (this.piano.mat[this.x][this.y].id == 'D' && !((Domanda)this.piano.mat[this.x][this.y]).risposta){
                 Domanda d = (Domanda)this.piano.mat[this.x][this.y];
                 d.idle(scan);
-                this.piano.dom_sup++;
+                if(d.risposta){
+                    int p = this.piano.livello * (10-d.prova.contaErrori);
+                    if(d.prova.contaErrori>2) p = 5*this.piano.livello;
+                    this.punteggio += p;
+                    System.out.println("Hai ottenuto "+p+" punti!");
+                    this.piano.dom_sup++;
+                }
             }
             else if (this.piano.mat[this.x][this.y].id == 'N' && !((Npc)this.piano.mat[this.x][this.y]).res){
                 Npc n = (Npc)this.piano.mat[this.x][this.y];
-                n.idle(scan);
+                //n.idle(scan);
             }
             System.out.println(this.piano.dom_sup + " " + this.piano.n_dom);
             if (this.piano.dom_sup == this.piano.n_dom && !last()){

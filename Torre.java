@@ -18,16 +18,17 @@ public class Torre {
     }
 
     public void game(Scanner scan){
-        this.pianoCurr = new Piano(this.livello, this.diff.difficoltà, this.temi.get(this.livello);
+        this.pianoCurr = new Piano(this.livello, this.diff.difficolta, this.temi.get(this.livello));
         pro.start(this.pianoCurr);
         while (this.livello <= this.diff.numPiani) {
             pro.move(scan);
             if(this.pianoCurr.dom_sup == this.pianoCurr.n_dom && this.livello+1 <= this.diff.numPiani){
+                System.out.println("Hai finito il livello "+this.livello+" con "+this.pro.punteggio+" punti!");
                 this.livello ++;
-                this.pianoCurr = new Piano(this.livello, this.diff.difficoltà, this.temi.get(this.livello));
+                this.pianoCurr = new Piano(this.livello, this.diff.difficolta, this.temi.get(this.livello));
                 pro.start(this.pianoCurr);
             }else{
-                System.out.println("Sei uscito dal gioco");
+                System.out.println("Sei uscito dal gioco con un punteggio di "+this.pro.punteggio);
                 break;
             }
         }

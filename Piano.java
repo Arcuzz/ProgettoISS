@@ -3,6 +3,7 @@ package pac;
 import java.util.Random;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Piano{
     public int livello;
@@ -42,7 +43,15 @@ public class Piano{
 
     public ArrayList<Npc> creaNpcs(){
         ArrayList<Npc> npc = new ArrayList<>();
-        for (int i = 0; i < this.livello; i++) npc.add(i, new Npc("Aldo", new Impiccato("Giovanni", 10, "facile"))); 
+        for (int i = 0; i < this.livello; i++){
+            npc.add(i, new Npc("Aldo", new Impiccato("Giovanni", 10, "facile")));
+            switch (this.difficolta) {
+                case "facile" -> npc.get(i).mini.rank = 1;
+                case "media" -> npc.get(i).mini.rank = 2;
+                case "difficile" -> npc.get(i).mini.rank = 3;
+                case "crescente" -> npc.get(i).mini.rank = this.livello;
+            }
+        }
         return npc;
     }
 

@@ -1,11 +1,9 @@
 package pac;
 import java.util.*;
 public class Prova {
-    public String domanda;
-    public String risposta;
-    public String indizioPrincipale;
-    public int ranking;
-    public int contaErrori;
+    public String domanda, risposta, indizioPrincipale;
+    public int ranking, contaErrori;
+
     public Prova(String dom, String ris, String hint, int rank){
         this.domanda = dom;
         this.risposta = ris;
@@ -24,15 +22,15 @@ public class Prova {
             System.out.println("Risposta: ");
             answer = scan.nextLine();
             if(answer.equalsIgnoreCase(this.risposta)){
-                System.out.println("Risposta esatta con "+this.contaErrori+" tentativi! Vai avanti");
+                System.out.println("Risposta esatta con "+this.contaErrori+" errori! Vai avanti");
                 return true;
             }
-            contaErrori++;
-            System.out.println("Risposta sbagliata! Riprova o scrivi \"stop\" per uscire");
-            if(answer.equalsIgnoreCase("stop")){
+            else if(answer.equalsIgnoreCase("stop")){
                 System.out.println("Sei uscito senza rispondere correttamente, ritorno al movimento");
                 break;
             }
+            contaErrori++;
+            System.out.println("Risposta sbagliata! Riprova o scrivi \"stop\" per uscire");
         }
         return false;
     }

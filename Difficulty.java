@@ -38,7 +38,7 @@ public class Difficulty {
     public int staticaScelta(Scanner scan){
         int scelta;
         do{
-            System.out.println("Scegli 1 per difficoltà statica, 2 per crescente:");
+            System.out.println("Scegli 1 per difficolta statica, 2 per crescente:");
             scelta = scan.nextInt();
             while(scelta!=1 && scelta!=2){
                 System.out.println("Input sbagliato! Riprova:");
@@ -72,7 +72,7 @@ public class Difficulty {
     }
     public void printData(){
         System.out.println("Statica: " + this.statica);
-        System.out.println("difficoltà: " + this.difficolta);
+        System.out.println("difficolta: " + this.difficolta);
         System.out.println("Numero piani: " + this.numPiani);
     }
 }

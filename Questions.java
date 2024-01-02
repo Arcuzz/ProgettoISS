@@ -16,7 +16,7 @@ public class Questions {
         this.numDomande = livello+livello+1;
         setRank();
         int totalQuestions = countTotalQuestions();
-        System.out.println("\nScelto " + numDomande + " domande su " + totalQuestions + " per il piano " + livello);
+        System.out.println("\nScelto " + this.numDomande + " domande su " + totalQuestions +" di "+tema+" per il piano " + livello);
         addQuestions();
         //printProve();
     }

@@ -21,12 +21,8 @@ class Domanda extends Stanza{
     }
 
     public void idle(Scanner scan){
-        System.out.println(this.prova.domanda);
-        while (!this.risposta) {
-            String in = scan.nextLine();
-            if (in.equals(this.prova.risposta)) this.risposta = true;
-            else System.out.println("Risposta sbagliata, riprova");
-        }
+        if(this.prova.faiDomanda(scan))
+            this.risposta = true;
     }
 }
 

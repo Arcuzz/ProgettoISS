@@ -1,9 +1,5 @@
-import pac.Torre;
-import pac.Difficulty;
-import pac.Protagonista;
-import pac.Difficulty;
-
-import java.util.Scanner;
+package pac;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {

@@ -2,7 +2,7 @@ package pac;
 import java.util.*;
 
 public class Difficulty {
-    public String difficoltà;
+    public String difficolta;
     public int numPiani;
     public boolean statica;
 

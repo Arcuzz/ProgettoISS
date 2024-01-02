@@ -86,12 +86,10 @@ public class Protagonista {
                 if(in.equalsIgnoreCase("s")) break;
                 this.last_d++;
             }
-            else{
-                if (this.piano.mat[this.x][this.y].id == 'S' && this.piano.dom_sup == this.piano.n_dom){
-                    System.out.println("Hai finito le domande del piano, vuoi andare al succesivo? [S/n]");
-                    in = scan.nextLine();
-                    if(in.equalsIgnoreCase("s")) break;
-                }
+            else if (this.piano.mat[this.x][this.y].id == 'S' && this.piano.dom_sup == this.piano.n_dom){
+                System.out.println("Hai finito le domande del piano, vuoi andare al succesivo? [S/n]");
+                in = scan.nextLine();
+                if(in.equalsIgnoreCase("s")) break;                
             }
             aggiungi_adj();
         }

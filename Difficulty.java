@@ -32,7 +32,7 @@ public class Difficulty {
     }
 
     public void setDiff(String diff, int num){
-        this.difficoltà = diff;
+        this.difficolta = diff;
         this.numPiani = num;
     }
     public int staticaScelta(Scanner scan){
@@ -72,7 +72,7 @@ public class Difficulty {
     }
     public void printData(){
         System.out.println("Statica: " + this.statica);
-        System.out.println("difficoltà: " + this.difficoltà);
+        System.out.println("difficoltà: " + this.difficolta);
         System.out.println("Numero piani: " + this.numPiani);
     }
 }

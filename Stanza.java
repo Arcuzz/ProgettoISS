@@ -40,12 +40,10 @@ class Npc extends Stanza{
 
     public void idle(Scanner scan){
         System.out.println("Sono "+this.nome+" risolvi il mio minigioco");
-        while(!this.res){
-            this.mini.inizializza();
-            this.mini.startGame();
-            this.mini.play(scan);
+        this.mini.inizializza();
+        this.mini.startGame();
+        if(this.mini.play(scan))
             this.res = true;
-        }
     }
 }
 

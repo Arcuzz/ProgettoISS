@@ -48,7 +48,7 @@ public class Protagonista {
         while (!in.equals("exit")) {
             vision();
             System.out.println("In che direzione vuoi andare?");
-            System.out.println("d per destra, a per sinitra, w per sopra, s per sotto: ");
+            System.out.println("d per destra, a per sinistra, w per sopra, s per sotto: ");
             if(scan.hasNextLine()) in = scan.nextLine();
             switch (in) {
                 case "d","D":
@@ -83,7 +83,11 @@ public class Protagonista {
             }
             else if (this.piano.mat[this.x][this.y].id == 'N' && !((Npc)this.piano.mat[this.x][this.y]).res){
                 Npc n = (Npc)this.piano.mat[this.x][this.y];
-                //n.idle(scan);
+                n.idle(scan);
+                if(n.res){
+                    this.punteggio += n.mini.punti;
+                    System.out.println("Hai ottenuto "+n.mini.punti+" punti!");
+                }
             }
             System.out.println(this.piano.dom_sup + " " + this.piano.n_dom);
             if (this.piano.dom_sup == this.piano.n_dom && !last()){

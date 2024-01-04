@@ -5,7 +5,6 @@ public class VersaLiquido extends Minigiochi {
     public int obiettivo, mosse=0;
     public VersaLiquido(String diff){
         this.difficolta = diff;
-        inizializza();
     }
     @Override
     public void inizializza(){
@@ -41,14 +40,13 @@ public class VersaLiquido extends Minigiochi {
     }
 
     @Override
-    public int play(Scanner sca){
-        startGame();
+    public boolean play(Scanner sca){
         int scelta, dest;
         while(!(this.bicchieri[0].livello==this.obiettivo && this.bicchieri[0].livello==this.bicchieri[1].livello)){
             stampaBicchieri();
-            System.out.println("\nCosa vuoi fare? Digita 1,2,3 per travasare dal rispettivo bicchiere o 4 per resettare: ");
-            scelta = sca.nextInt();
-            while(scelta>4 || scelta<1){
+            System.out.println("\nCosa vuoi fare? Digita 1,2,3 per travasare dal rispettivo bicchiere,4 per resettare o 5 per uscire: ");
+            scelta = Integer.parseInt(sca.nextLine());
+            while(scelta>5 || scelta<1){
                 System.out.println("Input sbagliato! Riprova");
                 scelta = sca.nextInt();
             }
@@ -56,12 +54,17 @@ public class VersaLiquido extends Minigiochi {
                 reset();
                 continue;
             }
+            if(scelta==5){
+                System.out.println("Sei uscito senza risolvere il minigioco, ritorno al movimento");
+                reset();
+                return false;
+            }
             if(this.bicchieri[scelta-1].livello==0){
                 System.out.println("Il bicchiere che hai scelto è vuoto! Riprova");
                 continue;
             }
             System.out.println("Scegli il bicchiere da riempire con 1,2,3:");
-            dest = sca.nextInt();
+            dest = Integer.parseInt(sca.nextLine());
             while(dest>3 || dest<1){
                 System.out.println("Input sbagliato! Riprova");
                 dest = sca.nextInt();
@@ -79,10 +82,13 @@ public class VersaLiquido extends Minigiochi {
         if(this.mosse==this.bicchieri[0].CAPACITA-1){
             System.out.println("Complimenti! Hai finito nel numero minimo di spostamenti possibili!");
             this.punti += this.punti;
+            return true;
         }
-        else System.out.println("\nComplimenti! Hai finito correttamente con "+this.mosse+" spostamenti!");
-        System.out.println("Hai ottenuto "+this.punti+" punti!");
-        return this.punti;
+        else if(this.mosse>this.bicchieri[0].CAPACITA-1){
+            System.out.println("\nComplimenti! Hai finito correttamente con "+this.mosse+" spostamenti!");
+            return true;
+        }
+        return false;
     }
     public void stampaBicchieri(){
         System.out.println("\n|\t\t|");

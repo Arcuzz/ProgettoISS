@@ -1,9 +1,7 @@
 package pac;
 
-import java.util.Random;
+import java.util.*;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Piano{
     public int livello;
@@ -18,7 +16,6 @@ public class Piano{
         this.livello = livello;
         this.difficolta = difficolta;
         this.tema = tema;
-
         if(this.livello < 3){
             this.mat = new Stanza[this.livello*2+3][this.livello*2+3];
             inizializzaMatrice(this.livello*2+3, creaDomande(), creaNpcs());
@@ -43,14 +40,23 @@ public class Piano{
 
     public ArrayList<Npc> creaNpcs(){
         ArrayList<Npc> npc = new ArrayList<>();
-        for (int i = 0; i < this.livello; i++){
-            npc.add(i, new Npc("Aldo", new Impiccato("Giovanni", 10, "facile")));
+        npc.add(new Npc("Aldo", new Impiccato("Giovanni", 10, this.difficolta)));
+        npc.add(new Npc("Giovanni", new VersaLiquido(this.difficolta)));
+        /*for (int i = 0; i < npc.size(); i++){
             switch (this.difficolta) {
                 case "facile" -> npc.get(i).mini.rank = 1;
                 case "media" -> npc.get(i).mini.rank = 2;
                 case "difficile" -> npc.get(i).mini.rank = 3;
                 case "crescente" -> npc.get(i).mini.rank = this.livello;
             }
+        }*/
+        Collections.shuffle(npc);
+        npc.subList(1,npc.size()).clear();
+        switch (this.difficolta) {
+            case "facile" -> npc.get(0).mini.rank = 1;
+            case "media" -> npc.get(0).mini.rank = 2;
+            case "difficile" -> npc.get(0).mini.rank = 3;
+            case "crescente" -> npc.get(0).mini.rank = this.livello;
         }
         return npc;
     }

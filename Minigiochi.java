@@ -5,8 +5,8 @@ import java.util.Scanner;
 public abstract class Minigiochi {
     public abstract void inizializza();
     public abstract void startGame();
-    public abstract int play(Scanner sca);
-    public int punti, rank;
+    public abstract boolean play(Scanner sca);
+    public int punti, rank; //rank è 1,2,3 in base alla difficolta
     public String difficolta;
 }
 
@@ -33,6 +33,7 @@ class Impiccato extends Minigiochi{
             this.guessed.insert(0, this.secret.charAt(0));
             for (int i = 1; i < this.secret.length(); i++) this.guessed.append('_');
         }else for (int i = 0; i < this.secret.length(); i++) this.guessed.append('_');
+        this.punti = this.rank*100;
     }
 
     @Override
@@ -41,7 +42,7 @@ class Impiccato extends Minigiochi{
     }
 
     @Override
-    public int play(Scanner sca){
+    public boolean play(Scanner sca){
         String in = "";
         while (this.remainingAttempts > 0 && !this.secret.equalsIgnoreCase(guessed.toString()) && !in.equals("exit")) {
             System.out.println("Parola da indovinare:");
@@ -54,8 +55,9 @@ class Impiccato extends Minigiochi{
                     System.out.println("PAROLA INDOVINATA !!!!");
                     this.guessed.setLength(0);
                     this.guessed.append(this.secret);
+                    return true;
                 }
-                else this.remainingAttempts -= in.length();
+                else if(!in.equalsIgnoreCase("exit"))this.remainingAttempts -= in.length();
             }else{
                 in = in.toLowerCase();
                 if(this.secret.contains(in)){
@@ -65,6 +67,6 @@ class Impiccato extends Minigiochi{
                 }else this.remainingAttempts --;  
             }
         }
-        return this.punti;
+        return false;
     }
 }

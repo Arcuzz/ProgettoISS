@@ -3,12 +3,9 @@ import java.util.*;
 import java.io.*;
 public class Questions {
     public ArrayList<Prova> domande = new ArrayList<>();
-    public int piano;
-    public String tema;
-    public String difficolta;
-    public int rank;
-    public int numDomande;
-    public Questions(){}
+    public int piano, rank, numDomande;
+    public String tema, difficolta;
+    
     public Questions(int livello, String tema, String diff) throws FileNotFoundException {
         this.piano = livello;
         this.tema = tema;
@@ -28,13 +25,14 @@ public class Questions {
             String dom = scan.nextLine();
             String ris = scan.nextLine();
             String hint = scan.nextLine();
-            domande.add(new Prova(dom,ris,hint,0));
+            domande.add(new Prova(dom,ris,hint,this.rank));
         }
         scan.close();
-        Collections.shuffle(domande);
-        domande.removeIf(n -> (domande.indexOf(n) >= numDomande)); //solo con > ne mette uno in più
+        Collections.shuffle(this.domande);
+        this.domande.removeIf(n -> (this.domande.indexOf(n) >= this.numDomande)); //solo con > ne mette uno in più
     }
 
+    //non necessario
     public int countTotalQuestions() throws FileNotFoundException {
         File file = new File("C:\\Users\\ASUS\\IdeaProjects\\Gioco\\src\\"+this.tema+"\\enigmi"+this.rank+".txt");
         Scanner scan = new Scanner(file);
@@ -48,7 +46,7 @@ public class Questions {
     }
 
     public void printProve(){
-        for(Prova item : domande)
+        for(Prova item : this.domande)
             item.summary();
     }
     public void setRank(){

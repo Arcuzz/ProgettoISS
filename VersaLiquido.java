@@ -31,6 +31,7 @@ public class VersaLiquido extends Minigiochi {
 
     @Override
     public void startGame() {
+        System.out.println("--- Dosa i bicchieri ---");
         System.out.println("Davanti a te vedi tre bicchieri di "+this.bicchieri[0].CAPACITA+", "+this.bicchieri[1].CAPACITA+", "+this.bicchieri[2].CAPACITA+" litri rispettivamente");
         System.out.println("Il primo è pieno d'acqua e gli altri due sono vuoti");
         System.out.println("Il tuo obiettivo è spostare l'acqua tra i bicchieri in modo che il primo e il secondo contengano "+this.obiettivo+" litri");

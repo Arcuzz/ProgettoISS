@@ -10,24 +10,18 @@ Pensa alle potenze di 2
 Tre sorelle hanno un’età complessiva pari a 75 anni. La maggiore delle tre ha un’età pari ai tre mezzi dell’età della minore delle tre. La sorella di mezzo ha cinque anni in meno della sorella maggiore. Quanti anni ha la sorella maggiore?
 30
 Prova a trasformarlo in un sistema a tre incognite
-Se BUIO = 4-21-11-15, quanto vale BELLEZZA? (separa i numeri con -)
-4-7-12-12-7-23-23-3
-Prova a sottrarre 2 da ogni numero
 Quale numero manca? [3|9|27], [2|29|58], [4|13|?]
 52
 Prova a dividere il terzo numero per il primo
 Un’azienda con 1.200 operai produce 360.000 pezzi in tre anni. Quale sarebbe la produzione annua dell’azienda se gli operai fossero 500?
 50000
 Trasformalo in una proporzione
-Qual è il numero il cui quintuplo aumentato di un terzo del numero iniziale è uguale a 176?
-33
-Trasformalo in una equazione
 Quanti punti notevoli sono coincidenti in un triangolo equilatero?
 4
 Il circocentro, l'ortocentro, il baricentro e l'incentro
 Per pavimentare una strada occorrono 40 operai per 50 giorni lavorando 8 ore al giorno. Volendo compiere tale lavoro in 10 giorni lavorando 4 ore al giorno, quanti altri operai si devono aggiungere?
 360
 Calcola il totale e sottrai quelli iniziali
-11
-11
-11
+Quanti metri/secondo sono 100 chilometri/ora? (arrotonda all'intero più vicino)
+28
+Basta dividere per 3,6

@@ -22,18 +22,12 @@ Quindi 20 corrisponde a 1/5 del totale
 Se 2x^2 - 16x = -32 quanto vale x?
 4
 Si tratta di un'equazione speciale
-9
-9
-9
-10
-10
-10
-11
-11
-11
-12
-12
-12
-13
-13
-13
+Qual è il numero il cui quintuplo aumentato di un terzo del numero iniziale è uguale a 176?
+33
+Trasformalo in una equazione
+Se BUIO = 4-21-11-15, quanto vale BELLEZZA? (separa i numeri con -)
+4-7-12-12-7-23-23-3
+Prova a sottrarre 2 da ogni numero
+Quanto vale la derivata di ln(x)?
+1/x
+E' una frazione

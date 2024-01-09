@@ -10,9 +10,6 @@ Un calcolatore solo tuo
 Se volessi tagliare una parte di testo tramite tastiera, cosa dovrei abbinare a CTRL?
 X
 Vicino ai tasti di copia e incolla
-Che cosa significa ROM?
-Read Only Memory
-Una memoria di sola lettura
 Come viene chiamata la più piccola unità di informazione?
 Bit
 Ha solo due valori possibili

@@ -1,6 +1,3 @@
-Cos'è un protocollo di rete? \nA) Un tipo di architettura di rete \nB) Una modalità di collegamento tra i calcolatori di una rete \nC) Un insieme di reti LAN \nD) Un formato condiviso per trasmettere dati
-D
-Che cosa significa la parola protocollo?
 Cosa significa DVD?
 Digital Video Disk
 Un disco di video salvati digitalmente
@@ -25,6 +22,6 @@ Cosa useresti per una serie di diapositive?
 A quanti bit corrispodono 42 MB?
 352321536
 Trasforma in byte e hai quasi finito
-Come si chiama una variabile preceduta da un asterisco?
-Puntatore
-Punta all'indirizzo di memoria
+Che cosa significa ROM?
+Read Only Memory
+Una memoria di sola lettura

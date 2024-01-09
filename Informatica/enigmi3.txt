@@ -16,18 +16,18 @@ Avaro
 Cosa significa BIOS?	(non mettere punteggiatura)
 Basic Input Output System
 Un sistema basilare di input e output
-Settima domanda informatica 3 esempio
-Settima risposta informatica 3 esempio
-Settimo indizio informatica 3 esempio
-8
-8
-8
-9
-9
-9
-10
-10
-10
-11
-11
-11
+Come si chiama nel linguaggio C una variabile preceduta da un asterisco?
+Puntatore
+Punta all'indirizzo di memoria
+Cos'è un protocollo di rete? \nA) Un tipo di architettura di rete \nB) Una modalità di collegamento tra i calcolatori di una rete \nC) Un insieme di reti LAN \nD) Un formato condiviso per trasmettere dati
+D
+Che cosa significa la parola protocollo?
+A cosa serve l'indirizzamento della memoria? \nA) Selezionare la locazione di memoria sulla quale operare lettura/scrittura \nB) Selezionare il buffer di memoria sul quale operare lettura/scrittura \nC) Selezionare la bad sector di memoria sulla quale operare lettura/scrittura \nD) Selezionare il livello di memoria sul quale operare lettura/scrittura
+A
+A cosa serve un indirizzo?
+Che cosa significa UDDI? (solo le quattro parole)
+Universal Description Discovery Integration
+Scoperta (e) integrazione della descrizione universale
+Cosa sono gli ipertesti e gli ipermedia? \nA) Sono tutti i testi o immagini contenuti in un sito web \nB) Sono file multimediali \nC) Sono testi o immagini che contengono dei collegamenti ad altri testi e immagini \nD) Testi o immagini scaricati da social network
+C
+La terza

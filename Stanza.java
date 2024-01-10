@@ -2,7 +2,7 @@ package pac;
 
 import java.util.Scanner;
 
-public class Stanza {
+public abstract class Stanza {
     public char id;
 
     public Stanza(char id){
@@ -18,11 +18,6 @@ class Domanda extends Stanza{
         super('D');
         this.prova = prova;
         this.risposta = false;
-    }
-
-    public void idle(Scanner scan){
-        if(this.prova.faiDomanda(scan))
-            this.risposta = true;
     }
 }
 

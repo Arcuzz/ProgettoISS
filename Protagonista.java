@@ -14,16 +14,8 @@ public class Protagonista {
 
     public static final int[][] direzioni = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
-    private static Protagonista instance = null;
-
-    private Protagonista(String nome) {
+    public Protagonista(String nome){
         this.nome = nome;
-    }
-    public static Protagonista getIstance(String nome){
-        if (instance == null) {
-            instance = new Protagonista(nome);
-        }
-        return instance;
     }
 
     public void start(Piano piano){
@@ -80,7 +72,7 @@ public class Protagonista {
             }
             if (this.piano.mat[this.x][this.y].id == 'D' && !((Domanda)this.piano.mat[this.x][this.y]).risposta){
                 Domanda d = (Domanda)this.piano.mat[this.x][this.y];
-                d.idle(scan);
+                d.prova.faiDomanda(scan);
                 if(d.risposta){
                     int p = this.piano.livello * (10-d.prova.contaErrori);
                     if(d.prova.contaErrori>2) p = 5*this.piano.livello;
@@ -97,7 +89,6 @@ public class Protagonista {
                     System.out.println("Hai ottenuto "+n.mini.punti+" punti!");
                 }
             }
-            System.out.println(this.piano.dom_sup + " " + this.piano.n_dom);
             if (this.piano.dom_sup == this.piano.n_dom && !last()){
                 System.out.println("Hai finito le domande del piano, vuoi andare al succesivo? [S/n]");
                 in = scan.nextLine();

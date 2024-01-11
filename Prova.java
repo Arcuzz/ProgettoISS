@@ -25,12 +25,12 @@ public class Prova {
                 System.out.println("Risposta esatta con "+this.contaErrori+" errori! Vai avanti");
                 return true;
             }
-            else if(answer.equalsIgnoreCase("stop")){
+            else if(answer.equalsIgnoreCase("exit")){
                 System.out.println("Sei uscito senza rispondere correttamente, ritorno al movimento");
                 break;
             }
             contaErrori++;
-            System.out.println("Risposta sbagliata! Riprova o scrivi \"stop\" per uscire");
+            System.out.println("Risposta sbagliata! Riprova o scrivi \"exit\" per uscire");
         }
         return false;
     }

@@ -19,6 +19,11 @@ class Domanda extends Stanza{
         this.prova = prova;
         this.risposta = false;
     }
+    
+    public void idle(Scanner scan){
+        if(this.prova.faiDomanda(scan))
+            this.risposta = true;
+    }
 }
 
 class Npc extends Stanza{

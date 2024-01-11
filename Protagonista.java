@@ -14,8 +14,16 @@ public class Protagonista {
 
     public static final int[][] direzioni = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
-    public Protagonista(String nome){
+    private static Protagonista instance = null;
+
+    private Protagonista(String nome) {
         this.nome = nome;
+    }
+    public static Protagonista getIstance(String nome){
+        if (instance == null) {
+            instance = new Protagonista(nome);
+        }
+        return instance;
     }
 
     public void start(Piano piano){

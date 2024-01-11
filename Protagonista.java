@@ -72,7 +72,7 @@ public class Protagonista {
             }
             if (this.piano.mat[this.x][this.y].id == 'D' && !((Domanda)this.piano.mat[this.x][this.y]).risposta){
                 Domanda d = (Domanda)this.piano.mat[this.x][this.y];
-                d.prova.faiDomanda(scan);
+                d.idle(scan);
                 if(d.risposta){
                     int p = this.piano.livello * (10-d.prova.contaErrori);
                     if(d.prova.contaErrori>2) p = 5*this.piano.livello;

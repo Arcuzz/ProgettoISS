@@ -1,7 +1,7 @@
 Qual è l'area di un triangolo rettangolo con i due cateti lunghi 20?
 200
 Base e altezza sono uguali
-Come si chiamano due rette che non si toccano mai tra loro?
+Come si chiamano due rette che non si toccano mai tra loro? (una parola)
 Parallele
 Si usa anche per un modo di parcheggiare
 Quanti numeri primi hanno una cifra?

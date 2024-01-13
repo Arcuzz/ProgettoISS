@@ -4,30 +4,24 @@ Serve a chiedere il permesso
 Complete the sentence: \n"The potato is not indigenous to Europe and ___ is the tomato"
 Neither
 Una parola che significa "nemmeno"
-Terza domanda lingua 2 esempio
-Terza risposta lingua 2 esempio
-Terzo indizio lingua 2 esempio
-Quarta domanda lingua 2 esempio
-Quarta risposta lingua 2 esempio
-Quarto indizio lingua 2 esempio
-Quinta domanda lingua 2 esempio
-Quinta risposta lingua 2 esempio
-Quinto indizio lingua 2 esempio
-Sesta domanda lingua 2 esempio
-Sesta risposta lingua 2 esempio
-Sesto indizio lingua 2 esempio
-Settima domanda lingua 2 esempio
-Settima risposta lingua 2 esempio
-Settimo indizio lingua 2 esempio
-8
-8
-8
-9
-9
-9
-10
-10
-10
-11
-11
-11
+Complete the sentence with the appropriate auxiliary verb: \n"___ I open a window? It's very hot in here"
+Shall
+Un verbo per quando ti stai offrendo di fare qualcosa
+Complete the sentence with the correct form of "to be": \n"They ___ husband and wife a long time now"
+Have been
+Sono due parole coniugate al passato
+Complete the sentence with the correct form of "to arrive": \n"Which of them do you think ___ first?"
+Will arrive
+Sono due parole coniugate al futuro
+Choose the correct form: \n"The London underground is far bigger ___ to Rome's" \nA) Compared \nB) Confronted \nC) Contradicted \nD) In confront
+A
+La prima è la più appropriata
+Choose the correct form: \n"They voted for the ___ of two evils" \nA) Less \nB) Fewer \nC) Few \nD) Lesser
+D
+Qui non serve la quantità
+Choose the correct form: \n"A crime was committed, ___ no exact responsibility can be found" \nA) For whose \nB) For which \nC) Of what \nD) Which
+B
+Corrisponde a "per cui"
+Choose the correct form: \n"If you ___ see him, give him my regards" \nA) Must to \nB) Must \nC) Should \nD) Can
+C
+Indica una possibilità

@@ -7,7 +7,7 @@ Calcola la frazione da aggiungere al multiplo di 60 più vicino
 Se una cellula si divide in due nuove cellule in un tempo T, quante quante ne avremo dopo un lasso di tempo 5T?
 32
 Pensa alle potenze di 2
-Tre sorelle hanno un’età complessiva pari a 75 anni. La maggiore delle tre ha un’età pari ai tre mezzi dell’età della minore delle tre. La sorella di mezzo ha cinque anni in meno della sorella maggiore. Quanti anni ha la sorella maggiore?
+Tre sorelle hanno un’età complessiva pari a 75 anni. La maggiore delle tre ha un’età pari ai tre mezzi dell’età della minore delle tre.\nLa sorella di mezzo ha cinque anni in meno della sorella maggiore. Quanti anni ha la sorella maggiore?
 30
 Prova a trasformarlo in un sistema a tre incognite
 Quale numero manca? [3|9|27], [2|29|58], [4|13|?]
@@ -19,7 +19,7 @@ Trasformalo in una proporzione
 Quanti punti notevoli sono coincidenti in un triangolo equilatero?
 4
 Il circocentro, l'ortocentro, il baricentro e l'incentro
-Per pavimentare una strada occorrono 40 operai per 50 giorni lavorando 8 ore al giorno. Volendo compiere tale lavoro in 10 giorni lavorando 4 ore al giorno, quanti altri operai si devono aggiungere?
+Per pavimentare una strada occorrono 40 operai per 50 giorni lavorando 8 ore al giorno.\nVolendo compiere tale lavoro in 10 giorni lavorando 4 ore al giorno, quanti altri operai si devono aggiungere?
 360
 Calcola il totale e sottrai quelli iniziali
 Quanti metri/secondo sono 100 chilometri/ora? (arrotonda all'intero più vicino)

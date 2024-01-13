@@ -45,7 +45,7 @@ public class VersaLiquido extends Minigiochi {
         int scelta, dest;
         while(!(this.bicchieri[0].livello==this.obiettivo && this.bicchieri[0].livello==this.bicchieri[1].livello)){
             stampaBicchieri();
-            System.out.println("\nCosa vuoi fare? Digita 1,2,3 per travasare dal rispettivo bicchiere,4 per resettare o 5 per uscire: ");
+            System.out.println("\nCosa vuoi fare? Digita 1,2,3 per travasare dal rispettivo bicchiere, 4 per resettare o 5 per uscire: ");
             scelta = Integer.parseInt(sca.nextLine());
             while(scelta>5 || scelta<1){
                 System.out.println("Input sbagliato! Riprova");
@@ -92,13 +92,13 @@ public class VersaLiquido extends Minigiochi {
         return false;
     }
     public void stampaBicchieri(){
-        System.out.println("\n|\t\t|");
-        System.out.println("|\t\t|\t|\t\t|");
-        System.out.println("|   "+this.bicchieri[0].livello+"\t|\t|\t\t|\t|\t\t|");
-        System.out.println("|\t\t|\t|   "+this.bicchieri[1].livello+"\t|\t|\t\t|");
-        System.out.println("|\t\t|\t|\t\t|\t|   "+this.bicchieri[2].livello+"\t|");
-        System.out.println("|-------|\t|-------|\t|-------|");
-        System.out.println("    "+this.bicchieri[0].CAPACITA+"L\t\t    "+this.bicchieri[1].CAPACITA+"L\t\t    "+this.bicchieri[2].CAPACITA+"L");
+        System.out.println("\n|       |");
+        System.out.println("|       |       |       |");
+        System.out.println("|   "+this.bicchieri[0].livello+"   |       |       |       |       |");
+        System.out.println("|       |       |   "+this.bicchieri[1].livello+"   |       |       |");
+        System.out.println("|       |       |       |       |   "+this.bicchieri[2].livello+"   |");
+        System.out.println("|-------|       |-------|       |-------|");
+        System.out.println("    "+this.bicchieri[0].CAPACITA+"L              "+this.bicchieri[1].CAPACITA+"L              "+this.bicchieri[2].CAPACITA+"L");
         System.out.println("Spostamenti fatti: "+this.mosse);
     }
     public void reset(){

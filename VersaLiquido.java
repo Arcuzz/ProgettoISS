@@ -94,7 +94,7 @@ public class VersaLiquido extends Minigiochi {
     public void stampaBicchieri(){
         System.out.println("\n|       |");
         System.out.println("|       |       |       |");
-        System.out.println("|   "+this.bicchieri[0].livello+"   |       |       |       |       |");
+        System.out.println("|   "+this.bicchieri[0].livello+"\t|       |       |       |       |");
         System.out.println("|       |       |   "+this.bicchieri[1].livello+"   |       |       |");
         System.out.println("|       |       |       |       |   "+this.bicchieri[2].livello+"   |");
         System.out.println("|-------|       |-------|       |-------|");

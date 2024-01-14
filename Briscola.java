@@ -176,6 +176,7 @@ public class Briscola extends Minigiochi{
         }
         return n;
     }   //se l'utente va per primo
+
     private int partita(int mod, Scanner scan){   //0 facile, 1 difficile
         ArrayList<String> user = new ArrayList<>();
         ArrayList<String> pc = new ArrayList<>();
@@ -198,6 +199,7 @@ public class Briscola extends Minigiochi{
                     user = riempiMano(user);
                     pc = riempiMano(pc);
                 }
+                System.out.println("BRISCOLA: " + printCarta(briscola)+"\n");
                 printMano(user);
                 attesa(200);
                 carta = sceltaUser(user,scan);
@@ -225,6 +227,7 @@ public class Briscola extends Minigiochi{
                 attesa(500);
                 System.out.println("Pc ha scelto: " + printCarta(carte[0]));
                 pc.remove(carta);
+                System.out.println("BRISCOLA: " + printCarta(briscola)+"\n");
                 printMano(user);
                 attesa(200);
                 carta = sceltaUser(user,scan);
@@ -241,7 +244,8 @@ public class Briscola extends Minigiochi{
         return punteggio;
     }
     private int puntiTurno(String[] carte, int user){
-        int punti = 0; boolean vincitore = false;
+        int punti = 0;
+        boolean vincitore = false;
         if(user==0){
             if(carte[0].charAt(0)==carte[1].charAt(0)) {
                 if(value[carte[0].charAt(1)-'0']>value[carte[1].charAt(1)-'0'])

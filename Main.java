@@ -5,10 +5,12 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
-        Protagonista pr = Protagonista.getIstance("Giovanni");
-        String[] tem = {"Geografia","Storia","Matematica", "Informatica", "Italiano","Inglese"};
         Difficulty diff = new Difficulty(scan);
-        Torre tor = new Torre(tem, diff, pr);
+        System.out.println("Dimmi il tuo nome: ");
+        Protagonista pr = Protagonista.getInstance(scan.nextLine());
+        pr.aiutante = diff.aiutante;
+        String[] temi = {"Geografia","Storia","Matematica", "Informatica", "Italiano","Inglese"};
+        Torre tor = Torre.getInstance(temi, diff, pr);
         tor.game(scan);
         scan.close();
     }

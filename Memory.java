@@ -26,20 +26,27 @@ public class Memory extends Minigiochi{
     @Override
     public void startGame()  {
         System.out.println("--- Gioco del Memory ---");
-        System.out.println("Davanti a te vedi "+this.numeri.size()/2+" coppie di carte numerate da 1 a "+this.rank*5);
+        System.out.println("Ti verranno mostrate "+this.numeri.size()/2+" coppie di carte numerate da 1 a "+this.rank*5);
         System.out.println("Verranno mischiate e coperte dopo qualche secondo");
         System.out.println("Il tuo obiettivo è scoprirle tutte, due alla volta, accoppiandole correttamente");
-        System.out.println("Se sbagli quelle rimanenti verrano scoperte per qualche secondo e mischiate di nuovo");
+        System.out.println("Se sbagli, quelle rimanenti verranno scoperte per qualche secondo e mischiate di nuovo");
+        System.out.println("Quando sarai pronto, avrai "+5*this.rank+" secondi per memorizzare le carte");
         System.out.println("Buona fortuna e divertiti!");
-        attesa(15);
     }
     @Override
     public boolean play(Scanner sca){
-        printNumeri(this.numeri);
-        attesa(5*this.rank);
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.println("Pronto? [s/n]");
+        this.input = sca.nextLine();
+        if(this.input.equals("n")){
+            reset();
+            return false;
+        }
+        scopriTutto();
         this.move(sca);
-        if(this.input.equalsIgnoreCase("exit")) return false;
+        if(this.input.equalsIgnoreCase("exit")){
+            reset();
+            return false;
+        }
         if(this.tentativi==this.coppieScop){
             System.out.println("Complimenti! Hai trovato tutte le coppie di carte senza errori!");
             this.punti += this.punti;
@@ -118,9 +125,7 @@ public class Memory extends Minigiochi{
                     this.giaVisto.set(tmp,true);
                 }
             }
-            printNumeri(this.numeri);
-            attesa(5*this.rank);
-            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+            scopriTutto();
             this.giaVisto.replaceAll(ignored -> false);
             this.coppia.clear();
             this.tentativi++;
@@ -141,7 +146,6 @@ public class Memory extends Minigiochi{
         //serve per il metodo selezioneCarta
     }
     public void printNumeri(ArrayList<Integer> arr){
-        System.out.print("\n");
         for (int i = 0; i < arr.size(); i++) {
             if(i%5==0)
                 System.out.print("\n");
@@ -161,11 +165,22 @@ public class Memory extends Minigiochi{
         this.coppia.clear();
         this.giaVisto.clear();
     }
+    public void scopriTutto(){
+        System.out.println("Memorizza in fretta!!!");
+        printNumeri(this.numeri);
+        attesa(5*this.rank);
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    }
     private void attesa(int t){
-        try {
-            TimeUnit.SECONDS.sleep(t);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        System.out.println();
+        for(;t>0;t--){
+            System.out.print(t+"  ");
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
+        System.out.println();
     }
 }

@@ -2,23 +2,21 @@ package pac;
 import java.util.*;
 public class Prova {
     public String domanda, risposta, indizioPrincipale;
-    public int ranking, contaErrori;
+    public int ranking, contaErrori=0;
+    public Aiutante aiutante;
 
     public Prova(String dom, String ris, String hint, int rank){
         this.domanda = dom;
         this.risposta = ris;
         this.indizioPrincipale = hint;
         this.ranking = rank;
-        this.contaErrori = 0;
     }
-    public void printDomanda(){
-        System.out.println(this.domanda);
-    }
+
     public boolean faiDomanda(Scanner scan){
         String answer = "";
         while(!answer.equalsIgnoreCase(this.risposta)){
-            printDomanda();
-            if(contaErrori>2) System.out.println("Indizio: "+this.indizioPrincipale);
+            System.out.println(this.domanda);
+            if(this.contaErrori>2) daiIndizio();
             System.out.println("Risposta: ");
             answer = scan.nextLine();
             if(answer.equalsIgnoreCase(this.risposta)){
@@ -29,10 +27,16 @@ public class Prova {
                 System.out.println("Sei uscito senza rispondere correttamente, ritorno al movimento");
                 break;
             }
-            contaErrori++;
-            System.out.println("Risposta sbagliata! Riprova o scrivi \"exit\" per uscire");
+            this.contaErrori++;
+            System.out.println("Risposta sbagliata! Riprova o scrivi \"exit\" per uscire\n");
         }
         return false;
+    }
+
+    public void daiIndizio(){
+        if(this.aiutante.aiuto){
+            System.out.println("Indizio: "+this.indizioPrincipale);
+        }
     }
 
     public void summary(){

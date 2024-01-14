@@ -4,18 +4,17 @@ import java.util.*;
 import java.io.FileNotFoundException;
 
 public class Piano{
-    public int livello;
-    public String tema;
-    public String difficolta;
+    public int livello, n_dom, dom_sup=0;
+    public String tema, difficolta;
     public Stanza[][] mat;
     public int[] start;
-    public int dom_sup = 0;
-    public int n_dom;
+    public ArrayList<Npc> npc;
     
-    public Piano(int livello, String difficolta, String tema){
+    public Piano(int livello, String difficolta, String tema, ArrayList<Npc> npc){
         this.livello = livello;
         this.difficolta = difficolta;
         this.tema = tema;
+        this.npc = npc;
         if(this.livello < 3){
             this.mat = new Stanza[this.livello*2+3][this.livello*2+3];
             inizializzaMatrice(this.livello*2+3, creaDomande(), creaNpcs());
@@ -39,26 +38,13 @@ public class Piano{
     }
 
     public ArrayList<Npc> creaNpcs(){
-        ArrayList<Npc> npc = new ArrayList<>();
-        npc.add(new Npc("Aldo", new Impiccato("Giovanni", 10, this.difficolta)));
-        npc.add(new Npc("Giovanni", new VersaLiquido(this.difficolta)));
-        /*for (int i = 0; i < npc.size(); i++){
-            switch (this.difficolta) {
-                case "facile" -> npc.get(i).mini.rank = 1;
-                case "media" -> npc.get(i).mini.rank = 2;
-                case "difficile" -> npc.get(i).mini.rank = 3;
-                case "crescente" -> npc.get(i).mini.rank = this.livello;
-            }
-        }*/
-        Collections.shuffle(npc);
-        npc.subList(1,npc.size()).clear();
         switch (this.difficolta) {
-            case "facile" -> npc.get(0).mini.rank = 1;
-            case "media" -> npc.get(0).mini.rank = 2;
-            case "difficile" -> npc.get(0).mini.rank = 3;
-            case "crescente" -> npc.get(0).mini.rank = this.livello;
+            case "facile" -> this.npc.get(0).mini.rank = 1;
+            case "media" -> this.npc.get(0).mini.rank = 2;
+            case "difficile" -> this.npc.get(0).mini.rank = 3;
+            case "crescente" -> this.npc.get(0).mini.rank = this.livello;
         }
-        return npc;
+        return this.npc;
     }
 
     private void inizializzaMatrice(int index, ArrayList<Domanda> dom, ArrayList<Npc> npc){

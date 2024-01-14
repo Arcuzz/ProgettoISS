@@ -19,8 +19,9 @@ class Domanda extends Stanza{
         this.prova = prova;
         this.risposta = false;
     }
-    
-    public void idle(Scanner scan){
+
+    public void idle(Scanner scan, Aiutante aiutante){
+        this.prova.aiutante = aiutante;
         if(this.prova.faiDomanda(scan))
             this.risposta = true;
     }

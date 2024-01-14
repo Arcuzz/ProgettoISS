@@ -6,7 +6,7 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
         Protagonista pr = Protagonista.getIstance("Giovanni");
-        String[] tem = {"Geografia","Storia","Matematica", "Informatica", "Italiano"};
+        String[] tem = {"Geografia","Storia","Matematica", "Informatica", "Italiano","Inglese"};
         Difficulty diff = new Difficulty(scan);
         Torre tor = new Torre(tem, diff, pr);
         tor.game(scan);

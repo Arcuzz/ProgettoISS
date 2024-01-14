@@ -1,4 +1,4 @@
-Qual è la velocità di un camion che percorre un tragitto di 60 km in 1h 40min ?
+Qual è la velocità (km/h) di un camion che percorre un tragitto di 60 km in 1h 40min ?
 36
 40 minuti sono 2/3 di un'ora
 A quante ore equivalgono 525 minuti? (Scrivi un decimale col punto)

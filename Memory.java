@@ -44,6 +44,7 @@ public class Memory extends Minigiochi{
         scopriTutto();
         this.move(sca);
         if(this.input.equalsIgnoreCase("exit")){
+            System.out.println("Sei uscito senza risolvere il minigioco, ritorno al movimento");
             reset();
             return false;
         }

@@ -204,6 +204,7 @@ public class Briscola extends Minigiochi{
                 attesa(200);
                 carta = sceltaUser(user,scan);
                 if(carta==99){
+                    System.out.println("Sei uscito senza completare il minigioco, ritorno al movimento");
                     reset();
                     return 0;
                 }
@@ -232,6 +233,7 @@ public class Briscola extends Minigiochi{
                 attesa(200);
                 carta = sceltaUser(user,scan);
                 if(carta==99){
+                    System.out.println("Sei uscito senza completare il minigioco, ritorno al movimento");
                     reset();
                     return 0;
                 }

@@ -27,6 +27,10 @@ public class Prova implements Serializable{
                 System.out.println("Sei uscito senza rispondere correttamente, ritorno al movimento");
                 break;
             }
+            else if(answer.equalsIgnoreCase("help")){
+                System.out.println("La risposta è: "+this.risposta);
+                continue;
+            }
             this.contaErrori++;
             System.out.println("Risposta sbagliata! Riprova o scrivi \"exit\" per uscire\n");
         }

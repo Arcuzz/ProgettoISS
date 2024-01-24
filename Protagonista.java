@@ -93,6 +93,7 @@ public class Protagonista implements Serializable {
                 else System.out.println("Direzione non valida");
                 break;
             case "r","R": riepilogo(); break;
+            case "h","H": help(scan); break;
             case "exit": return 3;
         }
         if(checkRoom(scan) == '+') return 2;
@@ -167,7 +168,29 @@ public class Protagonista implements Serializable {
     public boolean last(){
         return this.last_d > 0;
     }
-
+    
+    public void help(Scanner scan){
+        System.out.println("--- SEZIONE DI AIUTO ---");
+        System.out.println("Digita 1 per una spiegazione delle meccaniche di gioco");
+        System.out.println("Digita 2 per andare immediatamente al prossimo piano");
+        switch(Integer.parseInt(scan.nextLine())){
+            case 1: System.out.println("""
+                    Lo scopo del gioco è completare diversi livelli (da 3 a 5)
+                    Ogni livello contiene un certo numero di domande a cui rispondere
+                    Alcune domande sono a risposta chiusa, e dovrai digitare solo la lettera della risposta che credi corretta
+                    Altre domande sono a risposta aperta, e ti verrà suggerito il formato della risposta se è più di una parola o un numero
+                    Rispondere "exit" ti fa tornare al movimento senza rispondere alla domanda, che ti verrà riproposta al rientro in quella stanza
+                    IMPORTANTE: rispondere "help" a una domanda ti darà la risposta esatta da inserire (viene detto solo qui)
+                    Dopo aver risposto a tutte le domande ti verrà chiesto se vuoi andare al piano successivo
+                    Se rispondi no, puoi comunque avanzare tornando alla stanza di partenza ("S")
+                    Ogni livello contiene anche un minigioco, sfide più complesse e danno più punti, ma totalmente opzionali
+                    I punti dati da domande e minigiochi non sono necessari, esistono per pura competizione (alla fine del gioco viene stampata una classifica)
+                    Durante il movimento muoverti digitando W|A|S|D, stampare un riepilogo delle statistiche con R o questa sezione di aiuto con H
+                    Quando vuoi andare avanti, inserisci un carattere qualunque:""");
+                    scan.nextLine(); break;
+            case 2: this.piano.dom_sup = this.piano.n_dom; break;
+        }
+    }
 
     public void vision(){
         for(int i = 0; i < this.visited.length; i++){

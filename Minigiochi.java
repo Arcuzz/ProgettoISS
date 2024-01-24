@@ -2,7 +2,7 @@ package pac;
 
 import java.util.Scanner;
 
-public abstract class Minigiochi {
+public abstract class Minigiochi implements Serializable{
     public abstract void inizializza();
     public abstract void startGame();
     public abstract boolean play(Scanner sca);

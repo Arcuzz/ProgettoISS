@@ -1,7 +1,7 @@
 package pac;
 import java.util.*;
 import java.io.*;
-public class Questions {
+public class Questions implements Serializable{
     public ArrayList<Prova> domande = new ArrayList<>();
     public int piano, rank, numDomande;
     public String tema, difficolta;

@@ -1,5 +1,6 @@
 package pac;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
 public abstract class Minigiochi implements Serializable{

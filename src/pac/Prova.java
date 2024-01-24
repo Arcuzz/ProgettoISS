@@ -1,4 +1,5 @@
 package pac;
+import java.io.Serializable;
 import java.util.*;
 public class Prova implements Serializable{
     public String domanda, risposta, indizioPrincipale;

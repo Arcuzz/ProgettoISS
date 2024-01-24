@@ -1,6 +1,7 @@
 package pac;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -22,7 +23,7 @@ public class Menu {
         temi.add("Italiano");
         temi.add("Inglese");
     }
-    public void display(Scanner scan){
+    public void display(Scanner scan) throws IOException{
         System.out.println("▄▄▄█████▓ ██░ ██ ▓█████    ▄▄▄█████▓ ▒█████   █     █░▓█████  ██▀███  \n" +
                 "▓  ██▒ ▓▒▓██░ ██▒▓█   ▀    ▓  ██▒ ▓▒▒██▒  ██▒▓█░ █ ░█░▓█   ▀ ▓██ ▒ ██▒\n" +
                 "▒ ▓██░ ▒░▒██▀▀██░▒███      ▒ ▓██░ ▒░▒██░  ██▒▒█░ █ ░█ ▒███   ▓██ ░▄█ ▒\n" +

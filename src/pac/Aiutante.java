@@ -1,5 +1,7 @@
 package pac;
 
+import java.io.Serializable;
+
 public class Aiutante implements Serializable {
     public int id;  //1 aiuta sempre, 2,3,4 aiuta per due materie ciascuno, 5 non aiuta
     public String nome, titolo;

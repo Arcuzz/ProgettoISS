@@ -1,4 +1,7 @@
 package pac;
+
+import java.io.Serializable;
+
 public class Serbatoio implements Serializable{
     public int livello;
     public int CAPACITA;

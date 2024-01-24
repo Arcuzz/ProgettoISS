@@ -1,7 +1,7 @@
 package pac;
 import java.util.*;
 
-public class Difficulty {
+public class Difficulty implements Serializable {
     public String difficolta;
     public int numPiani;
     public boolean statica;

@@ -25,6 +25,7 @@ public class Questions implements Serializable{
             String dom = scan.nextLine();
             String ris = scan.nextLine();
             String hint = scan.nextLine();
+            if(dom.contains("\\n")) dom = dom.replace("\\n","\n");
             domande.add(new Prova(dom,ris,hint,this.rank));
         }
         scan.close();

@@ -1,8 +1,9 @@
 package pac;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public abstract class Stanza {
+public abstract class Stanza implements Serializable {
     public char id;
 
     public Stanza(char id){
@@ -48,10 +49,20 @@ class Npc extends Stanza{
     }
 }
 
+class Save extends Stanza{
+    public Save(){ super('+'); }
+}
+
 class Vuota extends Stanza{
 
     public Vuota(){
         super('V');
+    }
+}
+
+class Wall extends Stanza{
+    public Wall(){
+        super('#');
     }
 }
 

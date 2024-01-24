@@ -1,15 +1,19 @@
 package pac;
 
+import java.io.Serializable;
 import java.util.*;
 import java.io.FileNotFoundException;
 
-public class Piano{
+public class Piano implements Serializable {
     public int livello, n_dom, dom_sup=0;
     public String tema, difficolta;
     public Stanza[][] mat;
     public int[] start;
     public ArrayList<Npc> npc;
-    
+
+    private static final int threshold = 3;
+
+
     public Piano(int livello, String difficolta, String tema, ArrayList<Npc> npc){
         this.livello = livello;
         this.difficolta = difficolta;
@@ -17,10 +21,10 @@ public class Piano{
         this.npc = npc;
         if(this.livello < 3){
             this.mat = new Stanza[this.livello*2+3][this.livello*2+3];
-            inizializzaMatrice(this.livello*2+3, creaDomande(), creaNpcs());
+            inizializzaMatrice(this.livello*2+3);
         }else{
             this.mat = new Stanza[9][9];
-            inizializzaMatrice(9, creaDomande(), creaNpcs());
+            inizializzaMatrice(9);
         }
     }
 
@@ -39,104 +43,166 @@ public class Piano{
 
     public ArrayList<Npc> creaNpcs(){
         switch (this.difficolta) {
-            case "facile" -> this.npc.get(0).mini.rank = 1;
-            case "media" -> this.npc.get(0).mini.rank = 2;
-            case "difficile" -> this.npc.get(0).mini.rank = 3;
-            case "crescente" -> this.npc.get(0).mini.rank = this.livello;
+            case "facile" -> this.npc.getFirst().mini.rank = 1;
+            case "media" -> this.npc.getFirst().mini.rank = 2;
+            case "difficile" -> this.npc.getFirst().mini.rank = 3;
+            case "crescente" -> this.npc.getFirst().mini.rank = this.livello;
         }
         return this.npc;
     }
 
-    private void inizializzaMatrice(int index, ArrayList<Domanda> dom, ArrayList<Npc> npc){
+    private void inizializzaMatrice(int index){
         // stanza_inizio = -1, muro = 0, stanza_domanda = 1, stanza_npc = 2, stanza_vuota = 3
         Random rand = new Random();
-        int x = rand.nextInt(index);
-        int y = rand.nextInt(index);
-        this.mat[x][y] = new Start();
         this.start = new int[2];
-        this.start[0] = x;
-        this.start[1] = y;
-        riempiMatrice(x, y, rand, dom, npc, index);
+        this.start[0] = rand.nextInt(index);
+        this.start[1] = rand.nextInt(index);
+        this.mat[this.start[0]][this.start[1]] = new Start();
+        Queue<int[]> adj = new LinkedList<>();
+        adj.add(this.start);
+        riempiMatrice(adj, rand, inizializzaStanze(3), index);
     }
 
-    private void riempiMatrice(int i, int j, Random rand, ArrayList<Domanda> dom, ArrayList<Npc> npc, int index){
-        if(dom.size() == 0 && npc.size() == 0) return;
-        boolean notzero = false;
-        int x = 0;
-        int y = 0;
+    private ArrayList<? extends Stanza>[] inizializzaStanze(int special_room){
+        ArrayList<? extends Stanza>[] stanze = new ArrayList[special_room];
+        stanze[0] = creaDomande();
+        stanze[1] = creaNpcs();
+        ArrayList<Save> save = new ArrayList<>();
+        if (this.livello <= 3) save.add(new Save());
+        else{
+            save.add(new Save());
+            save.add(new Save());
+        }
+        stanze[2] = save;
+        return stanze;
+    }
 
-        // sotto=(i+1, j) sopra=(i-1, j) destra=(i, j+1) sinistra(1, j-1)
-        int[][] direzioni = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-        for(int[] direzione: direzioni){
-            int n_rig = i + direzione[0];
-            int n_col = j + direzione[1];
+    public void printStanze(ArrayList<? extends Stanza>[] stanze){
+        for (int i = 0; i < stanze.length; i++) {
+            for (Stanza st: stanze[i]){
+                System.out.println(st.id);
+            }
+        }
+    }
+    private void riempiMatrice(Queue<int[]> adj, Random rand, ArrayList<? extends Stanza>[] stanze, int index) {
+        boolean notzero;
+        Queue<int[]> walls = new LinkedList<>();
+        //printIntArray(adj.peek());
+        while (!check_st(stanze)) {
+            notzero = false;
 
-            if(n_rig >= 0 && n_rig < index && n_col >=0 && n_col < index && mat[n_rig][n_col] == null){
-                int val = rand.nextInt(4);
-                x = n_rig;
-                y = n_col;
+            // sotto=(i+1, j) sopra=(i-1, j) destra=(i, j+1) sinistra(1, j-1)
+            int[][] direzioni = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
-                if(val != 0){
-                    notzero = true;
-                    if(val == 3){
-                        this.mat[n_rig][n_col] = new Vuota();
-                        riempiMatrice(n_rig, n_col, rand, dom, npc, index);
+            int[] coord = adj.poll();
+
+            for (int[] direzione : direzioni) {
+                assert coord != null;
+                int n_rig = coord[0] + direzione[0];
+                int n_col = coord[1] + direzione[1];
+
+                if (n_rig >= 0 && n_rig < index && n_col >= 0 && n_col < index && mat[n_rig][n_col] == null) {
+                    int val = rand.nextInt(stanze.length+2);
+
+                    if (val != 0) {
+                        notzero = true;
+                        if (val == 1) {
+                            this.mat[n_rig][n_col] = new Vuota();
+                        } else {
+                            this.mat[n_rig][n_col] = route(val-2, stanze);
+                        }
+                        adj.add(new int[]{n_rig, n_col});
                     }else{
-                        route(n_rig, n_col, val, dom, npc, rand);
-                        riempiMatrice(n_rig, n_col, rand, dom, npc, index);
+                        this.mat[n_rig][n_col] = new Wall();
+                        walls.add(new int[]{n_rig, n_col});
                     }
                 }
             }
-        }
-
-        if (!notzero && check(x, y, index)) {
-            int val2 = rand.nextInt(3)+1;
-            route(x, y, val2, dom, npc, rand);
+            if (!notzero && adj.size()<threshold) {
+                int val2 = rand.nextInt(stanze.length);
+                int[] zero = walls.poll();
+                assert zero != null;
+                this.mat[zero[0]][zero[1]] = route(val2, stanze);
+                adj.add(zero);
+            }
         }
     }
 
-    public void route(int x, int y, int val, ArrayList<Domanda> dom, ArrayList<Npc> npc, Random rand){
-        if (val == 1) {
-            if(dom.size() > 0){
-                int ind = rand.nextInt(dom.size());
-                this.mat[x][y] = dom.get(ind);
-                dom.remove(ind);
-            }else if(dom.size() == 0 && npc.size() > 0){
-                int ind = rand.nextInt(npc.size());
-                this.mat[x][y] = npc.get(ind);
-                npc.remove(ind);
+    private boolean check_st (ArrayList < ? extends Stanza >[]stanze){
+        for (ArrayList<? extends Stanza> stanzas : stanze) if (!stanzas.isEmpty()) return false;
+        return true;
+    }
+    private void printArrayList(ArrayList < ? extends Stanza >[]stanze){
+        for (ArrayList<? extends Stanza> stanzas : stanze){
+            for (Stanza st: stanzas){
+                System.out.print(st.id);
             }
+            System.out.println("");
+        }
+    }
+
+    private static void printQueueElements(Queue<int[]> queue) {
+        for (int[] array : queue) {
+            printIntArray(array);
+        }
+    }
+
+    private static void printIntArray(int[] array) {
+        // Stampa gli elementi dell'array
+        System.out.print("[");
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(array[i]);
+            if (i < array.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+    public Stanza route(int val, ArrayList<? extends Stanza>[] stanze){
+        // controlla per gli indici prima di lui e dopo di lui se ne è qualcuno non vuoto
+        Stanza out;
+        if (!stanze[val].isEmpty()){
+            out = stanze[val].getFirst();
+            stanze[val].removeFirst();
+            return out;
         }else{
-            if(npc.size() > 0){
-                int ind = rand.nextInt(npc.size());
-                this.mat[x][y] = npc.get(ind);
-                npc.remove(ind);
-            }else if(npc.size() == 0 && dom.size() > 0){
-                int ind = rand.nextInt(dom.size());
-                this.mat[x][y] = dom.get(ind);
-                dom.remove(ind);
+            // check left-side
+            for (int i = val-1; i >= 0; i--) {
+                if (!stanze[i].isEmpty()){
+                    out = stanze[i].getFirst();
+                    stanze[i].removeFirst();
+                    return out;
+                }
+            }
+            for (int j = val+1; j < stanze.length; j++) {
+                if (!stanze[j].isEmpty()){
+                    out = stanze[j].getFirst();
+                    stanze[j].removeFirst();
+                    return out;
+                }
             }
         }
+        return null;
     }
 
-    public boolean check(int riga, int colonna, int index){
-        if (colonna + 1 < index && this.mat[riga][colonna + 1] == null) return false;
-        if (colonna - 1 >= 0 && this.mat[riga][colonna - 1] == null) return false;
-        if (riga - 1 >= 0 && this.mat[riga - 1][colonna] == null) return false;
-        if (riga + 1 < index && this.mat[riga + 1][colonna] == null) return false;
+    public boolean check(int[] cell, int index){
+        if (cell[1] + 1 < index && this.mat[cell[0]][cell[1] + 1] == null) return false;
+        if (cell[1] - 1 >= 0 && this.mat[cell[0]][cell[1] - 1] == null) return false;
+        if (cell[0] - 1 >= 0 && this.mat[cell[0] - 1][cell[1]] == null) return false;
+        if (cell[0] + 1 < index && this.mat[cell[0] + 1][cell[1]] == null) return false;
         return true;
     }
 
     public void stampaMatrice() {
         int c_dom = 0;
         int c_npc = 0;
-        for(int i = 0; i < this.mat.length; i++){
-            for(int j = 0; j < this.mat[i].length; j++){
-                if(this.mat[i][j] == null) System.out.print("-|");
-                else{
-                    System.out.print(this.mat[i][j].id + "|");
-                    if(this.mat[i][j].id == 'N') c_npc++;
-                    if(this.mat[i][j].id == 'D') c_dom++;
+        for (Stanza[] stanzas : this.mat) {
+            for (Stanza stanza : stanzas) {
+                if (stanza == null) System.out.print("-|");
+                else {
+                    System.out.print(stanza.id + "|");
+                    if (stanza.id == 'N') c_npc++;
+                    if (stanza.id == 'D') c_dom++;
                 }
             }
             System.out.println();

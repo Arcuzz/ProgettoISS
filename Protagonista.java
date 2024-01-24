@@ -1,24 +1,42 @@
 package pac;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Protagonista {
+public class Protagonista implements Serializable {
     public String nome;
-    public int livello = 1;
     public int x, y, last_d;
     public Piano piano;
     public Stanza[][] visited;
     public Aiutante aiutante;
-    public int punteggio_totale=0,n_dom_risposte=0,n_errori_dom=0,n_mini_risolti=0,punti_dom=0,punti_mini=0;
+    public int punteggio_totale,n_dom_risposte,n_errori_dom,n_mini_risolti,punti_dom,punti_mini;
     public static final int[][] direzioni = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     private static Protagonista instance = null;
 
-    private Protagonista(String nome){
+    private Protagonista(String nome, Piano piano, int[] pos, Stanza[][] visited, Aiutante aiutante, int[] dom, int[] mini){
         this.nome = nome;
+        this.piano = piano;
+        this.x = pos[0];
+        this.y = pos[1];
+        this.visited = visited;
+        this.aiutante = aiutante;
+        this.n_dom_risposte = dom[0];
+        this.n_errori_dom = dom[1];
+        this.punti_dom = dom[2];
+        this.n_mini_risolti = mini[0];
+        this.punti_mini = mini[1];
+        this.punteggio_totale = this.punti_dom + this.punti_mini;
     }
-    public static Protagonista getInstance(String nome){
+    public static Protagonista getDefaultInstance(String nome){
         if(instance==null){
-            instance = new Protagonista(nome);
+            instance = new Protagonista(nome, null, new int[]{0,0}, null, null, new int[]{0,0,0}, new int[]{0,0});
+        }
+        return instance;
+    }
+
+    public static Protagonista getSavedInstance(String nome, Piano piano, int[] pos, Stanza[][] visited, Aiutante aiutante, int[] dom, int[] mini){
+        if(instance==null){
+            instance = new Protagonista(nome, piano, pos, visited, aiutante, dom, mini);
         }
         return instance;
     }
@@ -46,40 +64,44 @@ public class Protagonista {
         return (x >= 0 && x < this.piano.mat.length && y >= 0 && y < this.piano.mat.length);
     }
 
-    public void move(Scanner scan){
-        String in = "";
-        while (!in.equals("exit")) {
-            System.out.println("\nRisolte: "+this.piano.dom_sup + " | Totali: " + this.piano.n_dom);
-            vision();
-            System.out.println("In che direzione vuoi andare?");
-            System.out.println("d per destra, a per sinistra, w per sopra, s per sotto, r per riepilogo: ");
-            in = scan.nextLine();
-            switch (in) {
-                case "d","D":
-                    if(legal_coord(this.x, this.y+1) && this.piano.mat[this.x][this.y+1] != null) this.y = this.y + 1;
-                    else System.out.println("Direzione non valida");
-                    break;
-                case "a","A":
-                    if(legal_coord(this.x, this.y-1) && this.piano.mat[this.x][this.y-1] != null) this.y = this.y - 1;
-                    else System.out.println("Direzione non valida");
-                    break;
-                case "w","W":
-                    if(legal_coord(this.x-1, this.y) && this.piano.mat[this.x-1][this.y] != null) this.x = this.x - 1;
-                    else System.out.println("Direzione non valida");
-                    break;
-                case "s","S":
-                    if(legal_coord(this.x+1, this.y) && this.piano.mat[this.x+1][this.y] != null) this.x = this.x + 1;
-                    else System.out.println("Direzione non valida");
-                    break;
-                case "r","R": riepilogo(); break;
-                default: continue;
-            }
-            checkRoom(scan);
-            if(nextFloor(scan)) break;
-            aggiungi_adj();
-        }
+    public boolean legal_cell(int x, int y){
+        return (this.piano.mat[x][y] != null && this.piano.mat[x][y].id != '#');
     }
-    public void checkRoom(Scanner scan){
+
+    public int move(Scanner scan){
+        String in = "";
+        System.out.println("\nRisolte: "+this.piano.dom_sup + " | Totali: " + this.piano.n_dom);
+        vision();
+        System.out.println("In che direzione vuoi andare?");
+        System.out.println("d per destra, a per sinistra, w per sopra, s per sotto, r per riepilogo: ");
+        in = scan.nextLine();
+        switch (in) {
+            case "d","D":
+                if(legal_coord(this.x, this.y+1) && legal_cell(this.x, this.y+1)) this.y = this.y + 1;
+                else System.out.println("Direzione non valida");
+                break;
+            case "a","A":
+                if(legal_coord(this.x, this.y-1) && legal_cell(this.x, this.y-1)) this.y = this.y - 1;
+                else System.out.println("Direzione non valida");
+                break;
+            case "w","W":
+                if(legal_coord(this.x-1, this.y) && legal_cell(this.x-1, this.y)) this.x = this.x - 1;
+                else System.out.println("Direzione non valida");
+                break;
+            case "s","S":
+                if(legal_coord(this.x+1, this.y) && legal_cell(this.x+1, this.y)) this.x = this.x + 1;
+                else System.out.println("Direzione non valida");
+                break;
+            case "r","R": riepilogo(); break;
+            case "exit": return 3;
+        }
+        if(checkRoom(scan) == '+') return 2;
+        if(nextFloor(scan)) return 1; // si continua al prossimo piano
+        aggiungi_adj();
+        return 0;
+    }
+
+    public char checkRoom(Scanner scan){
         if (this.piano.mat[this.x][this.y].id == 'D' && !((Domanda)this.piano.mat[this.x][this.y]).risposta){
             Domanda d = (Domanda)this.piano.mat[this.x][this.y];
             d.idle(scan,this.aiutante);
@@ -93,6 +115,7 @@ public class Protagonista {
                 System.out.println("Hai ottenuto "+p+" punti!");
                 this.piano.dom_sup++;
             }
+            return 'D';
         }
         else if (this.piano.mat[this.x][this.y].id == 'N' && !((Npc)this.piano.mat[this.x][this.y]).res){
             Npc n = (Npc)this.piano.mat[this.x][this.y];
@@ -103,7 +126,15 @@ public class Protagonista {
                 this.punti_mini += n.mini.punti;
                 System.out.println("Hai ottenuto "+n.mini.punti+" punti!");
             }
+            return 'N';
         }
+        else if (this.piano.mat[this.x][this.y].id == '+'){
+            System.out.println("Desideri salvare la partita? [s/n]");
+            if(scan.nextLine().equalsIgnoreCase("s")){
+                return '+';
+            }
+        }
+        return 'v';
     }
     public boolean nextFloor(Scanner scan){
         String in;
@@ -116,7 +147,7 @@ public class Protagonista {
         else if (this.piano.mat[this.x][this.y].id == 'S' && this.piano.dom_sup == this.piano.n_dom){
             System.out.println("Hai finito le domande del piano, vuoi andare al succesivo? [s/n]");
             in = scan.nextLine();
-            if(in.equalsIgnoreCase("s")) return true;
+            return in.equalsIgnoreCase("s");
         }
         return false;
     }
@@ -136,6 +167,7 @@ public class Protagonista {
     public boolean last(){
         return this.last_d > 0;
     }
+
 
     public void vision(){
         for(int i = 0; i < this.visited.length; i++){

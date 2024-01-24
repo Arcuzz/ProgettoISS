@@ -45,7 +45,7 @@ public class Torre implements Serializable {
         this.pro.aiutante.attivaAiuto(this.pianoCurr.tema);
         pro.start(this.pianoCurr);
     }
-    public void game(Scanner scan){
+    public void game(Scanner scan) throws IOException{
         //intro(scan);
         pro.piano.stampaMatrice();
         while (this.livello <= this.diff.numPiani) {

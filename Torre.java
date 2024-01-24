@@ -46,6 +46,7 @@ public class Torre implements Serializable {
         pro.start(this.pianoCurr);
     }
     public void game(Scanner scan){
+        //intro(scan);
         pro.piano.stampaMatrice();
         while (this.livello <= this.diff.numPiani) {
             int out = 0;
@@ -70,14 +71,35 @@ public class Torre implements Serializable {
                 break;
             }
         }
+        classifica();
+        crediti();
     }
     public void initNPC(){
         this.npc.add(new Npc("Aldo", new Impiccato("Giovanni", 10, this.diff.difficolta)));
         this.npc.add(new Npc("Giovanni", new VersaLiquido(this.diff.difficolta)));
         this.npc.add(new Npc("Giacomo", new Briscola()));
         this.npc.add(new Npc("Memy", new Memory()));
-        //da sostituire
-        this.npc.add(new Npc("TEMPORANEO",new VersaLiquido(this.diff.difficolta)));
+        this.npc.add(new Npc("SCF",new SassoCartaForbici()));
         Collections.shuffle(this.npc);
+    }
+    public void crediti(){
+        System.out.println("\nGrazie per aver giocato a Tower of Trials!");
+        System.out.println("Sviluppato da: Arcuri Andrea, Palazzolo Gloria, Palmeri Giovanni");
+    }
+    public void classifica() throws IOException {
+        Classifica c = new Classifica();
+        c.aggiornaRecord(this.pro.nome,this.pro.punteggio_totale);
+        c.stampaClassifica();
+        c.scriviClassifica();
+    }
+    public void intro(Scanner scan){
+        System.out.println("Una mattina come tante. Una sveglia suona. "+this.pro.nome+", uno studente di informatica apre gli occhi.\n" +
+                           "Per lui oggi è un giorno importante: deve sostenere il suo ultimo esame.\n" +
+                           "Apre la bocca per sbadigliare ma si accorge di non potere emettere alcun suono.\n" +
+                           "Spaventato viene preso dal panico e per alcuni minuti prova in tutti i modi a parlare, a gridare, cantare ma senza risultato.\n" +
+                           "Poi torna lucido: si ricordò di aver sentito parlare di una \"Torre della Conoscenza\", in cima alla quale vi era un artefatto sacro in grado di esaudire un desiderio.\n" +
+                           "Con la speranza nel cuore e un aiutante al suo fianco, si mette alla ricerca della Torre e appena la trova, comincia la sua ascesa.\n" +
+                           "Inserisci un carattere qualunque per andare avanti: ");
+        scan.nextLine();
     }
 }

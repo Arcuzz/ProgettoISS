@@ -1,5 +1,5 @@
 package pac;
-public class Serbatoio {
+public class Serbatoio implements Serializable{
     public int livello;
     public int CAPACITA;
     public Serbatoio(){};

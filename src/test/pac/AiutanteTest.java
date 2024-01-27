@@ -1,6 +1,9 @@
 package test.pac;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import pac.Aiutante;
@@ -40,14 +43,14 @@ public class AiutanteTest {
     public void ThemeEmptyShoudAiutoFalse() {
         var aiutante = new Aiutante(1);
         aiutante.attivaAiuto("");
-        assertEquals(false, aiutante.aiuto);
+        assertFalse(aiutante.aiuto);
     }
 
     @Test
     public void ThemeLowerCaseShoudAiutoFalse() {
         var aiutante = new Aiutante(1);
         aiutante.attivaAiuto("storia");
-        assertEquals(false, aiutante.aiuto);
+        assertFalse(aiutante.aiuto);
     }
     @Test
     public void IdOneShouldAiutoAlwaysTrue() {
@@ -55,7 +58,7 @@ public class AiutanteTest {
         for(var i=0;i<themes.length;i++){
             aiutante.aiuto = false;
             aiutante.attivaAiuto(themes[i]);
-            assertEquals(true, aiutante.aiuto);
+            assertTrue(aiutante.aiuto);
         }
     }
     @Test
@@ -64,7 +67,7 @@ public class AiutanteTest {
         for(var i=0;i<themes.length;i++){
             aiutante.aiuto = false;
             aiutante.attivaAiuto(themes[i]);
-            assertEquals(false, aiutante.aiuto);
+            assertFalse(aiutante.aiuto);
         }
     }
     @Test
@@ -73,7 +76,7 @@ public class AiutanteTest {
         for(var i=0;i<themes.length;i++){
             aiutante.aiuto = false;
             aiutante.attivaAiuto(themes[i]);
-            assertEquals(((i < 2) ? true : false), aiutante.aiuto);
+            if (i < 2) assertTrue(aiutante.aiuto); else assertFalse(aiutante.aiuto);
         }
     }
     @Test
@@ -82,7 +85,7 @@ public class AiutanteTest {
         for(var i=0;i<themes.length;i++){
             aiutante.aiuto = false;
             aiutante.attivaAiuto(themes[i]);
-            assertEquals(((i > 3) ? true : false), aiutante.aiuto);
+            if (i > 3) assertTrue(aiutante.aiuto); else assertFalse(aiutante.aiuto);
         }
     }
     @Test
@@ -91,7 +94,7 @@ public class AiutanteTest {
         for(var i=0;i<themes.length;i++){
             aiutante.aiuto = false;
             aiutante.attivaAiuto(themes[i]);
-            assertEquals(((i >= 2 && i <= 3) ? true : false), aiutante.aiuto);
+            if (i >= 2 && i <= 3) assertTrue(aiutante.aiuto); else assertFalse(aiutante.aiuto);
         }
     }
 

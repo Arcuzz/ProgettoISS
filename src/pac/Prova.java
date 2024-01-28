@@ -29,7 +29,7 @@ public class Prova implements Serializable{
                 break;
             }
             else if(answer.equalsIgnoreCase("help")){
-                System.out.println("La risposta è: "+this.risposta);
+                System.out.println("LA RISPOSTA E': "+this.risposta);
                 continue;
             }
             this.contaErrori++;
@@ -40,7 +40,7 @@ public class Prova implements Serializable{
 
     public void daiIndizio(){
         if(this.aiutante.aiuto){
-            System.out.println("Indizio: "+this.indizioPrincipale);
+            System.out.println("INDIZIO: "+this.indizioPrincipale);
         }
     }
 

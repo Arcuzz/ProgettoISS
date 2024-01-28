@@ -22,8 +22,10 @@ public class Classifica {
         for(int i=this.rp.size()-1; i>0; i--){
             if(this.rp.get(i).punteggio>this.rp.get(i-1).punteggio)
                 Collections.swap(this.rp,i,i-1);
-            if(this.rp.get(i).punteggio==this.rp.get(i-1).punteggio)
+            if(this.rp.get(i).punteggio==this.rp.get(i-1).punteggio){
                 this.rp.get(i-1).nome = this.rp.get(i-1).nome + ", " + this.rp.get(i).nome;
+                this.rp.remove(i);
+            }
         }
         if(this.rp.size()>5)
             this.rp.remove(this.rp.size()-1);

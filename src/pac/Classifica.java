@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class Classifica {
-    public File file = new File("src" + File.separator + "Classifica.txt");
+    public File file = new File("Classifica.txt");
     public ArrayList<RecordPersona> rp = new ArrayList<>();
     public int righe = 0;
     public Classifica() throws FileNotFoundException {

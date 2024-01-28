@@ -1,4 +1,4 @@
-package pac;
+package pac.minigiochi;
 import java.util.*;
 
 public class Briscola extends Minigiochi{

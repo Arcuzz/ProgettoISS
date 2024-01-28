@@ -15,7 +15,7 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.junit.Test;
 
-import pac.VersaLiquido;
+import pac.minigiochi.VersaLiquido;
 
 public class VersaLiquidoTest {
     VersaLiquido ver;

@@ -13,7 +13,7 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.junit.Test;
 
-import pac.Impiccato;
+import pac.minigiochi.Impiccato;
 
 
 public class ImpiccatoTest {

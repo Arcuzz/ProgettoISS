@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-import static java.lang.System.exit;
-
 public class Menu {
     public static final ArrayList<String> temi = new ArrayList<String>();
     public GameCaretaker caretaker;

@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import pac.stanze.Stanza;
+
 public class GameMemento implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

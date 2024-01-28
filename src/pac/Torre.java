@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
+import pac.minigiochi.*;
+import pac.stanze.Npc;
+
 public class Torre implements Serializable {
 
     public int livello;

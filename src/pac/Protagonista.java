@@ -3,6 +3,8 @@ package pac;
 import java.io.Serializable;
 import java.util.Scanner;
 
+import pac.stanze.*;
+
 public class Protagonista implements Serializable {
     public String nome;
     public int x, y, last_d;

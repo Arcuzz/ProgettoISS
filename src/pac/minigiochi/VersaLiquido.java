@@ -1,4 +1,4 @@
-package pac;
+package pac.minigiochi;
 import java.util.*;
 public class VersaLiquido extends Minigiochi {
     public Serbatoio[] bicchieri = new Serbatoio[3];

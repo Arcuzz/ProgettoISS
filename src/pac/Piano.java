@@ -2,6 +2,9 @@ package pac;
 
 import java.io.Serializable;
 import java.util.*;
+
+import pac.stanze.*;
+
 import java.io.FileNotFoundException;
 
 public class Piano implements Serializable {

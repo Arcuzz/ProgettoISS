@@ -9,17 +9,23 @@ public class Memory extends Minigiochi{
     public ArrayList<Boolean> giaVisto = new ArrayList<>();
     public int pos=0, coppieScop=0, posPrimaCarta, tentativi=0;
     public String input;
-    public Memory(){}
+    public boolean inizializzato;
+    public Memory(){
+        this.inizializzato = false;
+    }
     @Override
     public void inizializza(){
-        for(int i=0;i<this.rank*5;i++){
-            this.numeri.add(i+1);
-            this.numeri.add(i+1);
-            this.numeriVisibili.add(0);
-            this.numeriVisibili.add(0);
+        if(!this.inizializzato){
+            for(int i=0;i<this.rank*5;i++){
+                this.numeri.add(i+1);
+                this.numeri.add(i+1);
+                this.numeriVisibili.add(0);
+                this.numeriVisibili.add(0);
+                this.giaVisto.add(false);
+            }
             this.giaVisto.add(false);
+            this.inizializzato = true;
         }
-        this.giaVisto.add(false);
         Collections.shuffle(this.numeri);
         this.punti = this.rank*100;
     }
@@ -79,7 +85,7 @@ public class Memory extends Minigiochi{
                     if (legalCoord(this.pos + 5) && this.numeri.get(this.pos + 5) != null) this.pos += 5;
                     else System.out.println("Direzione non valida");
                 }
-                case "r","R" -> reset();
+                case "r","R" -> {reset(); Collections.shuffle(this.numeri);}
                 case "h" -> printNumeri(this.numeri);
                 case "x","X" -> {
                     if(this.numeriVisibili.get(this.pos)!=0){
@@ -160,11 +166,14 @@ public class Memory extends Minigiochi{
         System.out.println("\n");
     }
     public void reset(){
-        this.pos = this.coppieScop = this.posPrimaCarta = this.tentativi = 0;
-        this.numeri.clear();
-        this.numeriVisibili.clear();
+        this.pos = 0;
+        this.coppieScop = 0;
+        this.posPrimaCarta = 0;
+        this.tentativi = 0;
+        Collections.sort(this.numeri);
+        this.numeriVisibili.replaceAll(ignored -> 0);
         this.coppia.clear();
-        this.giaVisto.clear();
+        this.giaVisto.replaceAll(ignored -> false);
     }
     public void scopriTutto(){
         System.out.println("Memorizza in fretta!!!");

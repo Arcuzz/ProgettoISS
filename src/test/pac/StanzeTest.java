@@ -14,28 +14,28 @@ import org.junit.Test;
 
 public class StanzeTest {
     @Test
-    public void EmptyRoomShouldHaveVId() {
+    public void EmptyRoomShouldBeCreated() {
         Vuota v = new Vuota();
         assertEquals('V', v.id);
     }
     @Test
-    public void StartRoomShouldHaveSId() {
+    public void StartRoomShouldBeCreated() {
         Start s = new Start();
         assertEquals('S', s.id);
     }
     @Test
-    public void WallShouldHaveDiesisId() {
+    public void WallShouldBeCreated() {
         Wall w = new Wall();
         assertEquals('#', w.id);
     }
     @Test
-    public void saveRoomShouldHavePlusId() {
+    public void SaveRoomShouldBeCreated() {
         Save s = new Save();
         assertEquals('+', s.id);
     }
     
     @Test
-    public void QuestionRoomWithoutTestShouldCreate() {
+    public void QuestionRoomWithoutTestShouldBeCreated() {
         Domanda q = new Domanda(null);
         assertEquals(null, q.prova);
         assertEquals('D', q.id);
@@ -51,7 +51,7 @@ public class StanzeTest {
             });
     }
     @Test
-    public void QuestionRoomWithTestShouldCreate() {
+    public void QuestionRoomWithTestShouldBeCreated() {
         Domanda q = new Domanda(new Prova("Come ti chiami?", "Gloria", "Tu",1));
         assertEquals("Come ti chiami?", q.prova.domanda);
         assertEquals("Gloria", q.prova.risposta);

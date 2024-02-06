@@ -2,6 +2,8 @@ package pac;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 
 import pac.minigiochi.*;
@@ -17,27 +19,29 @@ public class Torre implements Serializable {
     public ArrayList<Npc> npc = new ArrayList<>();
     private static Torre instance = null;
     private GameCaretaker caretaker;
+    private long time;
 
-    private Torre(ArrayList<String> temi, Difficulty diff, Protagonista pro, Piano piano, int livello, GameCaretaker caretaker){
+    private Torre(ArrayList<String> temi, Difficulty diff, Protagonista pro, Piano piano, int livello, GameCaretaker caretaker, long time){
         this.temi = temi;
         this.diff = diff;
         this.livello = livello;
         this.pianoCurr = piano;
         this.pro = pro;
         this.caretaker = caretaker;
+        this.time = time;
         initNPC();
     }
     public static Torre getDefaultInstance(ArrayList<String> temi, Difficulty diff, Protagonista pro, GameCaretaker caretaker){
         if(instance==null){
-            instance = new Torre(temi, diff, pro, null, 1, caretaker);
+            instance = new Torre(temi, diff, pro, null, 1, caretaker, 0);
             Collections.shuffle(instance.temi);
         }
         return instance;
     }
 
-    public static Torre getSavedInstance(ArrayList<String> temi, Difficulty diff, Protagonista pro, Piano piano, GameCaretaker caretaker){
+    public static Torre getSavedInstance(ArrayList<String> temi, Difficulty diff, Protagonista pro, Piano piano, GameCaretaker caretaker, long time){
         if(instance==null){
-            instance = new Torre(temi, diff, pro, piano, piano.livello, caretaker);
+            instance = new Torre(temi, diff, pro, piano, piano.livello, caretaker, time);
             Collections.shuffle(instance.temi);
         }
         return instance;
@@ -50,17 +54,23 @@ public class Torre implements Serializable {
         pro.start(this.pianoCurr);
     }
     public void game(Scanner scan) throws IOException{
+        Instant start = null, end = null;
+        long total_time;
         //intro(scan);
         pro.piano.stampaMatrice();
         while (this.livello <= this.diff.numPiani) {
+            start = Instant.now();
             int out = 0;
             while (out != 1 && out != 3){
                 out = pro.move(scan);
                 if (out == 2){
+                    end = Instant.now();
+                    total_time = Duration.between(start, end).toSeconds() + this.time;
+                    pro.punteggio_totale -= (int) (total_time/2);
                     GameMemento memento = new GameMemento(this.diff, this.temi, this.pianoCurr,
                             pro.nome, new int[]{pro.x, pro.y}, pro.visited, pro.aiutante,
                             new int[]{pro.n_dom_risposte, pro.n_errori_dom, pro.punti_dom},
-                            new int[]{pro.n_mini_risolti, pro.punti_mini});
+                            new int[]{pro.n_mini_risolti, pro.punti_mini}, pro.punteggio_totale, total_time);
                     this.caretaker.addSnapshot(memento);
                     this.caretaker.saveGame("saves/save.ser");
                     System.out.println("Salvataggio avvenuto con successo");
@@ -70,11 +80,15 @@ public class Torre implements Serializable {
                 System.out.println("Hai finito il livello "+this.livello+" con "+this.pro.punteggio_totale +" punti!");
                 this.livello ++;
                 setupTorre();
+                end = Instant.now();
             }else{
                 System.out.println("Sei uscito dal gioco con un punteggio di "+this.pro.punteggio_totale);
+                end = Instant.now();
                 break;
             }
         }
+        total_time = Duration.between(start, end).toSeconds() + this.time;
+        pro.punteggio_totale -= (int) (total_time/2);
         classifica();
         crediti();
     }

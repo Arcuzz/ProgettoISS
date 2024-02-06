@@ -58,8 +58,8 @@ public class Menu {
                 this.caretaker.printSnapshots(nome);
                 System.out.println("Scegli da quale salvataggio vuoi caricare la partita");
                 this.memento = caretaker.getSnapshot(nome,Integer.parseInt(scan.nextLine())-1);
-                Protagonista pro = Protagonista.getSavedInstance(memento.getNome(), memento.getPiano(), memento.getPos(), memento.getVisited(), memento.getAiutante(), memento.getDom(), memento.getMini());
-                Torre tor = Torre.getSavedInstance(memento.getTemi(), memento.getDiff(), pro, memento.getPiano(), this.caretaker);
+                Protagonista pro = Protagonista.getSavedInstance(memento.getNome(), memento.getPiano(), memento.getPos(), memento.getVisited(), memento.getAiutante(), memento.getDom(), memento.getMini(), memento.getTotal_points());
+                Torre tor = Torre.getSavedInstance(memento.getTemi(), memento.getDiff(), pro, memento.getPiano(), this.caretaker, memento.getTime());
                 tor.game(scan);
 
             }else{

@@ -15,7 +15,7 @@ public class Protagonista implements Serializable {
     public static final int[][] direzioni = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     private static Protagonista instance = null;
 
-    private Protagonista(String nome, Piano piano, int[] pos, Stanza[][] visited, Aiutante aiutante, int[] dom, int[] mini){
+    private Protagonista(String nome, Piano piano, int[] pos, Stanza[][] visited, Aiutante aiutante, int[] dom, int[] mini, int tot){
         this.nome = nome;
         this.piano = piano;
         this.x = pos[0];
@@ -27,18 +27,18 @@ public class Protagonista implements Serializable {
         this.punti_dom = dom[2];
         this.n_mini_risolti = mini[0];
         this.punti_mini = mini[1];
-        this.punteggio_totale = this.punti_dom + this.punti_mini;
+        this.punteggio_totale = tot;
     }
     public static Protagonista getDefaultInstance(String nome){
         if(instance==null){
-            instance = new Protagonista(nome, null, new int[]{0,0}, null, null, new int[]{0,0,0}, new int[]{0,0});
+            instance = new Protagonista(nome, null, new int[]{0,0}, null, null, new int[]{0,0,0}, new int[]{0,0}, 0);
         }
         return instance;
     }
 
-    public static Protagonista getSavedInstance(String nome, Piano piano, int[] pos, Stanza[][] visited, Aiutante aiutante, int[] dom, int[] mini){
+    public static Protagonista getSavedInstance(String nome, Piano piano, int[] pos, Stanza[][] visited, Aiutante aiutante, int[] dom, int[] mini, int tot){
         if(instance==null){
-            instance = new Protagonista(nome, piano, pos, visited, aiutante, dom, mini);
+            instance = new Protagonista(nome, piano, pos, visited, aiutante, dom, mini, tot);
         }
         return instance;
     }
@@ -71,7 +71,7 @@ public class Protagonista implements Serializable {
     }
 
     public int move(Scanner scan){
-        String in = "";
+        String in;
         System.out.println("\nRisolte: "+this.piano.dom_sup + " | Totali: " + this.piano.n_dom);
         vision();
         System.out.println("In che direzione vuoi andare?");

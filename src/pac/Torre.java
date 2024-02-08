@@ -12,7 +12,7 @@ import pac.stanze.Npc;
 public class Torre implements Serializable {
 
     public int livello;
-    public ArrayList<String> temi = new ArrayList<>();
+    public ArrayList<String> temi;
     public Difficulty diff;
     public Piano pianoCurr;
     public Protagonista pro;
@@ -51,46 +51,62 @@ public class Torre implements Serializable {
         ArrayList<Npc> floorNPC = new ArrayList<>(this.npc.subList(this.livello-1,this.livello));
         this.pianoCurr = new Piano(this.livello, this.diff.difficolta, this.temi.get(this.livello), floorNPC);
         this.pro.aiutante.attivaAiuto(this.pianoCurr.tema);
+        System.out.println(this.time);
         pro.start(this.pianoCurr);
     }
     public void game(Scanner scan) throws IOException{
-        Instant start = null, end = null;
-        long total_time;
+        Instant start;
+        long penalty;
         //intro(scan);
-        pro.piano.stampaMatrice();
+        //pro.piano.stampaMatrice();
         while (this.livello <= this.diff.numPiani) {
             start = Instant.now();
             int out = 0;
             while (out != 1 && out != 3){
                 out = pro.move(scan);
                 if (out == 2){
-                    end = Instant.now();
-                    total_time = Duration.between(start, end).toSeconds() + this.time;
-                    pro.punteggio_totale -= (int) (total_time/2);
+                    System.out.println("Punteggio prima :" + this.pro.punteggio_totale);
+                    penalty = time_penalty(start, Instant.now());
+                    System.out.println(penalty + "s Dopo " + this.pro.punteggio_totale);
                     GameMemento memento = new GameMemento(this.diff, this.temi, this.pianoCurr,
                             pro.nome, new int[]{pro.x, pro.y}, pro.visited, pro.aiutante,
                             new int[]{pro.n_dom_risposte, pro.n_errori_dom, pro.punti_dom},
-                            new int[]{pro.n_mini_risolti, pro.punti_mini}, pro.punteggio_totale, total_time);
+                            new int[]{pro.n_mini_risolti, pro.punti_mini}, pro.punteggio_totale, penalty);
                     this.caretaker.addSnapshot(memento);
-                    this.caretaker.saveGame("saves/save.ser");
+                    this.caretaker.saveGame("../../../saves/save.ser");
                     System.out.println("Salvataggio avvenuto con successo");
+                    System.out.println("Premi invio per riprendere il gioco");
+                    scan.nextLine();
                 }
             }
             if(out == 1 && this.livello+1 <= this.diff.numPiani){
+                System.out.println("Punteggio prima :" + this.pro.punteggio_totale);
+                penalty = time_penalty(start, Instant.now());
+                System.out.println(penalty + "s Dopo " + this.pro.punteggio_totale);
                 System.out.println("Hai finito il livello "+this.livello+" con "+this.pro.punteggio_totale +" punti!");
                 this.livello ++;
+                this.time = 0;
+                System.out.println("Premi invio per riprendere il gioco");
+                scan.nextLine();
                 setupTorre();
-                end = Instant.now();
             }else{
+                time_penalty(start, Instant.now());
                 System.out.println("Sei uscito dal gioco con un punteggio di "+this.pro.punteggio_totale);
-                end = Instant.now();
+                System.out.println("Premi invio per riprendere il gioco");
+                scan.nextLine();
                 break;
             }
         }
-        total_time = Duration.between(start, end).toSeconds() + this.time;
-        pro.punteggio_totale -= (int) (total_time/2);
         classifica();
         crediti();
+        System.out.println("Premi invio per riprendere il gioco");
+        scan.nextLine();
+    }
+
+    public long time_penalty(Instant start, Instant end){
+        long tot = Duration.between(start, end).toSeconds() + this.time;
+        pro.punteggio_totale -= (int) (tot/2);
+        return tot;
     }
     public void initNPC(){
         this.npc.add(new Npc("Aldo", new Impiccato("Giovanni", 10, this.diff.difficolta)));

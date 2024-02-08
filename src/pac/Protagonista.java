@@ -72,8 +72,8 @@ public class Protagonista implements Serializable {
 
     public int move(Scanner scan){
         String in;
-        System.out.println("\nRisolte: "+this.piano.dom_sup + " | Totali: " + this.piano.n_dom);
         vision();
+        //System.out.println("\nRisolte: "+this.piano.dom_sup + " | Totali: " + this.piano.n_dom);
         System.out.println("In che direzione vuoi andare?");
         System.out.println("d per destra, a per sinistra, w per sopra, s per sotto, r per riepilogo: ");
         in = scan.nextLine();
@@ -94,8 +94,16 @@ public class Protagonista implements Serializable {
                 if(legal_coord(this.x+1, this.y) && legal_cell(this.x+1, this.y)) this.x = this.x + 1;
                 else System.out.println("Direzione non valida");
                 break;
-            case "r","R": riepilogo(); break;
-            case "h","H": help(scan); break;
+            case "r","R":
+                riepilogo();
+                System.out.println("Premi invio per riprendere il gioco");
+                scan.nextLine();
+                break;
+            case "h","H":
+                help(scan);
+                System.out.println("Premi invio per riprendere il gioco");
+                scan.nextLine();
+                break;
             case "exit": return 3;
         }
         if(checkRoom(scan) == '+') return 2;
@@ -107,6 +115,7 @@ public class Protagonista implements Serializable {
     public char checkRoom(Scanner scan){
         if (this.piano.mat[this.x][this.y].id == 'D' && !((Domanda)this.piano.mat[this.x][this.y]).risposta){
             Domanda d = (Domanda)this.piano.mat[this.x][this.y];
+            pac.Menu.clearConsole();
             d.idle(scan,this.aiutante);
             if(d.risposta){
                 int p = this.piano.livello * (10-d.prova.contaErrori);
@@ -117,17 +126,22 @@ public class Protagonista implements Serializable {
                 this.n_errori_dom += d.prova.contaErrori;
                 System.out.println("Hai ottenuto "+p+" punti!");
                 this.piano.dom_sup++;
+                System.out.println("Premi invio per riprendere il gioco");
+                scan.nextLine();
             }
             return 'D';
         }
         else if (this.piano.mat[this.x][this.y].id == 'N' && !((Npc)this.piano.mat[this.x][this.y]).res){
             Npc n = (Npc)this.piano.mat[this.x][this.y];
+            pac.Menu.clearConsole();
             n.idle(scan);
             if(n.res){
                 this.punteggio_totale += n.mini.punti;
                 this.n_mini_risolti++;
                 this.punti_mini += n.mini.punti;
                 System.out.println("Hai ottenuto "+n.mini.punti+" punti!");
+                System.out.println("Premi invio per riprendere il gioco");
+                scan.nextLine();
             }
             return 'N';
         }
@@ -195,12 +209,52 @@ public class Protagonista implements Serializable {
     }
 
     public void vision(){
-        for(int i = 0; i < this.visited.length; i++){
-            for(int j = 0; j < this.visited[i].length; j++){
-                if(this.visited[i][j] == null) System.out.print("-|");
-                else if(i == this.x && j == this.y) System.out.print(this.visited[i][j].id + "*|");
-                else System.out.print(this.visited[i][j].id + "|");
-            }System.out.println();
+//        for(int i = 0; i < this.visited.length; i++){
+//            for(int j = 0; j < this.visited[i].length; j++){
+//                if(this.visited[i][j] == null) System.out.print("-|");
+//                else if(i == this.x && j == this.y) System.out.print(this.visited[i][j].id + "*|");
+//                else System.out.print(this.visited[i][j].id + "|");
+//            }System.out.println();
+//        }
+        pac.Menu.clearConsole();
+        int rows = this.visited.length;
+        int cols = this.visited[0].length;
+
+        // Prima riga
+        String green = "\u001B[32m";
+        String resetColor = "\u001B[0m";
+
+        System.out.print("╔═══");
+
+        for (int i = 1; i < cols; i++) {
+            System.out.print("╦═══");
         }
+
+        System.out.println("╗");
+
+        // Contenuto della mappa
+        for (int j = 0; j < rows; j++) {
+            for (int i = 0; i < cols; i++) {
+                if (this.visited[j][i] != null) {
+                    if (this.x == j && this.y == i ) System.out.print("║"+ " " + green + this.visited[j][i].id + " " + resetColor);
+                    else System.out.print("║"+ " " + this.visited[j][i].id + " ");
+                } else System.out.print("║   ");
+            }
+            System.out.println("║");
+            if (j < rows - 1) {
+                System.out.print("╠═══");
+                for (int i = 0; i < cols - 1; i++) {
+                    System.out.print("╬═══");
+                }
+                System.out.println("╣");
+            }
+        }
+
+        // Ultima riga
+        System.out.print("╚═══");
+        for (int i = 0; i < cols - 1; i++) {
+            System.out.print("╩═══");
+        }
+        System.out.println("╝");
     }
 }

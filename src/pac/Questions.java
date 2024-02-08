@@ -19,7 +19,7 @@ public class Questions implements Serializable{
     }
 
     public void addQuestions() throws FileNotFoundException {
-        File file = new File("Subjects" + File.separator + this.tema + File.separator + "enigmi" + this.rank + ".txt");
+        File file = new File("../../../Subjects" + File.separator + this.tema + File.separator + "enigmi" + this.rank + ".txt");
         System.out.println(file.getAbsolutePath());
         Scanner scan = new Scanner(file);
         while(scan.hasNextLine()){
@@ -36,7 +36,7 @@ public class Questions implements Serializable{
 
     //non necessario
     public int countTotalQuestions() throws FileNotFoundException {
-        File file = new File("Subjects" + File.separator + this.tema + File.separator + "enigmi"+ this.rank + ".txt");
+        File file = new File("../../../Subjects" + File.separator + this.tema + File.separator + "enigmi"+ this.rank + ".txt");
         System.out.println("count: " + file.getAbsolutePath());
         Scanner scan = new Scanner(file);
         int count = 0;

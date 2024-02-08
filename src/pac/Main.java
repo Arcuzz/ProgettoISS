@@ -1,4 +1,7 @@
 package pac;
+import pac.minigiochi.*;
+import pac.stanze.Npc;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -9,4 +12,5 @@ public class Main {
         menu.display(scan);
         scan.close();
     }
+
 }

@@ -192,8 +192,7 @@ public class Piano implements Serializable {
         if (cell[1] + 1 < index && this.mat[cell[0]][cell[1] + 1] == null) return false;
         if (cell[1] - 1 >= 0 && this.mat[cell[0]][cell[1] - 1] == null) return false;
         if (cell[0] - 1 >= 0 && this.mat[cell[0] - 1][cell[1]] == null) return false;
-        if (cell[0] + 1 < index && this.mat[cell[0] + 1][cell[1]] == null) return false;
-        return true;
+        return cell[0] + 1 >= index || this.mat[cell[0] + 1][cell[1]] != null;
     }
 
     public void stampaMatrice() {
@@ -212,4 +211,104 @@ public class Piano implements Serializable {
         }
         System.out.println("Ci sono " + c_dom + " domande e " + c_npc + " npc");
     }
+
+    public void stampaMatrice2(int x, int y) {
+
+//        int rows = this.mat.length;
+//        int cols = this.mat[0].length;
+//
+//        ArrayList<Integer> em_r = new ArrayList<>();
+//        ArrayList<Integer> em_c = new ArrayList<>();
+//
+//        for (int i = 0; i < rows; i++) {
+//            boolean empty = true;
+//            for (int j = 0; j < cols; j++) {
+//                if (this.mat[i][j] != null){
+//                    empty = false;
+//                    break;
+//                }
+//            }if (!empty) em_r.add(i);
+//        }
+//
+//        for (int j = 0; j < cols; j++) {
+//            boolean empty = true;
+//            for (int i = 0; i < rows; i++) {
+//                if (this.mat[i][j] != null){
+//                    empty = false;
+//                    break;
+//                }
+//            }if (!empty) em_c.add(j);
+//        }
+//
+//        // Elements
+//        for (int i = em_r.getFirst(); i <= em_r.getLast(); i++) {
+//            for (int j = em_c.getFirst(); j <= em_c.getLast(); j++) {
+//                if (this.mat[i][j] != null){
+//                    System.out.print("║"+" "+this.mat[i][j].id+" ");
+//                    if (j == em_c.getLast() || this.mat[i][j+1] == null) System.out.print("║");
+//                }
+//                else System.out.print("    ");
+//            }System.out.println();
+//
+//            for (int k = em_c.getFirst(); k <= em_c.getLast(); k++) {
+//                if (this.mat[i][k] != null){
+//                    if (i+1 <= em_r.getLast() && this.mat[i+1][k] == null){
+//                        if (k == em_c.getFirst() || this.mat[i][k-1] == null) System.out.print("╚═══");
+//                        else if ((k-1 >= em_c.getFirst() && this.mat[i][k-1] != null) && (i+1 <= em_r.getLast() && this.mat[i+1][k-1] == null)) System.out.print("╩═══");
+//                        else if ((k-1 >= em_c.getFirst() && this.mat[i][k-1] != null) && (i+1 <= em_r.getLast() && this.mat[i+1][k-1] != null)) System.out.print("╬═══");
+//                        else if (k == em_c.getLast() || (k+1 <= em_c.getLast() && this.mat[i][k+1] == null)) System.out.print("╝");
+//                        else if ((k == em_c.getLast()) || (k+1 <= em_c.getLast() && this.mat[i][k+1] == null) && (i+1 <= em_c.getLast() && this.mat[i+1][k+1] == null)) System.out.print("╣");
+//                    }else{
+//                        if (k == em_c.getFirst()) System.out.print("╠═══");
+//                        else System.out.print("╬═══");
+//                        if ((k == em_c.getLast()) || (k+1 <= em_c.getLast() && this.mat[i][k+1] == null) && (i+1 <= em_c.getLast() && this.mat[i+1][k+1] == null)) System.out.print("╣");
+//                    }
+//                }else{
+//                    System.out.print("    ");
+//                }
+//            }System.out.println();
+//        }
+
+
+        int rows = this.mat.length;
+        int cols = this.mat[0].length;
+
+        // Prima riga
+        String green = "\u001B[32m";
+        String resetColor = "\u001B[0m";
+
+        System.out.print("╔═══");
+
+        for (int i = 1; i < cols; i++) {
+            System.out.print("╦═══");
+        }
+
+        System.out.println("╗");
+
+        // Contenuto della mappa
+        for (int j = 0; j < rows; j++) {
+            for (int i = 0; i < cols; i++) {
+                if (this.mat[j][i] != null) {
+                    if (x == j && y == i ) System.out.print("║"+ " " + green + this.mat[j][i].id + " " + resetColor);
+                    else System.out.print("║"+ " " + this.mat[j][i].id + " ");
+                } else System.out.print("║   ");
+            }
+            System.out.println("║");
+            if (j < rows - 1) {
+                System.out.print("╠═══");
+                for (int i = 0; i < cols - 1; i++) {
+                    System.out.print("╬═══");
+                }
+                System.out.println("╣");
+            }
+        }
+
+        // Ultima riga
+        System.out.print("╚═══");
+        for (int i = 0; i < cols - 1; i++) {
+            System.out.print("╩═══");
+        }
+        System.out.println("╝");
+    }
+
 }

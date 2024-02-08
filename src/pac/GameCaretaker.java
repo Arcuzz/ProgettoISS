@@ -19,8 +19,14 @@ public class GameCaretaker {
             snapshots.put(snapshot.getNome(), newList);
         }
     }
+
+    public void removeSnapshot(String nome){
+        this.snapshots.remove(nome);
+    }
     public GameMemento getSnapshot(String nome, int index){
-        return this.snapshots.get(nome).get(index);
+
+        if (this.snapshots.get(nome).size() > index) return this.snapshots.get(nome).get(index);
+        return null;
     }
     public void printPerSnapshots(){
         System.out.println("Sono presenti salvataggi per i seguenti personaggi:");
@@ -47,6 +53,10 @@ public class GameCaretaker {
             System.out.println("Non è presente alcun salavataggio");
         }
     }
+
+    public boolean check_save(String nome){
+        return snapshots.get(nome) != null;
+    }
     public void saveGame(String fileName){
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName))){
             outputStream.writeObject(snapshots);
@@ -55,10 +65,10 @@ public class GameCaretaker {
             e.printStackTrace();
         }
     }
-    public void loadGame(String fileName){
+    public void loadGameFile(String fileName){
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))){
             snapshots = (Map<String, List<GameMemento>>) inputStream.readObject();
-            System.out.println("Game loaded");
+            System.out.println("Game file loaded");
         }catch (IOException | ClassNotFoundException e){
             e.printStackTrace();
         }

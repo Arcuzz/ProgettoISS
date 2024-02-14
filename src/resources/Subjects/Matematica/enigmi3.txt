@@ -1,0 +1,33 @@
+Quale numero completa correttamente la serie 24,38,66,122,234,458?
+906
+Confronta le differenze di un numero e il suo precedente
+Qual è il numero composto da tredici decine di migliaia, più tredici migliaia, più tredici centinaia, più tredici unità?
+144313
+Attento agli zeri
+Qual è la probabilità di avere esattamente 3 volte testa se lancio una moneta 5 volte? (scrivi una frazione x/y)
+10/32
+Usa la formula della distribuzione binomiale
+Qual è il numero che, diviso per la sua metà, dà il suo doppio?
+1
+Trasformalo in un'equazione
+In una classe di 20 alunni l'insegnante estrae a sorte i nomi di due alunni per interrogarli.\nQual è la probabilità che ha ciascun alunno di NON essere interrogato? (scrivi una frazione x/y)
+9/10
+Dopo la prima estrazione c'è una persona in meno nel totale
+L’arredo di un parco prevede la disposizione, lungo il suo perimetro, di palette segnaletiche a distanza di 7 metri l’una dall’altra.\nQuante palette segnaletiche in più sono necessarie per arredare un parco quadrato di area quadrupla \nrispetto a un altro parco quadrato che ha il perimetro pari a 140 metri?
+20
+Ogni lato del parco piccolo ha 5 palette
+Il serbatoio di una stampante a getto d’inchiostro è completamente pieno. Dopo che è stata effettuata la stampa della tesi di uno studente, è pieno per 3/5.\nLa stampa di un tema di un altro studente consuma 20 cc e lascia il serbatoio pieno per 2/5.\nQual è la capacità complessiva del serbatoio?
+100
+Quindi 20 corrisponde a 1/5 del totale
+Se 2x^2 - 16x = -32 quanto vale x?
+4
+Si tratta di un'equazione speciale
+Qual è il numero il cui quintuplo aumentato di un terzo del numero iniziale è uguale a 176?
+33
+Trasformalo in una equazione
+Se BUIO = 4-21-11-15, quanto vale BELLEZZA? (separa i numeri con -)
+4-7-12-12-7-23-23-3
+Prova a sottrarre 2 da ogni numero
+Quanto vale la derivata di ln(x)?
+1/x
+E' una frazione

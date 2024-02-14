@@ -45,14 +45,16 @@ public class Difficulty implements Serializable {
     public void sceltaAiutante(Scanner scan){
         int scelta;
         do{
-            System.out.println("Scegli un aiutante per facilitare il tuo viaggio:");
-            System.out.println("Scrivi 0 per andare avanti da solo");
-            System.out.println("Scrivi 1 per Boris il Cronistorico");
-            System.out.println("Scrivi 2 per Rendar il Linguista");
-            System.out.println("Scrivi 3 per Sanga il Matematico");
+            System.out.println("\n"+ Grafica.sep+"Scegli un aiutante per facilitare il tuo viaggio:");
+            System.out.println(Grafica.sep+"Scrivi 0 per andare avanti da solo");
+            System.out.println(Grafica.sep+"Scrivi 1 per Boris il Cronistorico");
+            System.out.println(Grafica.sep+"Scrivi 2 per Rendar il Linguista");
+            System.out.println(Grafica.sep+"Scrivi 3 per Sanga il Matematico");
+            System.out.print(Grafica.sep+">> ");
             scelta = Integer.parseInt(scan.nextLine());
             while(scelta<0 || scelta>3){
-                System.out.println("Input sbagliato! Riprova:");
+                System.out.println("\n"+ Grafica.sep+"Input sbagliato! Riprova:");
+                System.out.print(Grafica.sep+">> ");
                 scelta = Integer.parseInt(scan.nextLine());
             }
         }while(!sceltaSicura(scan));
@@ -61,10 +63,12 @@ public class Difficulty implements Serializable {
     public void aiutoFacile(Scanner scan){
         String choice;
         do{
-            System.out.println("Galgith il Saggio chiede di accompagnarti. Accetti la sua proposta? [s/n]");
+            System.out.println("\n"+ Grafica.sep+"Galgith il Saggio chiede di accompagnarti. Accetti la sua proposta? [s/n]");
+            System.out.print(Grafica.sep+">> ");
             choice = scan.nextLine();
             while(!choice.equalsIgnoreCase("s") && !choice.equalsIgnoreCase("n")){
-                System.out.println("Input sbagliato! Riprova:");
+                System.out.println("\n"+ Grafica.sep+"Input sbagliato! Riprova:");
+                System.out.print(Grafica.sep+">> ");
                 choice = scan.nextLine();
             }
         }while(!sceltaSicura(scan));
@@ -74,10 +78,12 @@ public class Difficulty implements Serializable {
     public int staticaScelta(Scanner scan){
         int scelta;
         do{
-            System.out.println("Scegli 1 per difficolta statica, 2 per crescente:");
+            System.out.println("\n"+ Grafica.sep+"Scegli 1 per difficolta statica, 2 per crescente:");
+            System.out.print(Grafica.sep+">> ");
             scelta = Integer.parseInt(scan.nextLine());
             while(scelta!=1 && scelta!=2){
-                System.out.println("Input sbagliato! Riprova:");
+                System.out.println("\n"+ Grafica.sep+"Input sbagliato! Riprova:");
+                System.out.print(Grafica.sep+">> ");
                 scelta = Integer.parseInt(scan.nextLine());
             }
         }while(!sceltaSicura(scan));
@@ -87,20 +93,24 @@ public class Difficulty implements Serializable {
     public int staticaLivello(Scanner scan){
         int scelta;
         do{
-            System.out.println("Scegli 1 per facile, 2 media, 3 difficile:");
+            System.out.println("\n"+ Grafica.sep+"Scegli 1 per facile, 2 media, 3 difficile:");
+            System.out.print(Grafica.sep+">> ");
             scelta = Integer.parseInt(scan.nextLine());
             while(scelta!=1 && scelta!=2 && scelta!=3){
-                System.out.println("Input sbagliato! Riprova:");
+                System.out.println("\n"+ Grafica.sep+"Input sbagliato! Riprova:");
+                System.out.print(Grafica.sep+">> ");
                 scelta = Integer.parseInt(scan.nextLine());
             }
         }while(!sceltaSicura(scan));
         return scelta;
     }
     public boolean sceltaSicura(Scanner scan){
-        System.out.println("Sei sicuro della tua scelta? [s/n]:");
+        System.out.println("\n"+ Grafica.sep+"Sei sicuro della tua scelta? [s/n]:");
+        System.out.print(Grafica.sep+">> ");
         String choice = scan.nextLine();
         while(!choice.equalsIgnoreCase("s") && !choice.equalsIgnoreCase("n")){
-            System.out.println("Input sbagliato! Riprova:");
+            System.out.println("\n"+ Grafica.sep+"Input sbagliato! Riprova:");
+            System.out.print(Grafica.sep+">> ");
             choice = scan.nextLine();
         }
         return choice.equalsIgnoreCase("s") || !choice.equalsIgnoreCase("n");

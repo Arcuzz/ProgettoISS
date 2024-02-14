@@ -1,4 +1,6 @@
 package pac.minigiochi;
+import pac.Grafica;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -10,11 +12,13 @@ public class SassoCartaForbici extends Minigiochi{
     }
     @Override
     public void startGame(){
-        System.out.println("--- Sasso Carta Forbici ---");
-        System.out.println("Sicuramente sai già come funziona:");
-        System.out.println("Il Sasso batte le Forbici, le Forbici battono la Carta, la Carta batte il Sasso");
-        System.out.println("Fai la tua scelta ad ogni round e vinci");
-        System.out.println("Il primo che vince "+this.obiettivo+" round vince la partita!\n");
+        Grafica.clearConsole();
+        System.out.println(Grafica.Minigame);
+        System.out.println("\n\n"+Grafica.sep+"--- Sasso Carta Forbici ---");
+        System.out.println(Grafica.sep+"Sicuramente sai già come funziona:");
+        System.out.println(Grafica.sep+"Il Sasso batte le Forbici, le Forbici battono la Carta, la Carta batte il Sasso");
+        System.out.println(Grafica.sep+"Fai la tua scelta ad ogni round e vinci");
+        System.out.println(Grafica.sep+"Il primo che vince "+this.obiettivo+" round vince la partita!\n");
     }
     @Override
     public void inizializza(){
@@ -25,49 +29,60 @@ public class SassoCartaForbici extends Minigiochi{
 
     @Override
     public boolean play(Scanner scan) {
+        System.out.println("\n"+ Grafica.sep+"Premi invio per iniziare");
+        System.out.print(Grafica.sep+"#: ");
+        scan.nextLine();
+
         int vittorieUser=0, vittoriePC=0;
         while(vittorieUser<this.obiettivo && vittoriePC<this.obiettivo){
-            System.out.println("\nGiocatore: "+vittorieUser+"  |  PC: "+vittoriePC);
-            System.out.println("Scrivi una lettera per scegliere! [S|C|F] (o \"exit\" per uscire)");
+
+            startGame();
+
+            System.out.println("\n"+ Grafica.sep+"Giocatore: "+vittorieUser+"  |  PC: "+vittoriePC);
+            System.out.println(Grafica.sep+"Scrivi una lettera per scegliere! [S|C|F] (o \"exit\" per uscire)");
+            System.out.print(Grafica.sep+"#: ");
             String input = scan.nextLine();
             if(input.equalsIgnoreCase("exit")){
-                System.out.println("Sei uscito senza completare il minigioco, ritorno al movimento");
+                System.out.println(Grafica.sep+"Sei uscito senza completare il minigioco, ritorno al movimento");
                 return false;
             }
-            System.out.println("\nHai scelto "+printWord(input)+" !");
+            System.out.println("\n"+Grafica.sep+"Hai scelto "+printWord(input)+" !");
             attesa(4);
-            System.out.println("Il PC ha scelto "+printWord(this.sceltaPC.get(0))+" !");
-            int esito = esitoTurno(input,this.sceltaPC.get(0));
+            System.out.println(Grafica.sep+"Il PC ha scelto "+printWord(this.sceltaPC.getFirst())+" !");
+            int esito = esitoTurno(input,this.sceltaPC.getFirst());
             if(esito==1){
-                System.out.println("Hai vinto questo round!!!");
+                System.out.println(Grafica.sep+"Hai vinto questo round!!!");
                 vittorieUser++;
             }
             else if(esito==2){
-                System.out.println("Hai perso questo round!!!");
+                System.out.println(Grafica.sep+"Hai perso questo round!!!");
                 vittoriePC++;
             }
             Collections.shuffle(this.sceltaPC);
+            System.out.println("\n"+ Grafica.sep+"Premi invio per continuare");
+            System.out.print(Grafica.sep+"#: ");
+            scan.nextLine();
         }
-        System.out.println("Punteggio finale: ");
-        System.out.println("\nGiocatore: "+vittorieUser+"  |  PC: "+vittoriePC);
+        System.out.println(Grafica.sep+"Punteggio finale: ");
+        System.out.println("\n"+Grafica.sep+"Giocatore: "+vittorieUser+"  |  PC: "+vittoriePC);
         if(vittoriePC==0){
             this.punti += this.punti;
-            System.out.println("Congratulazioni, hai vinto senza nessun errore!!!");
+            System.out.println(Grafica.sep+"Congratulazioni, hai vinto senza nessun errore!!!");
             return true;
         }
         else if(vittorieUser>vittoriePC){
-            System.out.println("Congratulazioni, hai vinto!!!");
+            System.out.println(Grafica.sep+"Congratulazioni, hai vinto!!!");
             return true;
         }
         else{
-            System.out.println("Hai perso!!!");
+            System.out.println(Grafica.sep+"Hai perso!!!");
             return false;
         }
     }
     public int esitoTurno(String sceltaUser, String sceltaPC){
         //ritorna true in caso di vittoria
         if(sceltaUser.equalsIgnoreCase(sceltaPC)){
-            System.out.println("Pareggio!!!");
+            System.out.println(Grafica.sep+"Pareggio!!!");
             return 0;
         }
         else switch (sceltaUser){
@@ -86,6 +101,7 @@ public class SassoCartaForbici extends Minigiochi{
         return s;
     }
     private void attesa(int t){
+        System.out.print(Grafica.sep);
         for(;t>0;t--){
             System.out.print(".  ");
             try {

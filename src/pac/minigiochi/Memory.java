@@ -1,4 +1,6 @@
 package pac.minigiochi;
+import pac.Grafica;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -31,17 +33,20 @@ public class Memory extends Minigiochi{
     }
     @Override
     public void startGame()  {
-        System.out.println("--- Gioco del Memory ---");
-        System.out.println("Ti verranno mostrate "+this.numeri.size()/2+" coppie di carte numerate da 1 a "+this.rank*5);
-        System.out.println("Verranno mischiate e coperte dopo qualche secondo");
-        System.out.println("Il tuo obiettivo è scoprirle tutte, due alla volta, accoppiandole correttamente");
-        System.out.println("Se sbagli, quelle rimanenti verranno scoperte per qualche secondo e mischiate di nuovo");
-        System.out.println("Quando sarai pronto, avrai "+5*this.rank+" secondi per memorizzare le carte");
-        System.out.println("Buona fortuna e divertiti!");
+        Grafica.clearConsole();
+        System.out.println(Grafica.Minigame);
+        System.out.println("\n\n"+Grafica.sep+"--- Gioco del Memory ---");
+        System.out.println(Grafica.sep+"Ti verranno mostrate "+this.numeri.size()/2+" coppie di carte numerate da 1 a "+this.rank*5);
+        System.out.println(Grafica.sep+"Verranno mischiate e coperte dopo qualche secondo");
+        System.out.println(Grafica.sep+"Il tuo obiettivo è scoprirle tutte, due alla volta, accoppiandole correttamente");
+        System.out.println(Grafica.sep+"Se sbagli, quelle rimanenti verranno scoperte per qualche secondo e mischiate di nuovo");
+        System.out.println(Grafica.sep+"Quando sarai pronto, avrai "+5*this.rank+" secondi per memorizzare le carte");
+        System.out.println(Grafica.sep+"Buona fortuna e divertiti!");
     }
     @Override
     public boolean play(Scanner sca){
-        System.out.println("Pronto? [s/n]");
+        System.out.println("\n"+Grafica.sep+"Pronto? [s/n]");
+        System.out.print(Grafica.sep+"#: ");
         this.input = sca.nextLine();
         if(this.input.equals("n")){
             reset();
@@ -50,52 +55,59 @@ public class Memory extends Minigiochi{
         scopriTutto();
         this.move(sca);
         if(this.input.equalsIgnoreCase("exit")){
-            System.out.println("Sei uscito senza risolvere il minigioco, ritorno al movimento");
+            System.out.println(Grafica.sep+"Sei uscito senza risolvere il minigioco, ritorno al movimento");
             reset();
             return false;
         }
         if(this.tentativi==this.coppieScop){
-            System.out.println("Complimenti! Hai trovato tutte le coppie di carte senza errori!");
+            System.out.println(Grafica.sep+"Complimenti! Hai trovato tutte le coppie di carte senza errori!");
             this.punti += this.punti;
         }
-        else System.out.println("Complimenti! Hai trovato tutte le coppie di carte con "+this.tentativi+" tentativi");
+        else System.out.println(Grafica.sep+"Complimenti! Hai trovato tutte le coppie di carte con "+this.tentativi+" tentativi");
         return true;
     }
     public void move(Scanner sca){
         this.input = "";
         while(!this.input.equalsIgnoreCase("exit") && this.coppieScop!=this.numeri.size()/2){
+
+            startGame();
+
             printNumeri(this.numeriVisibili);
-            System.out.println("In che direzione vuoi andare?");
-            System.out.println("d per destra, a per sinistra, w per sopra, s per sotto, x per selezionare, r per resettare, exit per uscire: ");
+            System.out.println(Grafica.sep+"In che direzione vuoi andare?");
+            System.out.println(Grafica.sep+"d per destra, a per sinistra, w per sopra, s per sotto, x per selezionare, r per resettare, exit per uscire: ");
+            System.out.print(Grafica.sep+"#: ");
             this.input = sca.nextLine();
             switch (this.input) {
                 case "d","D" -> {
                     if (legalCoord(this.pos + 1) && this.numeri.get(this.pos + 1) != null) this.pos++;
-                    else System.out.println("Direzione non valida");
+                    else System.out.println(Grafica.sep+"Direzione non valida");
                 }
                 case "a","A" -> {
                     if (legalCoord(this.pos - 1) && this.numeri.get(this.pos - 1) != null) this.pos--;
-                    else System.out.println("Direzione non valida");
+                    else System.out.println(Grafica.sep+"Direzione non valida");
                 }
                 case "w","W" -> {
                     if (legalCoord(this.pos - 5) && this.numeri.get(this.pos - 5) != null) this.pos -= 5;
-                    else System.out.println("Direzione non valida");
+                    else System.out.println(Grafica.sep+"Direzione non valida");
                 }
                 case "s","S" -> {
                     if (legalCoord(this.pos + 5) && this.numeri.get(this.pos + 5) != null) this.pos += 5;
-                    else System.out.println("Direzione non valida");
+                    else System.out.println(Grafica.sep+"Direzione non valida");
                 }
                 case "r","R" -> {reset(); Collections.shuffle(this.numeri);}
                 case "h" -> printNumeri(this.numeri);
                 case "x","X" -> {
                     if(this.numeriVisibili.get(this.pos)!=0){
-                        System.out.println("Hai già scoperto questa carta! Riprova");
+                        System.out.println(Grafica.sep+"Hai già scoperto questa carta! Riprova");
                         continue;
                     }
                     selezioneCarta(checkCoppia(this.numeri.get(this.pos)));
                     if(this.coppieScop==this.numeri.size()/2){
-                        System.out.println("Congratulazioni, hai trovato tutte le coppie di carte!");
+                        System.out.println(Grafica.sep+"Congratulazioni, hai trovato tutte le coppie di carte!");
                     }
+                    System.out.println("\n"+ Grafica.sep+"Premi invio per iniziare");
+                    System.out.print(Grafica.sep+"#: ");
+                    sca.nextLine();
                 }
             }
         }
@@ -113,14 +125,14 @@ public class Memory extends Minigiochi{
             this.coppia.clear();
             this.coppieScop++;
             this.tentativi++;
-            System.out.println("Indovinato!");
+            System.out.println(Grafica.sep+"Indovinato!");
         }
         //le due carte scelte sono diverse
         else if(check==2){
             this.numeriVisibili.set(this.pos,this.coppia.get(1));
             printNumeri(this.numeriVisibili);
-            System.out.println("Errore! Le due carte sono diverse");
-            System.out.println("Le carte coperte verranno mischiate!");
+            System.out.println(Grafica.sep+"Errore! Le due carte sono diverse");
+            System.out.println(Grafica.sep+"Le carte coperte verranno mischiate!");
             this.numeriVisibili.set(this.posPrimaCarta,0);
             this.numeriVisibili.set(this.pos,0);
             Collections.shuffle(this.numeri);
@@ -155,7 +167,7 @@ public class Memory extends Minigiochi{
     public void printNumeri(ArrayList<Integer> arr){
         for (int i = 0; i < arr.size(); i++) {
             if(i%5==0)
-                System.out.print("\n");
+                System.out.print("\n" + Grafica.sep);
             if(arr.get(i)<10)
                 System.out.print("0");
             if(i==this.pos){
@@ -176,7 +188,7 @@ public class Memory extends Minigiochi{
         this.giaVisto.replaceAll(ignored -> false);
     }
     public void scopriTutto(){
-        System.out.println("Memorizza in fretta!!!");
+        System.out.println(Grafica.sep+"Memorizza in fretta!!!");
         printNumeri(this.numeri);
         attesa(5*this.rank);
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -184,7 +196,7 @@ public class Memory extends Minigiochi{
     private void attesa(int t){
         System.out.println();
         for(;t>0;t--){
-            System.out.print(t+"  ");
+            System.out.print(Grafica.sep+t+"  ");
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {

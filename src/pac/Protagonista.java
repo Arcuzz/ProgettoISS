@@ -42,6 +42,10 @@ public class Protagonista implements Serializable {
         }
         return instance;
     }
+
+    public static void resetInstance(){
+        instance = null;
+    }
     public void start(Piano piano){
         this.last_d = 0;
         this.piano = piano;
@@ -74,34 +78,37 @@ public class Protagonista implements Serializable {
         String in;
         vision();
         //System.out.println("\nRisolte: "+this.piano.dom_sup + " | Totali: " + this.piano.n_dom);
-        System.out.println("In che direzione vuoi andare?");
-        System.out.println("d per destra, a per sinistra, w per sopra, s per sotto, r per riepilogo: ");
+        System.out.println("\n"+ Grafica.sep+"In che direzione vuoi andare?");
+        System.out.println("\n"+ Grafica.sep+ Grafica.bold +"d"+ Grafica.resetText+" per destra, "+ Grafica.bold + "a"+ Grafica.resetText+" per sinistra, "+ Grafica.bold+"w"+ Grafica.resetText+" per sopra, "+ Grafica.bold+"s"+ Grafica.resetText+" per sotto, "+ Grafica.bold+"r"+ Grafica.resetText+" per riepilogo: ");
+        System.out.print("\n"+ Grafica.sep+">> ");
         in = scan.nextLine();
         switch (in) {
             case "d","D":
                 if(legal_coord(this.x, this.y+1) && legal_cell(this.x, this.y+1)) this.y = this.y + 1;
-                else System.out.println("Direzione non valida");
+                else System.out.println("\n"+ Grafica.sep+"Direzione non valida");
                 break;
             case "a","A":
                 if(legal_coord(this.x, this.y-1) && legal_cell(this.x, this.y-1)) this.y = this.y - 1;
-                else System.out.println("Direzione non valida");
+                else System.out.println("\n"+ Grafica.sep+"Direzione non valida");
                 break;
             case "w","W":
                 if(legal_coord(this.x-1, this.y) && legal_cell(this.x-1, this.y)) this.x = this.x - 1;
-                else System.out.println("Direzione non valida");
+                else System.out.println("\n"+ Grafica.sep+"Direzione non valida");
                 break;
             case "s","S":
                 if(legal_coord(this.x+1, this.y) && legal_cell(this.x+1, this.y)) this.x = this.x + 1;
-                else System.out.println("Direzione non valida");
+                else System.out.println("\n"+ Grafica.sep+"Direzione non valida");
                 break;
             case "r","R":
                 riepilogo();
-                System.out.println("Premi invio per riprendere il gioco");
+                System.out.println("\n"+ Grafica.sep+"Premi invio per riprendere il gioco");
+                System.out.print(Grafica.sep+"+ ");
                 scan.nextLine();
                 break;
             case "h","H":
                 help(scan);
-                System.out.println("Premi invio per riprendere il gioco");
+                System.out.println("\n"+ Grafica.sep+"Premi invio per riprendere il gioco");
+                System.out.print(Grafica.sep+"+ ");
                 scan.nextLine();
                 break;
             case "exit": return 3;
@@ -115,8 +122,10 @@ public class Protagonista implements Serializable {
     public char checkRoom(Scanner scan){
         if (this.piano.mat[this.x][this.y].id == 'D' && !((Domanda)this.piano.mat[this.x][this.y]).risposta){
             Domanda d = (Domanda)this.piano.mat[this.x][this.y];
-            pac.Menu.clearConsole();
+            Grafica.clearConsole();
+            System.out.println(Grafica.Dom);
             d.idle(scan,this.aiutante);
+
             if(d.risposta){
                 int p = this.piano.livello * (10-d.prova.contaErrori);
                 if(d.prova.contaErrori>2) p = 5*this.piano.livello;
@@ -124,29 +133,33 @@ public class Protagonista implements Serializable {
                 this.punti_dom += p;
                 this.n_dom_risposte++;
                 this.n_errori_dom += d.prova.contaErrori;
-                System.out.println("Hai ottenuto "+p+" punti!");
+                System.out.println(Grafica.sep+"Hai ottenuto "+p+" punti!");
                 this.piano.dom_sup++;
-                System.out.println("Premi invio per riprendere il gioco");
+                System.out.println(Grafica.sep+"Premi invio per riprendere il gioco");
+                System.out.print(Grafica.sep+"+ ");
                 scan.nextLine();
             }
             return 'D';
         }
         else if (this.piano.mat[this.x][this.y].id == 'N' && !((Npc)this.piano.mat[this.x][this.y]).res){
             Npc n = (Npc)this.piano.mat[this.x][this.y];
-            pac.Menu.clearConsole();
+            Grafica.clearConsole();
+
             n.idle(scan);
             if(n.res){
                 this.punteggio_totale += n.mini.punti;
                 this.n_mini_risolti++;
                 this.punti_mini += n.mini.punti;
-                System.out.println("Hai ottenuto "+n.mini.punti+" punti!");
-                System.out.println("Premi invio per riprendere il gioco");
+                System.out.println(Grafica.sep+"Hai ottenuto "+n.mini.punti+" punti!");
+                System.out.println(Grafica.sep+"Premi invio per riprendere il gioco");
+                System.out.print(Grafica.sep+"+ ");
                 scan.nextLine();
             }
             return 'N';
         }
         else if (this.piano.mat[this.x][this.y].id == '+'){
-            System.out.println("Desideri salvare la partita? [s/n]");
+            System.out.println(Grafica.sep+"Desideri salvare la partita? [s/n]");
+            System.out.print("\n"+ Grafica.sep+">> ");
             if(scan.nextLine().equalsIgnoreCase("s")){
                 return '+';
             }
@@ -156,39 +169,42 @@ public class Protagonista implements Serializable {
     public boolean nextFloor(Scanner scan){
         String in;
         if (this.piano.dom_sup == this.piano.n_dom && !last()){
-            System.out.println("Hai finito le domande del piano, vuoi andare al succesivo? [s/n]");
+            System.out.println("\n"+ Grafica.sep+"Hai finito le domande del piano, vuoi andare al succesivo? [s/n]");
+            System.out.print("\n"+ Grafica.sep+">> ");
             in = scan.nextLine();
             if(in.equalsIgnoreCase("s")) return true;
             this.last_d++;
         }
         else if (this.piano.mat[this.x][this.y].id == 'S' && this.piano.dom_sup == this.piano.n_dom){
-            System.out.println("Hai finito le domande del piano, vuoi andare al succesivo? [s/n]");
+            System.out.println("\n"+ Grafica.sep+"Hai finito le domande del piano, vuoi andare al succesivo? [s/n]");
+            System.out.print("\n"+ Grafica.sep+">> ");
             in = scan.nextLine();
             return in.equalsIgnoreCase("s");
         }
         return false;
     }
     public void riepilogo(){
-        System.out.println("\nMenù riepilogo");
-        System.out.println("Nome: "+this.nome);
-        System.out.println("Punteggio: "+this.punteggio_totale);
-        System.out.println("Difficoltà: "+this.piano.difficolta);
-        System.out.println("Piano corrente: "+this.piano.livello);
-        System.out.println("Tema corrente: "+this.piano.tema);
-        System.out.println("Domande risposte correttamente: "+this.n_dom_risposte);
-        System.out.println("Errori commessi: "+this.n_errori_dom);
-        System.out.println("Punti ottenuti dalle domande: "+this.punti_dom);
-        System.out.println("Minigiochi risolti: "+this.n_mini_risolti);
-        System.out.println("Punti ottenuti dai minigiochi: "+this.punti_mini);
+        System.out.println("\n"+ Grafica.sep+"Menù riepilogo");
+        System.out.println(Grafica.sep+"Nome: "+this.nome);
+        System.out.println(Grafica.sep+"Punteggio: "+this.punteggio_totale);
+        System.out.println(Grafica.sep+"Difficoltà: "+this.piano.difficolta);
+        System.out.println(Grafica.sep+"Piano corrente: "+this.piano.livello);
+        System.out.println(Grafica.sep+"Tema corrente: "+this.piano.tema);
+        System.out.println(Grafica.sep+"Domande risposte correttamente: "+this.n_dom_risposte);
+        System.out.println(Grafica.sep+"Errori commessi: "+this.n_errori_dom);
+        System.out.println(Grafica.sep+"Punti ottenuti dalle domande: "+this.punti_dom);
+        System.out.println(Grafica.sep+"Minigiochi risolti: "+this.n_mini_risolti);
+        System.out.println(Grafica.sep+"Punti ottenuti dai minigiochi: "+this.punti_mini);
     }
     public boolean last(){
         return this.last_d > 0;
     }
     
     public void help(Scanner scan){
-        System.out.println("--- SEZIONE DI AIUTO ---");
-        System.out.println("Digita 1 per una spiegazione delle meccaniche di gioco");
-        System.out.println("Digita 2 per andare immediatamente al prossimo piano");
+        System.out.println(Grafica.sep+"--- SEZIONE DI AIUTO ---");
+        System.out.println(Grafica.sep+"Digita 1 per una spiegazione delle meccaniche di gioco");
+        System.out.println(Grafica.sep+"Digita 2 per andare immediatamente al prossimo piano");
+        System.out.println(Grafica.sep+">> ");
         switch(Integer.parseInt(scan.nextLine())){
             case 1: System.out.println("""
                     Lo scopo del gioco è completare diversi livelli (da 3 a 5)
@@ -208,23 +224,17 @@ public class Protagonista implements Serializable {
         }
     }
 
-    public void vision(){
-//        for(int i = 0; i < this.visited.length; i++){
-//            for(int j = 0; j < this.visited[i].length; j++){
-//                if(this.visited[i][j] == null) System.out.print("-|");
-//                else if(i == this.x && j == this.y) System.out.print(this.visited[i][j].id + "*|");
-//                else System.out.print(this.visited[i][j].id + "|");
-//            }System.out.println();
-//        }
-        pac.Menu.clearConsole();
+    public void vision() {
+        Grafica.clearConsole();
+
+        System.out.println(Grafica.ASCII_lvl(this.piano.livello));
         int rows = this.visited.length;
         int cols = this.visited[0].length;
 
         // Prima riga
-        String green = "\u001B[32m";
-        String resetColor = "\u001B[0m";
 
-        System.out.print("╔═══");
+        System.out.println("\n");
+        System.out.print(Grafica.sep+"\t╔═══");
 
         for (int i = 1; i < cols; i++) {
             System.out.print("╦═══");
@@ -234,15 +244,19 @@ public class Protagonista implements Serializable {
 
         // Contenuto della mappa
         for (int j = 0; j < rows; j++) {
+            System.out.print(Grafica.sep+"\t");
             for (int i = 0; i < cols; i++) {
                 if (this.visited[j][i] != null) {
-                    if (this.x == j && this.y == i ) System.out.print("║"+ " " + green + this.visited[j][i].id + " " + resetColor);
-                    else System.out.print("║"+ " " + this.visited[j][i].id + " ");
-                } else System.out.print("║   ");
+                    if (this.x == j && this.y == i)
+                        System.out.print("║" + " " + Grafica.green + this.visited[j][i].id + " " + Grafica.resetText);
+                    else
+                        System.out.print("║" + " " + this.visited[j][i].id + " ");
+                } else
+                    System.out.print("║   ");
             }
             System.out.println("║");
             if (j < rows - 1) {
-                System.out.print("╠═══");
+                System.out.print(Grafica.sep+"\t╠═══");
                 for (int i = 0; i < cols - 1; i++) {
                     System.out.print("╬═══");
                 }
@@ -251,7 +265,7 @@ public class Protagonista implements Serializable {
         }
 
         // Ultima riga
-        System.out.print("╚═══");
+        System.out.print(Grafica.sep+"\t╚═══");
         for (int i = 0; i < cols - 1; i++) {
             System.out.print("╩═══");
         }

@@ -2,6 +2,7 @@ package pac.stanze;
 
 import java.util.Scanner;
 
+import pac.Grafica;
 import pac.minigiochi.Minigiochi;
 
 public  class Npc extends Stanza{
@@ -17,7 +18,12 @@ public  class Npc extends Stanza{
     }
 
     public void idle(Scanner scan){
-        System.out.println("Sono "+this.nome+" risolvi il mio minigioco");
+        System.out.println(Grafica.Minigame);
+        System.out.println("\n"+Grafica.sep+ "Sono "+this.nome+" risolvi il mio minigioco");
+        System.out.println(Grafica.sep+"Premi invio per iniziare");
+        System.out.print(Grafica.sep+"#: ");
+        scan.nextLine();
+
         this.mini.inizializza();
         this.mini.startGame();
         if(this.mini.play(scan))

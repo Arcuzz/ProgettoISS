@@ -34,7 +34,7 @@ public class Piano implements Serializable {
     public ArrayList<Domanda> creaDomande(){
         ArrayList<Domanda> domande = new ArrayList<>();
         try {
-            System.out.println(this.livello + " " + this.tema + " " + this.difficolta);
+            //System.out.println(this.livello + " " + this.tema + " " + this.difficolta);
             Questions q = new Questions(this.livello, this.tema, this.difficolta);
             for (int i = 0; i < q.domande.size(); i++) domande.add(i, new Domanda(q.domande.get(i)));
             this.n_dom = domande.size();
@@ -140,7 +140,7 @@ public class Piano implements Serializable {
             for (Stanza st: stanzas){
                 System.out.print(st.id);
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 
@@ -274,8 +274,6 @@ public class Piano implements Serializable {
         int cols = this.mat[0].length;
 
         // Prima riga
-        String green = "\u001B[32m";
-        String resetColor = "\u001B[0m";
 
         System.out.print("╔═══");
 
@@ -289,7 +287,7 @@ public class Piano implements Serializable {
         for (int j = 0; j < rows; j++) {
             for (int i = 0; i < cols; i++) {
                 if (this.mat[j][i] != null) {
-                    if (x == j && y == i ) System.out.print("║"+ " " + green + this.mat[j][i].id + " " + resetColor);
+                    if (x == j && y == i ) System.out.print("║"+ " " + Grafica.green + this.mat[j][i].id + " " + Grafica.resetText);
                     else System.out.print("║"+ " " + this.mat[j][i].id + " ");
                 } else System.out.print("║   ");
             }

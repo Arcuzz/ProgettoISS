@@ -1,5 +1,7 @@
 package pac.minigiochi;
 
+import pac.Grafica;
+
 import java.util.Scanner;
 
 public class Impiccato extends Minigiochi{
@@ -30,26 +32,54 @@ public class Impiccato extends Minigiochi{
 
     @Override
     public void startGame(){
-        System.out.println("--- Gioco dell'impiccato ---");
+        Grafica.clearConsole();
+        System.out.println(Grafica.Minigame);
+        System.out.println("\n\n" + Grafica.sep+"--- Gioco dell'impiccato ---");
+
     }
 
     @Override
     public boolean play(Scanner sca){
+        System.out.println("\n"+ Grafica.sep+"Premi invio per iniziare");
+        System.out.print(Grafica.sep+"#: ");
+        sca.nextLine();
         String in = "";
+
         while (this.remainingAttempts > 0 && !this.secret.equalsIgnoreCase(guessed.toString()) && !in.equals("exit")) {
-            System.out.println("Parola da indovinare:");
-            System.out.println(this.guessed);
-            System.out.println("Hai a disposizione " + this.remainingAttempts + " tentativi");
+
+            startGame();
+
+            System.out.println("\n"+Grafica.sep+"Parola da indovinare:");
+            System.out.println(Grafica.sep+this.guessed);
+            System.out.println("\n" + Grafica.sep+"Hai a disposizione " + this.remainingAttempts + " tentativi");
             System.out.println();
+            System.out.print(Grafica.sep+"#: ");
             in = sca.nextLine();
             if(in.length() > 1){
                 if (in.equalsIgnoreCase(this.secret)){
-                    System.out.println("PAROLA INDOVINATA !!!!");
+                    System.out.println(Grafica.sep+"PAROLA INDOVINATA !!!!");
                     this.guessed.setLength(0);
                     this.guessed.append(this.secret);
+                    System.out.println(Grafica.sep+"Premi invio per riprendere il gioco");
+                    System.out.print(Grafica.sep+"+ ");
+                    sca.nextLine();
                     return true;
-                }
-                else if(!in.equalsIgnoreCase("exit"))this.remainingAttempts -= in.length();
+                }else if (this.secret.contains(in.toLowerCase())){
+                    int j = 0;
+                    for(int i = 0; i < this.secret.length(); i++){
+                        if ((this.secret.charAt(i)) == in.toLowerCase().charAt(j)){
+                            this.guessed.setCharAt(i, in.charAt(j));
+                            j++;
+                        }
+                    }if (this.secret.equalsIgnoreCase(this.guessed.toString())){
+                        System.out.println(Grafica.sep+"PAROLA INDOVINATA !!!!");
+                        System.out.println(Grafica.sep+"Premi invio per riprendere il gioco");
+                        System.out.print(Grafica.sep+"+ ");
+                        sca.nextLine();
+                        return true;
+                    }
+
+                }else if(!in.equalsIgnoreCase("exit"))this.remainingAttempts -= in.length();
             }else{
                 in = in.toLowerCase();
                 if(this.secret.contains(in)){

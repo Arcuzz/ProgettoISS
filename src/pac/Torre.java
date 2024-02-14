@@ -47,11 +47,14 @@ public class Torre implements Serializable {
         return instance;
     }
 
+    public static void resetInstance(){
+        instance = null;
+    }
+
     public void setupTorre(){
         ArrayList<Npc> floorNPC = new ArrayList<>(this.npc.subList(this.livello-1,this.livello));
         this.pianoCurr = new Piano(this.livello, this.diff.difficolta, this.temi.get(this.livello), floorNPC);
         this.pro.aiutante.attivaAiuto(this.pianoCurr.tema);
-        System.out.println(this.time);
         pro.start(this.pianoCurr);
     }
     public void game(Scanner scan) throws IOException{
@@ -59,53 +62,56 @@ public class Torre implements Serializable {
         long penalty;
         //intro(scan);
         //pro.piano.stampaMatrice();
+        int out = 0;
         while (this.livello <= this.diff.numPiani) {
+            out = 0;
             start = Instant.now();
-            int out = 0;
             while (out != 1 && out != 3){
                 out = pro.move(scan);
-                if (out == 2){
-                    System.out.println("Punteggio prima :" + this.pro.punteggio_totale);
-                    penalty = time_penalty(start, Instant.now());
-                    System.out.println(penalty + "s Dopo " + this.pro.punteggio_totale);
+                if (out == 2) {
                     GameMemento memento = new GameMemento(this.diff, this.temi, this.pianoCurr,
                             pro.nome, new int[]{pro.x, pro.y}, pro.visited, pro.aiutante,
                             new int[]{pro.n_dom_risposte, pro.n_errori_dom, pro.punti_dom},
-                            new int[]{pro.n_mini_risolti, pro.punti_mini}, pro.punteggio_totale, penalty);
+                            new int[]{pro.n_mini_risolti, pro.punti_mini}, pro.punteggio_totale, time_penalty(start, Instant.now(), false));
                     this.caretaker.addSnapshot(memento);
-                    this.caretaker.saveGame("../../../saves/save.ser");
-                    System.out.println("Salvataggio avvenuto con successo");
-                    System.out.println("Premi invio per riprendere il gioco");
+                    this.caretaker.saveGame("local/saves/save.ser");
+                    System.out.println(Grafica.sep + "\nSalvataggio avvenuto con successo");
+                    System.out.println(Grafica.sep + "Premi invio per riprendere il gioco");
+                    System.out.print(Grafica.sep + "+ ");
                     scan.nextLine();
                 }
             }
             if(out == 1 && this.livello+1 <= this.diff.numPiani){
-                System.out.println("Punteggio prima :" + this.pro.punteggio_totale);
-                penalty = time_penalty(start, Instant.now());
-                System.out.println(penalty + "s Dopo " + this.pro.punteggio_totale);
-                System.out.println("Hai finito il livello "+this.livello+" con "+this.pro.punteggio_totale +" punti!");
+                penalty = time_penalty(start, Instant.now(), true);
+                System.out.println("\n" + Grafica.sep+"Hai finito il livello "+this.livello+" in "+ penalty +" secondi e con un punteggio complessivo di "+ this.pro.punteggio_totale +" punti!");
                 this.livello ++;
                 this.time = 0;
-                System.out.println("Premi invio per riprendere il gioco");
+                System.out.println(Grafica.sep+"Premi invio per riprendere il gioco");
+                System.out.print(Grafica.sep+"+ ");
                 scan.nextLine();
                 setupTorre();
             }else{
-                time_penalty(start, Instant.now());
-                System.out.println("Sei uscito dal gioco con un punteggio di "+this.pro.punteggio_totale);
-                System.out.println("Premi invio per riprendere il gioco");
+                time_penalty(start, Instant.now(), true);
+                System.out.println("\n"+ Grafica.sep+"Sei uscito dal gioco con un punteggio di "+this.pro.punteggio_totale);
+                System.out.println(Grafica.sep+"Premi invio per riprendere il gioco");
+                System.out.print(Grafica.sep+"+ ");
                 scan.nextLine();
                 break;
             }
+        }if (this.livello == this.diff.numPiani && out != 3){
+            Grafica.clearConsole();
+            System.out.println(Grafica.Victory);
         }
         classifica();
         crediti();
-        System.out.println("Premi invio per riprendere il gioco");
+        System.out.println(Grafica.sep+"Premi invio per riprendere il gioco");
+        System.out.print(Grafica.sep+"+ ");
         scan.nextLine();
     }
 
-    public long time_penalty(Instant start, Instant end){
+    public long time_penalty(Instant start, Instant end, boolean end_plan){
         long tot = Duration.between(start, end).toSeconds() + this.time;
-        pro.punteggio_totale -= (int) (tot/2);
+        if (end_plan) pro.punteggio_totale -= (int) (tot/2);
         return tot;
     }
     public void initNPC(){
@@ -117,8 +123,8 @@ public class Torre implements Serializable {
         Collections.shuffle(this.npc);
     }
     public void crediti(){
-        System.out.println("\nGrazie per aver giocato a Tower of Trials!");
-        System.out.println("Sviluppato da: Arcuri Andrea, Palazzolo Gloria, Palmeri Giovanni");
+        System.out.println("\n"+ Grafica.sep+"Grazie per aver giocato a Tower of Trials!");
+        System.out.println(Grafica.sep+"Sviluppato da: Arcuri Andrea, Palazzolo Gloria, Palmeri Giovanni");
     }
     public void classifica() throws IOException {
         Classifica c = new Classifica();
@@ -127,13 +133,13 @@ public class Torre implements Serializable {
         c.scriviClassifica();
     }
     public void intro(Scanner scan){
-        System.out.println("Una mattina come tante. Una sveglia suona. "+this.pro.nome+", uno studente di informatica apre gli occhi.\n" +
-                           "Per lui oggi è un giorno importante: deve sostenere il suo ultimo esame.\n" +
-                           "Apre la bocca per sbadigliare ma si accorge di non potere emettere alcun suono.\n" +
-                           "Spaventato viene preso dal panico e per alcuni minuti prova in tutti i modi a parlare, a gridare, cantare ma senza risultato.\n" +
-                           "Poi torna lucido: si ricordò di aver sentito parlare di una \"Torre della Conoscenza\", in cima alla quale vi era un artefatto sacro in grado di esaudire un desiderio.\n" +
-                           "Con la speranza nel cuore e un aiutante al suo fianco, si mette alla ricerca della Torre e appena la trova, comincia la sua ascesa.\n" +
-                           "Inserisci un carattere qualunque per andare avanti: ");
+        System.out.println(Grafica.sep+"Una mattina come tante. Una sveglia suona. "+this.pro.nome+", uno studente di informatica apre gli occhi.\n" +
+                Grafica.sep+"Per lui oggi è un giorno importante: deve sostenere il suo ultimo esame.\n" +
+                Grafica.sep+"Apre la bocca per sbadigliare ma si accorge di non potere emettere alcun suono.\n" +
+                Grafica.sep+"Spaventato viene preso dal panico e per alcuni minuti prova in tutti i modi a parlare, a gridare, cantare ma senza risultato.\n" +
+                Grafica.sep+"Poi torna lucido: si ricordò di aver sentito parlare di una \"Torre della Conoscenza\", in cima alla quale vi era un artefatto sacro in grado di esaudire un desiderio.\n" +
+                Grafica.sep+"Con la speranza nel cuore e un aiutante al suo fianco, si mette alla ricerca della Torre e appena la trova, comincia la sua ascesa.\n" +
+                Grafica.sep+"Inserisci un carattere qualunque per andare avanti: ");
         scan.nextLine();
     }
 }

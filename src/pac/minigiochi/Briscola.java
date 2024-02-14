@@ -1,4 +1,6 @@
 package pac.minigiochi;
+import pac.Grafica;
+
 import java.util.*;
 
 public class Briscola extends Minigiochi{
@@ -14,16 +16,21 @@ public class Briscola extends Minigiochi{
         briscola = mazzo[39];
     }
     public void startGame(){
-        System.out.println("--------BRISCOLA--------");
-        System.out.println("Da un mazzo di 40 carte e 4 semi viene estratta una prima carta il cui seme è la briscola");
-        System.out.println("La mano del giocatore è composta da tre carte, e si estrae una nuova carta dal mazzo dopo ogni turno");
-        System.out.println("A ogni turno si sceglie una delle 3 carte, e chi ha la carta dal valore maggiore vince il turno e somma il valore delle due al proprio punteggio totale");
-        System.out.println("L'asso, il 3, l'8, il 9 e il 10 valgono rispettivamente 11, 10, 2, 3, 4 punti, tutte le altre 0");
-        System.out.println("Se uno dei due giocatori sceglie una briscola vince in automatico");
-        System.out.println("Se entrambi i giocatori scelgono una briscola, il turno procede normalmente");
-        System.out.println("Quando il mazzo viene esaurito vince chi ha totalizzato più di 60 punti\n");
+        Grafica.clearConsole();
+        System.out.println(Grafica.Minigame);
+        System.out.println("\n\n" + Grafica.sep+"--------BRISCOLA--------");
+        System.out.println(Grafica.sep+"Da un mazzo di 40 carte e 4 semi viene estratta una prima carta il cui seme è la briscola");
+        System.out.println(Grafica.sep+"La mano del giocatore è composta da tre carte, e si estrae una nuova carta dal mazzo dopo ogni turno");
+        System.out.println(Grafica.sep+"A ogni turno si sceglie una delle 3 carte, e chi ha la carta dal valore maggiore vince il turno e somma il valore delle due al proprio punteggio totale");
+        System.out.println(Grafica.sep+"L'asso, il 3, l'8, il 9 e il 10 valgono rispettivamente 11, 10, 2, 3, 4 punti, tutte le altre 0");
+        System.out.println(Grafica.sep+"Se uno dei due giocatori sceglie una briscola vince in automatico");
+        System.out.println(Grafica.sep+"Se entrambi i giocatori scelgono una briscola, il turno procede normalmente");
+        System.out.println(Grafica.sep+"Quando il mazzo viene esaurito vince chi ha totalizzato più di 60 punti\n");;
     }
     public boolean play(Scanner scan){
+        System.out.println("\n"+ Grafica.sep+"Premi invio per iniziare");
+        System.out.print(Grafica.sep+"#: ");
+        scan.nextLine();
         int mod=0;
         if(this.rank==3) mod = 1;
         int punteggioEsito = partita(mod, scan);
@@ -59,17 +66,18 @@ public class Briscola extends Minigiochi{
         return (((int)carta.charAt(1)-'0')+1)+out;
     }
     private void printMano(ArrayList<String> mano){
-        System.out.print("\n----------------------------------------------\n");
-        System.out.print("---> Mano: ");
+        System.out.print("\n"+Grafica.sep+"----------------------------------------------\n");
+        System.out.print(Grafica.sep+"---> Mano: ");
         for(int i=0;i<mano.size();i++) System.out.print(" | "+printCarta(mano.get(i)));
-        System.out.print(" |\n----------------------------------------------");
+        System.out.print(" |\n"+Grafica.sep+"----------------------------------------------");
     }
     private static int scelta(String txt){
         int ris=0;
         boolean ok = false;
         while(!ok){
             try{
-                System.out.println(txt+"\nRispondi con 1=SI, 0=NO");
+                System.out.println(txt+"\n"+Grafica.sep+"Rispondi con 1=SI, 0=NO");
+                System.out.print(Grafica.sep+"#: ");
                 Scanner in = new Scanner(System.in);
                 ris = in.nextInt();
                 in.close();
@@ -79,16 +87,17 @@ public class Briscola extends Minigiochi{
                 }
             }
             catch(InputMismatchException e){
-                System.out.println("Errore! Digita \"1\"=SI o \"0\"=NO");
+                System.out.println(Grafica.sep+"Errore! Digita \"1\"=SI o \"0\"=NO");
             }
         }
         return ris;
     }
     private int sceltaUser(ArrayList<String> mano_user, Scanner scan){
         int c=0;
-        System.out.println("\nScegli la tua carta (1,2,3 rispettivamente) o 99 per uscire dal gioco:");
+        System.out.println("\n"+Grafica.sep+"Scegli la tua carta (1,2,3 rispettivamente) o 99 per uscire dal gioco:");
         try{
             do{
+                System.out.print(Grafica.sep+"#: ");
                 c = Integer.parseInt(scan.nextLine());
                 if(c==99) return c;
                 if(c>=1 && c<=mano_user.size())
@@ -99,7 +108,7 @@ public class Briscola extends Minigiochi{
                 //if(c>=1 && c<=mano_user.size())    ok = true;
         }
         catch(InputMismatchException e){
-            System.out.println("Errore! Digita 1,2,3 per le carte");
+            System.out.println(Grafica.sep+"Errore! Digita 1,2,3 per le carte");
         }
         return c-1;
     }
@@ -182,16 +191,24 @@ public class Briscola extends Minigiochi{
         ArrayList<String> pc = new ArrayList<>();
         String[] carte = new String[2];
         int punteggio = 0, carta, n_turno=1;
-        System.out.println("\t\t***********************************");
-        System.out.println("\t\t*******\tBriscola: "+printCarta(briscola)+"\t*******");
-        System.out.println("\t\t***********************************");
-        System.out.println("Lanciando una moneta: testa parte l'utente, croce parte il pc");
+        System.out.println(Grafica.sep+"***************************************");
+        System.out.println(Grafica.sep+"*******\tBriscola: "+printCarta(briscola)+"\t*******");
+        System.out.println(Grafica.sep+"***************************************");
+        System.out.println(Grafica.sep+"Lanciando una moneta: testa parte l'utente, croce parte il pc");
         int primoGiocatore = (int)(Math.random() * 2);
         attesa(200);
-        if(primoGiocatore==0)   System.out.println("Esce testa, inizia l'utente");
-        else    System.out.println("Esce croce, parte il pc");
+        if(primoGiocatore==0) System.out.println(Grafica.sep+"Esce testa, inizia l'utente");
+        else System.out.println(Grafica.sep+"Esce croce, parte il pc");
+        System.out.println("\n"+ Grafica.sep+"Premi invio per iniziare");
+        System.out.print(Grafica.sep+"#: ");
+        scan.nextLine();
+
         do{
-            System.out.println("\nTurno numero " + n_turno + ". Rimangono " + (20-n_turno) +" turni.");
+
+            startGame();
+
+            System.out.println(Grafica.sep+"Lanciando una moneta: testa parte l'utente, croce parte il pc");
+            System.out.println("\n"+ Grafica.sep+"Turno numero " + n_turno + ". Rimangono " + (20-n_turno) +" turni.");
             n_turno++;
             attesa(200);
             if(primoGiocatore==0){
@@ -199,22 +216,22 @@ public class Briscola extends Minigiochi{
                     user = riempiMano(user);
                     pc = riempiMano(pc);
                 }
-                System.out.println("BRISCOLA: " + printCarta(briscola)+"\n");
+                System.out.println(Grafica.sep+"BRISCOLA: " + printCarta(briscola)+"\n");
                 printMano(user);
                 attesa(200);
                 carta = sceltaUser(user,scan);
                 if(carta==99){
-                    System.out.println("Sei uscito senza completare il minigioco, ritorno al movimento");
+                    System.out.println(Grafica.sep+"Sei uscito senza completare il minigioco, ritorno al movimento");
                     reset();
                     return 0;
                 }
                 carte[0] = user.get(carta);
-                System.out.println("Hai scelto: " + printCarta(carte[0]));
+                System.out.println(Grafica.sep+"Hai scelto: " + printCarta(carte[0]));
                 user.remove(carta);
                 carta = sceltaPc(mod, pc, carte[0]);
                 carte[1] = pc.get(carta);
                 attesa(500);
-                System.out.println("Pc ha scelto: " + printCarta(carte[1]));
+                System.out.println("\n"+Grafica.sep+" - Pc ha scelto: " + printCarta(carte[1]));
                 pc.remove(carta);
                 punteggio += puntiTurno(carte, 0);
             }
@@ -226,22 +243,26 @@ public class Briscola extends Minigiochi{
                 carta = sceltaPc(mod, pc);
                 carte[0] = pc.get(carta);
                 attesa(500);
-                System.out.println("Pc ha scelto: " + printCarta(carte[0]));
+                System.out.println(Grafica.sep+"Pc ha scelto: " + printCarta(carte[0]));
                 pc.remove(carta);
-                System.out.println("BRISCOLA: " + printCarta(briscola)+"\n");
+                System.out.println(Grafica.sep+"BRISCOLA: " + printCarta(briscola)+"\n");
                 printMano(user);
                 attesa(200);
                 carta = sceltaUser(user,scan);
                 if(carta==99){
-                    System.out.println("Sei uscito senza completare il minigioco, ritorno al movimento");
+                    System.out.println(Grafica.sep+"Sei uscito senza completare il minigioco, ritorno al movimento");
                     reset();
                     return 0;
                 }
                 carte[1] = user.get(carta);
-                System.out.println("Hai scelto: " + printCarta(carte[1]));
+                System.out.println(Grafica.sep+"Hai scelto: " + printCarta(carte[1]));
                 user.remove(carta);
                 punteggio += puntiTurno(carte, 1);
             }
+
+            System.out.println("\n"+ Grafica.sep+"Premi invio per continuare");
+            System.out.print(Grafica.sep+"#: ");
+            scan.nextLine();
         } while(user.size()>0);
         return punteggio;
     }
@@ -279,19 +300,19 @@ public class Briscola extends Minigiochi{
     }
     private boolean esitoPartita(int score){
         if(score==0){
-            System.out.print("Sei uscito senza completare la partita! Ritorno al movimento");
+            System.out.println(Grafica.sep+"Sei uscito senza completare la partita! Ritorno al movimento");
             return false;
         }
         if(score>60){
-            System.out.print("\n -=-= Complimenti! Hai vinto con "+score+" Punti! =-=-\n");
+            System.out.print("\n"+ Grafica.sep+" -=-= Complimenti! Hai vinto con "+score+" Punti! =-=-\n");
             return true;
         }
         else{
             if(score<60){
-                System.out.print(" -=-= Hai perso! Hai ottenuto "+score+" Punti! =-=-\n");
+                System.out.print(Grafica.sep+" -=-= Hai perso! Hai ottenuto "+score+" Punti! =-=-\n");
             }
             else{
-                System.out.print(" -=-= Pareggio! Hai ottenuto "+score+" Punti! =-=-\n");
+                System.out.print(Grafica.sep+" -=-= Pareggio! Hai ottenuto "+score+" Punti! =-=-\n");
             }
             return false;
         }

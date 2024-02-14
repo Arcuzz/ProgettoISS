@@ -4,19 +4,36 @@ import java.io.*;
 import java.util.*;
 
 public class Classifica {
-    public File file = new File("../../../Classifica.txt");
+
+    public File file = new File("local/Classifica.txt");
     public ArrayList<RecordPersona> rp = new ArrayList<>();
-    public int righe = 0;
+    public int righe;
     public Classifica() throws FileNotFoundException {
+
+        if (!this.file.exists()) {
+            try {
+                this.file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Impossibile creare il file.");
+                e.printStackTrace();
+            }
+        }
+        this.rp = new ArrayList<>();
+        this.righe = 0;
+        this.caricaClassifica();
+    }
+
+    private void caricaClassifica() throws FileNotFoundException {
         Scanner scan = new Scanner(this.file);
-        while(scan.hasNextLine() && this.righe<=10){
+        while (scan.hasNextLine() && this.righe <= 10) {
             String nome = scan.nextLine();
             int punteggio = Integer.parseInt(scan.nextLine());
-            this.rp.add(new RecordPersona(nome,punteggio));
-            this.righe+=2;
+            this.rp.add(new RecordPersona(nome, punteggio));
+            this.righe += 2;
         }
         scan.close();
     }
+
     public void aggiornaRecord(String nome, int punteggio){
         this.rp.add(new RecordPersona(nome,punteggio));
         for(int i=this.rp.size()-1; i>0; i--){
@@ -36,10 +53,11 @@ public class Classifica {
             fw.write(recordPersona.nome + "\n" + recordPersona.punteggio + "\n");
         fw.close();
     }
+
     public void stampaClassifica(){
-        System.out.println("Classifica: ");
+        System.out.println("\n" + Grafica.sep+"Classifica: ");
         for(int i=0; i<this.rp.size(); i++)
-            System.out.println((i+1)+"o: "+this.rp.get(i).nome+" Punti: "+this.rp.get(i).punteggio);
+            System.out.println(Grafica.sep+(i+1)+"o: "+this.rp.get(i).nome+" Punti: "+this.rp.get(i).punteggio);
     }
 }
 

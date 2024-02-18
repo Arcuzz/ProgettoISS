@@ -50,7 +50,7 @@ public class VersaLiquido extends Minigiochi {
         System.out.print(Grafica.sep+"#: ");
         sca.nextLine();
 
-        int scelta, dest;
+        String scelta, dest;    //in realtà sono numeri
 
         while(!(this.bicchieri[0].livello==this.obiettivo && this.bicchieri[0].livello==this.bicchieri[1].livello)){
             startGame();
@@ -58,39 +58,41 @@ public class VersaLiquido extends Minigiochi {
             stampaBicchieri();
             System.out.println("\n"+Grafica.sep+"Cosa vuoi fare? Digita 1,2,3 per travasare dal rispettivo bicchiere, 4 per resettare o 5 per uscire: ");
             System.out.print(Grafica.sep+"#: ");
-            scelta = Integer.parseInt(sca.nextLine());
-            while(scelta>5 || scelta<1){
+            scelta = sca.nextLine();
+            while(!scelta.matches("[1-5]")){
                 System.out.println(Grafica.sep+"Input sbagliato! Riprova");
                 System.out.print(Grafica.sep+"#: ");
-                scelta = sca.nextInt();
+                scelta = sca.nextLine();
             }
-            if(scelta==4){
+            int sceltaPos = Integer.parseInt(scelta)-1;
+            if(scelta.equals("4")){
                 reset();
                 continue;
             }
-            if(scelta==5){
+            if(scelta.equals("5")){
                 System.out.println("\n" + Grafica.sep+"Sei uscito senza risolvere il minigioco, ritorno al movimento");
                 reset();
                 return false;
             }
-            if(this.bicchieri[scelta-1].livello==0){
+            if(this.bicchieri[sceltaPos].livello==0){
                 System.out.println(Grafica.sep+"Il bicchiere che hai scelto è vuoto! Riprova");
                 continue;
             }
             System.out.println(Grafica.sep+"Scegli il bicchiere da riempire con 1,2,3:");
             System.out.print(Grafica.sep+"#: ");
-            dest = Integer.parseInt(sca.nextLine());
-            while(dest>3 || dest<1){
+            dest = sca.nextLine();
+            while(!dest.matches("[1-3]")){
                 System.out.println(Grafica.sep+"Input sbagliato! Riprova");
                 System.out.print(Grafica.sep+"#: ");
-                dest = sca.nextInt();
+                dest = sca.nextLine();
             }
-            if(this.bicchieri[dest-1].livello==this.bicchieri[dest-1].CAPACITA){
+            int destPos = Integer.parseInt(dest)-1;
+            if(this.bicchieri[destPos].livello==this.bicchieri[destPos].CAPACITA){
                 System.out.println(Grafica.sep+"Il bicchiere che hai scelto è pieno! Riprova");
                 continue;
             }
-            if(scelta!=dest){
-                this.bicchieri[scelta-1].travasa(this.bicchieri[dest-1],this.bicchieri[scelta-1].livello);
+            if(!scelta.equals(dest)){
+                this.bicchieri[sceltaPos].travasa(this.bicchieri[destPos],this.bicchieri[sceltaPos].livello);
                 this.mosse++;
             }
             else System.out.println(Grafica.sep+"Hai scelto il bicchiere di partenza! Riprova");

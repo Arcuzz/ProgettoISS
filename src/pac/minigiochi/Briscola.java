@@ -93,24 +93,22 @@ public class Briscola extends Minigiochi{
         return ris;
     }
     private int sceltaUser(ArrayList<String> mano_user, Scanner scan){
-        int c=0;
-        System.out.println("\n"+Grafica.sep+"Scegli la tua carta (1,2,3 rispettivamente) o 99 per uscire dal gioco:");
-        try{
-            do{
-                System.out.print(Grafica.sep+"#: ");
-                c = Integer.parseInt(scan.nextLine());
-                if(c==99) return c;
-                if(c>=1 && c<=mano_user.size())
-                    break;
-                else throw new InputMismatchException();
-            }
-            while(scan.hasNextInt());
-                //if(c>=1 && c<=mano_user.size())    ok = true;
+        System.out.println("\n"+Grafica.sep+"Scegli la tua carta (1,2,3 rispettivamente) o 0 per uscire dal gioco:");
+        String regex;
+        /*switch (mano_user.size()){
+            case 1: regex = "[0-1]"; break;
+            case 2: regex = "[0-2]"; break;
+            case 3: regex = "[0-3]"; break;
+        }*/
+        String c = scan.nextLine();
+        while(!c.matches("[0-"+ mano_user.size() +"]")){
+            System.out.println(Grafica.sep+"Errore! Digita 1,2,3 per le carte o 0 per uscire dal gioco");
+            System.out.print(Grafica.sep+"#: ");
+            c = scan.nextLine();
         }
-        catch(InputMismatchException e){
-            System.out.println(Grafica.sep+"Errore! Digita 1,2,3 per le carte");
-        }
-        return c-1;
+        int cNum = Integer.parseInt(c);
+        if(cNum==0) return cNum;
+        return cNum-1;
     }
     private int sceltaPc(int mod,ArrayList<String> mano_pc){
         int n;
@@ -220,7 +218,7 @@ public class Briscola extends Minigiochi{
                 printMano(user);
                 attesa(200);
                 carta = sceltaUser(user,scan);
-                if(carta==99){
+                if(carta==0){
                     System.out.println(Grafica.sep+"Sei uscito senza completare il minigioco, ritorno al movimento");
                     reset();
                     return 0;
@@ -249,7 +247,7 @@ public class Briscola extends Minigiochi{
                 printMano(user);
                 attesa(200);
                 carta = sceltaUser(user,scan);
-                if(carta==99){
+                if(carta==0){
                     System.out.println(Grafica.sep+"Sei uscito senza completare il minigioco, ritorno al movimento");
                     reset();
                     return 0;

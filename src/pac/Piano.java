@@ -46,10 +46,10 @@ public class Piano implements Serializable {
 
     public ArrayList<Npc> creaNpcs(){
         switch (this.difficolta) {
-            case "facile" -> this.npc.getFirst().mini.rank = 1;
-            case "media" -> this.npc.getFirst().mini.rank = 2;
-            case "difficile" -> this.npc.getFirst().mini.rank = 3;
-            case "crescente" -> this.npc.getFirst().mini.rank = this.livello;
+            case "facile" -> this.npc.get(0).mini.rank = 1;
+            case "media" -> this.npc.get(0).mini.rank = 2;
+            case "difficile" -> this.npc.get(0).mini.rank = 3;
+            case "crescente" -> this.npc.get(0).mini.rank = this.livello;
         }
         return this.npc;
     }
@@ -165,22 +165,22 @@ public class Piano implements Serializable {
         // controlla per gli indici prima di lui e dopo di lui se ne è qualcuno non vuoto
         Stanza out;
         if (!stanze[val].isEmpty()){
-            out = stanze[val].getFirst();
-            stanze[val].removeFirst();
+            out = stanze[val].get(0);
+            stanze[val].remove(0);
             return out;
         }else{
             // check left-side
             for (int i = val-1; i >= 0; i--) {
                 if (!stanze[i].isEmpty()){
-                    out = stanze[i].getFirst();
-                    stanze[i].removeFirst();
+                    out = stanze[i].get(0);
+                    stanze[i].remove(0);
                     return out;
                 }
             }
             for (int j = val+1; j < stanze.length; j++) {
                 if (!stanze[j].isEmpty()){
-                    out = stanze[j].getFirst();
-                    stanze[j].removeFirst();
+                    out = stanze[j].get(0);
+                    stanze[j].remove(0);
                     return out;
                 }
             }
@@ -214,60 +214,60 @@ public class Piano implements Serializable {
 
     public void stampaMatrice2(int x, int y) {
 
-//        int rows = this.mat.length;
-//        int cols = this.mat[0].length;
-//
-//        ArrayList<Integer> em_r = new ArrayList<>();
-//        ArrayList<Integer> em_c = new ArrayList<>();
-//
-//        for (int i = 0; i < rows; i++) {
-//            boolean empty = true;
-//            for (int j = 0; j < cols; j++) {
-//                if (this.mat[i][j] != null){
-//                    empty = false;
-//                    break;
-//                }
-//            }if (!empty) em_r.add(i);
-//        }
-//
-//        for (int j = 0; j < cols; j++) {
-//            boolean empty = true;
-//            for (int i = 0; i < rows; i++) {
-//                if (this.mat[i][j] != null){
-//                    empty = false;
-//                    break;
-//                }
-//            }if (!empty) em_c.add(j);
-//        }
-//
-//        // Elements
-//        for (int i = em_r.getFirst(); i <= em_r.getLast(); i++) {
-//            for (int j = em_c.getFirst(); j <= em_c.getLast(); j++) {
-//                if (this.mat[i][j] != null){
-//                    System.out.print("║"+" "+this.mat[i][j].id+" ");
-//                    if (j == em_c.getLast() || this.mat[i][j+1] == null) System.out.print("║");
-//                }
-//                else System.out.print("    ");
-//            }System.out.println();
-//
-//            for (int k = em_c.getFirst(); k <= em_c.getLast(); k++) {
-//                if (this.mat[i][k] != null){
-//                    if (i+1 <= em_r.getLast() && this.mat[i+1][k] == null){
-//                        if (k == em_c.getFirst() || this.mat[i][k-1] == null) System.out.print("╚═══");
-//                        else if ((k-1 >= em_c.getFirst() && this.mat[i][k-1] != null) && (i+1 <= em_r.getLast() && this.mat[i+1][k-1] == null)) System.out.print("╩═══");
-//                        else if ((k-1 >= em_c.getFirst() && this.mat[i][k-1] != null) && (i+1 <= em_r.getLast() && this.mat[i+1][k-1] != null)) System.out.print("╬═══");
-//                        else if (k == em_c.getLast() || (k+1 <= em_c.getLast() && this.mat[i][k+1] == null)) System.out.print("╝");
-//                        else if ((k == em_c.getLast()) || (k+1 <= em_c.getLast() && this.mat[i][k+1] == null) && (i+1 <= em_c.getLast() && this.mat[i+1][k+1] == null)) System.out.print("╣");
-//                    }else{
-//                        if (k == em_c.getFirst()) System.out.print("╠═══");
-//                        else System.out.print("╬═══");
-//                        if ((k == em_c.getLast()) || (k+1 <= em_c.getLast() && this.mat[i][k+1] == null) && (i+1 <= em_c.getLast() && this.mat[i+1][k+1] == null)) System.out.print("╣");
-//                    }
-//                }else{
-//                    System.out.print("    ");
-//                }
-//            }System.out.println();
-//        }
+/*      int rows = this.mat.length;
+        int cols = this.mat[0].length;
+
+        ArrayList<Integer> em_r = new ArrayList<>();
+        ArrayList<Integer> em_c = new ArrayList<>();
+
+        for (int i = 0; i < rows; i++) {
+            boolean empty = true;
+            for (int j = 0; j < cols; j++) {
+                if (this.mat[i][j] != null){
+                    empty = false;
+                    break;
+                }
+            }if (!empty) em_r.add(i);
+        }
+
+        for (int j = 0; j < cols; j++) {
+            boolean empty = true;
+            for (int i = 0; i < rows; i++) {
+                if (this.mat[i][j] != null){
+                    empty = false;
+                    break;
+                }
+            }if (!empty) em_c.add(j);
+        }
+
+        // Elements
+        for (int i = em_r.getFirst(); i <= em_r.getLast(); i++) {
+            for (int j = em_c.getFirst(); j <= em_c.getLast(); j++) {
+                if (this.mat[i][j] != null){
+                    System.out.print("║"+" "+this.mat[i][j].id+" ");
+                    if (j == em_c.getLast() || this.mat[i][j+1] == null) System.out.print("║");
+                }
+                else System.out.print("    ");
+            }System.out.println();
+
+            for (int k = em_c.getFirst(); k <= em_c.getLast(); k++) {
+                if (this.mat[i][k] != null){
+                    if (i+1 <= em_r.getLast() && this.mat[i+1][k] == null){
+                        if (k == em_c.getFirst() || this.mat[i][k-1] == null) System.out.print("╚═══");
+                        else if ((k-1 >= em_c.getFirst() && this.mat[i][k-1] != null) && (i+1 <= em_r.getLast() && this.mat[i+1][k-1] == null)) System.out.print("╩═══");
+                        else if ((k-1 >= em_c.getFirst() && this.mat[i][k-1] != null) && (i+1 <= em_r.getLast() && this.mat[i+1][k-1] != null)) System.out.print("╬═══");
+                        else if (k == em_c.getLast() || (k+1 <= em_c.getLast() && this.mat[i][k+1] == null)) System.out.print("╝");
+                        else if ((k == em_c.getLast()) || (k+1 <= em_c.getLast() && this.mat[i][k+1] == null) && (i+1 <= em_c.getLast() && this.mat[i+1][k+1] == null)) System.out.print("╣");
+                    }else{
+                        if (k == em_c.getFirst()) System.out.print("╠═══");
+                        else System.out.print("╬═══");
+                        if ((k == em_c.getLast()) || (k+1 <= em_c.getLast() && this.mat[i][k+1] == null) && (i+1 <= em_c.getLast() && this.mat[i+1][k+1] == null)) System.out.print("╣");
+                    }
+                }else{
+                    System.out.print("    ");
+                }
+           }System.out.println();
+        }*/
 
 
         int rows = this.mat.length;

@@ -8,7 +8,7 @@ public class Classifica {
     public File file = new File("local/Classifica.txt");
     public ArrayList<RecordPersona> rp = new ArrayList<>();
     public int righe;
-    public Classifica() throws FileNotFoundException {
+        public Classifica() throws FileNotFoundException {
 
         if (!this.file.exists()) {
             try {
@@ -24,6 +24,8 @@ public class Classifica {
     }
 
     private void caricaClassifica() throws FileNotFoundException {
+        if (!this.file.exists()) return;
+
         Scanner scan = new Scanner(this.file);
         while (scan.hasNextLine() && this.righe <= 10) {
             String nome = scan.nextLine();
@@ -47,6 +49,7 @@ public class Classifica {
         if(this.rp.size()>5)
             this.rp.remove(this.rp.size()-1);
     }
+    
     public void scriviClassifica() throws IOException {
         FileWriter fw = new FileWriter(this.file);
         for (RecordPersona recordPersona : this.rp)
@@ -61,11 +64,4 @@ public class Classifica {
     }
 }
 
-class RecordPersona{
-    public String nome;
-    public int punteggio;
-    public RecordPersona(String n, int p){
-        this.nome = n;
-        this.punteggio = p;
-    }
-}
+

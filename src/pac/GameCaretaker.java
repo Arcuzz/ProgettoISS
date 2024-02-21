@@ -12,6 +12,11 @@ import java.nio.file.Files;
 public class GameCaretaker {
 
     private Map<String, List<GameMemento>> snapshots = new HashMap<>();
+    
+    public Map<String, List<GameMemento>> getSnapshots() {
+        return snapshots;
+    }
+    
     public void addSnapshot(GameMemento snapshot){
         if (snapshots.containsKey(snapshot.getNome())) {
             List<GameMemento> existingList = snapshots.get(snapshot.getNome());

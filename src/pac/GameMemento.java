@@ -2,7 +2,6 @@ package pac;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ public class GameMemento implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private LocalDateTime date;
-    private Difficulty diff;
+    private DifficultyModel diff;
     private ArrayList<String> temi;
     private Piano piano;
     private String nome;
@@ -25,7 +24,7 @@ public class GameMemento implements Serializable {
     private long time;
     private int total_points;
 
-    public GameMemento(Difficulty diff, ArrayList<String> temi, Piano piano, String nome, int[] pos, Stanza[][] visited, Aiutante aiutante, int[] dom, int[] mini, int total_points, long time){
+    public GameMemento(DifficultyModel diff, ArrayList<String> temi, Piano piano, String nome, int[] pos, Stanza[][] visited, Aiutante aiutante, int[] dom, int[] mini, int total_points, long time){
         this.diff = diff;
         this.temi = temi;
         this.piano = piano;
@@ -40,7 +39,7 @@ public class GameMemento implements Serializable {
         this.total_points = total_points;
     }
 
-    public Difficulty getDiff() {
+    public DifficultyModel getDiff() {
         return diff;
     }
 

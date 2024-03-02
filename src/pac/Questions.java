@@ -3,7 +3,7 @@ import java.util.*;
 import java.io.*;
 
 public class Questions implements Serializable{
-    public ArrayList<Prova> domande = new ArrayList<>();
+    public ArrayList<ProvaModel> domande = new ArrayList<>();
     public int piano, rank, numDomande;
     public String tema, difficolta;
     private final InputStream is;
@@ -32,7 +32,7 @@ public class Questions implements Serializable{
                     String ris = br.readLine();
                     String hint = br.readLine();
                     if(dom.contains("\\n")) dom = dom.replace("\\n","\n"+ Grafica.sep);
-                    domande.add(new Prova(dom,ris,hint,this.rank));
+                    domande.add(new ProvaModel(dom,ris,hint));
                 }
                 Collections.shuffle(this.domande);
                 this.domande.removeIf(n -> (this.domande.indexOf(n) >= this.numDomande));
@@ -71,7 +71,7 @@ public class Questions implements Serializable{
             }catch (IOException e){
                 e.printStackTrace();
             }
-        }else  System.out.println("\n"+ Grafica.sep+"Fine caricamento domande");
+        }//else  System.out.println("\n"+ Grafica.sep+"Fine caricamento domande");
         return count/3;
     }
 
@@ -89,10 +89,10 @@ public class Questions implements Serializable{
 //        return count/3;
 //    }
 
-    public void printProve(){
-        for(Prova item : this.domande)
-            item.summary();
-    }
+//    public void printProve(){
+//        for(Prova item : this.domande)
+//            item.summary();
+//    }
     public void setRank(){
         switch (this.difficolta) {
             case "facile" -> this.rank = 1;

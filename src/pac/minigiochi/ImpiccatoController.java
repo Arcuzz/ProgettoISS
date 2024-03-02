@@ -23,12 +23,12 @@ public class ImpiccatoController extends MinigiocoController implements Serializ
         while (model.remainingAttempts > 0 && !model.secret.equalsIgnoreCase(model.guessed.toString()) && !in.equals("exit")) {
 
             view.startGame();
-
             view.showGame(model.guessed, model.remainingAttempts);
             in = sca.nextLine();
             
             if(in.length() > 1){
                 if (in.equalsIgnoreCase(model.secret)){
+                    view.showGame(model.guessed, model.remainingAttempts);
                     view.completedGame();
                     model.guessed.setLength(0);
                     model.guessed.append(model.secret);
@@ -36,13 +36,11 @@ public class ImpiccatoController extends MinigiocoController implements Serializ
                     sca.nextLine();
                     return true;
                 }else if (model.secret.contains(in.toLowerCase())){
-                    int j = 0;
-                    for(int i = 0; i < model.secret.length(); i++){
-                        if ((model.secret.charAt(i)) == in.toLowerCase().charAt(j)){
-                            model.guessed.setCharAt(i, in.charAt(j));
-                            j++;
-                        }
+                    int init_pos = model.secret.toLowerCase().indexOf(in.toLowerCase());
+                    for(int i = init_pos; i < init_pos + in.length(); i++){
+                        model.guessed.setCharAt(i, model.secret.charAt(i));
                     }if (model.secret.equalsIgnoreCase(model.guessed.toString())){
+                        view.showGame(model.guessed, model.remainingAttempts);
                         view.completedGame();
                         view.resumeGame();
                         sca.nextLine();
@@ -55,6 +53,13 @@ public class ImpiccatoController extends MinigiocoController implements Serializ
                 if(model.secret.contains(in)){
                     for(int i = 0; i < model.secret.length(); i++){
                         if(String.valueOf(model.secret.charAt(i)).equalsIgnoreCase(in)) model.guessed.setCharAt(i, in.charAt(0));
+                    }
+                    if (model.secret.equalsIgnoreCase(model.guessed.toString())){
+                        view.showGame(model.guessed, model.remainingAttempts);
+                        view.completedGame();
+                        view.resumeGame();
+                        sca.nextLine();
+                        return true;
                     }
                 }else model.remainingAttempts --;  
             }

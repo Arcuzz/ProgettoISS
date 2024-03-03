@@ -21,6 +21,7 @@ public class BriscolaController extends MinigiocoController implements Serializa
         int mod=0;
         if(model.getRank() == 3) mod = 1;
         int punteggioEsito = partita(mod, scan);
+        if(punteggioEsito == 0) return false;
         model.updateScore(punteggioEsito);
         return view.esitoPartita(punteggioEsito);
     }
@@ -106,8 +107,7 @@ public class BriscolaController extends MinigiocoController implements Serializa
             view.chooseCardError();
             c = scan.nextLine();
         }
-        int cNum = Integer.parseInt(c);
-        if(cNum==0) return cNum;
+        int cNum = Integer.parseInt(c);;
         return cNum-1;
     }
 
@@ -175,7 +175,7 @@ public class BriscolaController extends MinigiocoController implements Serializa
                 view.printMano(user);
                 attesa(200);
                 carta = sceltaUser(user,scan);
-                if(carta == 0){
+                if(carta == -1){
                     view.exit();
                     model.reset();
                     return 0;
@@ -207,7 +207,7 @@ public class BriscolaController extends MinigiocoController implements Serializa
                 attesa(200);
                 carta = sceltaUser(user,scan);
 
-                if(carta == 0){
+                if(carta == -1){
                     view.exit();
                     scan.nextLine();
                     model.reset();
@@ -218,7 +218,6 @@ public class BriscolaController extends MinigiocoController implements Serializa
                 view.playerCard(carte[1]);
                 user.remove(carta);
                 punteggio += puntiTurno(carte, 1);
-
             }
             view.continua();
             scan.nextLine();

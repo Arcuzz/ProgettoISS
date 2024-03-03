@@ -23,7 +23,7 @@ public class VersaLiquidoController extends MinigiocoController implements Seria
 
         while(!(model.getBicchieri(0).livello == model.getObiettivo() && model.getBicchieri(0).livello == model.getBicchieri(1).livello)){
             view.startGame(model.getBicchieri(0).CAPACITA, model.getBicchieri(1).CAPACITA, model.getBicchieri(2).CAPACITA, model.getObiettivo(), model.getBicchieri(0).CAPACITA-1);
-            view.stampaBicchieri(model.getBicchieri(0).livello, model.getBicchieri(1).livello, model.getBicchieri(2).livello, model.getBicchieri(0).CAPACITA, model.getBicchieri(1).CAPACITA, model.getBicchieri(2).CAPACITA, model.getObiettivo(), model.getBicchieri(0).CAPACITA-1, model.getMosse());
+            view.stampaBicchieri(model.getBicchieri(0).livello, model.getBicchieri(1).livello, model.getBicchieri(2).livello, model.getBicchieri(0).CAPACITA, model.getBicchieri(1).CAPACITA, model.getBicchieri(2).CAPACITA, model.getMosse());
             view.prompt();
             scelta = sca.nextLine();
 

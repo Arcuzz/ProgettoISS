@@ -58,7 +58,7 @@ public class BriscolaView extends MinigiocoView implements Serializable {
     }
 
     public void startBriscola(String briscola){
-        System.out.println(Grafica.sep+"***************************************");
+        System.out.println("\n"+Grafica.sep+"***************************************");
         System.out.println(Grafica.sep+"*******\tBriscola: "+printCarta(briscola)+"\t*******");
         System.out.println(Grafica.sep+"***************************************");
         System.out.println(Grafica.sep+"Lanciando una moneta: testa parte l'utente, croce parte il pc");
@@ -96,7 +96,7 @@ public class BriscolaView extends MinigiocoView implements Serializable {
     }
 
     public void chooseCard(){
-        System.out.println("\n"+Grafica.sep+"Scegli la tua carta (1,2,3 rispettivamente) o 0 per uscire dal gioco:");
+        System.out.print("\n"+Grafica.sep+"Scegli la tua carta (1,2,3 rispettivamente) o 0 per uscire dal gioco: ");
     }
 
     public void chooseCardError(){

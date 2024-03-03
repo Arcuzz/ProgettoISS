@@ -23,7 +23,7 @@ public class MemoryView extends MinigiocoView implements Serializable {
         System.out.println(Grafica.sep+"Verranno mischiate e coperte dopo qualche secondo");
         System.out.println(Grafica.sep+"Il tuo obiettivo è scoprirle tutte, due alla volta, accoppiandole correttamente");
         System.out.println(Grafica.sep+"Se sbagli, quelle rimanenti verranno scoperte per qualche secondo e mischiate di nuovo");
-        System.out.println(Grafica.sep+"Quando sarai pronto, avrai "+5*val[2]+" secondi per memorizzare le carte");
+        System.out.println(Grafica.sep+"Quando sarai pronto, avrai "+5*val[1]+" secondi per memorizzare le carte");
         System.out.println(Grafica.sep+"Buona fortuna e divertiti!");
         System.out.println("\n"+Grafica.sep+"Pronto? [s/n]");
         System.out.print(Grafica.sep+"#: ");

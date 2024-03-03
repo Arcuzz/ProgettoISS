@@ -28,6 +28,13 @@ public class SassoCartaForbiciView extends MinigiocoView implements Serializable
     }
 
     public void mainGame(int vittoriePC, int vittorieUser){
+        Grafica.clearConsole();
+        System.out.println(Grafica.Minigame);
+        System.out.println("\n\n"+Grafica.sep+"--- Sasso Carta Forbici ---");
+        System.out.println(Grafica.sep+"Sicuramente sai già come funziona:");
+        System.out.println(Grafica.sep+"Il Sasso batte le Forbici, le Forbici battono la Carta, la Carta batte il Sasso");
+        System.out.println(Grafica.sep+"Fai la tua scelta ad ogni round e vinci");
+        System.out.println("\n");
         System.out.println("\n"+ Grafica.sep+"Giocatore: "+vittorieUser+"  |  PC: "+vittoriePC);
         System.out.println(Grafica.sep+"Scrivi una lettera per scegliere! [S|C|F] (o \"exit\" per uscire)");
         System.out.print(Grafica.sep+"#: ");

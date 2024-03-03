@@ -23,9 +23,10 @@ public class SassoCartaForbiciController extends MinigiocoController implements 
         scan.nextLine();
 
         int vittorieUser=0, vittoriePC=0;
+        view.startGame(model.obiettivo);
+        if (scan.nextLine().equalsIgnoreCase("n")) return false;
         while(vittorieUser<model.obiettivo && vittoriePC<model.obiettivo){
 
-            view.startGame(model.obiettivo);
             view.mainGame(vittoriePC, vittorieUser);
             String input = scan.nextLine();
 

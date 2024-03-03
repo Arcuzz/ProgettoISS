@@ -25,6 +25,8 @@ public class ImpiccattoView extends MinigiocoView implements Serializable {
     }
 
     public void showGame(StringBuilder guessed, int remainingAttempts){
+        Grafica.clearConsole();
+        System.out.println(Grafica.Minigame);
         System.out.println("\n"+Grafica.sep+"Parola da indovinare:");
         System.out.println(Grafica.sep+guessed);
         System.out.println("\n" + Grafica.sep+"Hai a disposizione " + remainingAttempts + " tentativi");

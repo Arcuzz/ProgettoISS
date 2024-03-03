@@ -19,9 +19,10 @@ public class MemoryController extends MinigiocoController implements Serializabl
     @Override
     public boolean play(Scanner sca, String nome){
         view.initGraphic(nome);
-        model.setInput(sca.nextLine());
-
-        if(model.getInput().equals("n")){
+        sca.nextLine();
+        view.startGame(model.getNumeri().size(), model.getRank());
+        String in = sca.nextLine();
+        if(in.equals("n")){
             reset();
             return false;
         }
@@ -98,7 +99,7 @@ public class MemoryController extends MinigiocoController implements Serializabl
         model.setInput("");
         while(!model.getInput().equalsIgnoreCase("exit") && model.getCoppieScop() != model.getNumeri().size()/2){
 
-            view.startGame();
+            view.startGame(model.getNumeri().size(), model.getRank());
 
             printNumeri(model.getNumeriVisibili());
             view.direction();
@@ -132,8 +133,6 @@ public class MemoryController extends MinigiocoController implements Serializabl
                     if(model.getCoppieScop()==model.getNumeri().size()/2){
                         view.vicotory();
                     }
-                    view.pressToStart();
-                    sca.nextLine();
                 }
             }
         }

@@ -14,17 +14,22 @@ import org.junit.Test;
 
 import pac.Aiutante;
 import pac.Grafica;
-import pac.Prova;
+import pac.ProvaController;
+import pac.ProvaModel;
+import pac.ProvaView;
 
 public class ProvaTest {
-    Prova prova;
+    ProvaController prova;
+    ProvaModel provaModel;
+    ProvaView provaView = new ProvaView();
     OutputStream os;
     PrintStream print;
     
     
     @Before
     public void initClass() {
-       prova = new Prova("Question", "Response", "Help", 3);
+       provaModel = new ProvaModel("Question", "Response", "Help");
+       prova = new ProvaController(provaModel, provaView);
 
        os = new ByteArrayOutputStream();
        print = new PrintStream(os);
@@ -33,12 +38,12 @@ public class ProvaTest {
 
     @Test
     public void testDaiIndizio() {
-        prova.aiutante = new Aiutante(3);
-        prova.aiutante.attivaAiuto("Italiano");
+        provaModel.setAiutante(new Aiutante(3));
+        provaModel.getAiutante().attivaAiuto("Italiano");
         prova.daiIndizio();
         
         String actualOutput = os.toString();
-        String expected = Grafica.sep+"INDIZIO: "+ prova.indizioPrincipale;
+        String expected = Grafica.sep+"INDIZIO: "+ provaModel.getIndizioPrincipale();
 
         assertEquals(expected.trim(), actualOutput.trim());
     }
@@ -52,11 +57,11 @@ public class ProvaTest {
         }
         catch (Exception ex){
             String expected = 
-                Grafica.sep + prova.domanda + "\n" +
+                Grafica.sep + provaModel.getDomanda() + "\n" +
                 "\n" + Grafica.sep + "Risposta: \n" +
                 Grafica.sep + ">> " +
                 Grafica.sep + "Risposta sbagliata! Riprova o scrivi \"exit\" per uscire\n\n" + 
-                Grafica.sep + prova.domanda + "\n" +
+                Grafica.sep + provaModel.getDomanda() + "\n" +
                 "\n" + Grafica.sep + "Risposta: \n" +
                 Grafica.sep + ">> ";
             
@@ -74,11 +79,11 @@ public class ProvaTest {
         }
         catch (Exception ex){
             String expected = 
-                Grafica.sep + prova.domanda + "\n" +
+                Grafica.sep + provaModel.getDomanda() + "\n" +
                 "\n" + Grafica.sep + "Risposta: \n" +
                 Grafica.sep + ">> " +
-                Grafica.sep+"LA RISPOSTA E': " + prova.risposta + "\n" +
-                Grafica.sep + prova.domanda + "\n" +
+                Grafica.sep+"LA RISPOSTA E': " + provaModel.getRisposta() + "\n" +
+                Grafica.sep + provaModel.getDomanda() + "\n" +
                 "\n" + Grafica.sep + "Risposta: \n" +
                 Grafica.sep + ">> ";
             
@@ -90,10 +95,10 @@ public class ProvaTest {
     @Test
     public void testFaiDomandaRight() {
         try {
-            InputStream in = new ByteArrayInputStream(prova.risposta.getBytes());
+            InputStream in = new ByteArrayInputStream(provaModel.getRisposta().getBytes());
             System.setIn(in);
             prova.faiDomanda(new Scanner(System.in));
-            prova.contaErrori = 1;
+            provaModel.setContaErrori(1);
         }
         catch (Exception ex){
             String actualOutput = os.toString();
@@ -117,13 +122,13 @@ public class ProvaTest {
     @Test
     public void testSummary() {
         System.setOut(print);
-        prova.summary();
+        provaView.summary(provaModel.getDomanda(),provaModel.getRisposta(),2);
         
         String actualOutput = os.toString();
         String expected = 
-        "Domanda: " + prova.domanda +
-        "\nRisposta: " + prova.risposta +
-        "\nDifficoltà: " + prova.ranking;
+        "Domanda: " + provaModel.getDomanda() +
+        "\nRisposta: " + provaModel.getRisposta() +
+        "\nDifficoltà: 2";
 
         assertEquals(expected.trim(), actualOutput.trim());
     }

@@ -15,69 +15,87 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.junit.Test;
 
-import pac.minigiochi.VersaLiquido;
+import pac.minigiochi.VersaLiquidoController;
+import pac.minigiochi.VersaLiquidoModel;
+import pac.minigiochi.VersaLiquidoView;
+
 
 public class VersaLiquidoTest {
-    VersaLiquido ver;
+    VersaLiquidoController ver;
+    VersaLiquidoModel verModel;
     
     @Before 
     public void initClass() {
-        ver = new VersaLiquido("1");
-        ver.rank = 1;
-        ver.inizializza();
+        verModel = new VersaLiquidoModel("1");
+        verModel.rank = 1;
+        verModel.inizializza();
+
+        ver = new VersaLiquidoController(verModel, new VersaLiquidoView());
     }
 
     
     @Test
     public void MoreRankShouldMorePoints() {
         for (var i = 1; i < 4; i++) {
-            ver.rank = i;
-            ver.inizializza();
-            assertEquals(50 * (i+1), ver.punti);
+            verModel.rank = i;
+            verModel.inizializza();
+            assertEquals(50 * (i+1), verModel.punti);
         }
     }
     @Test
     public void RankOutRageShouldImpossible() {
-        ver = new VersaLiquido("1");
+        verModel = new VersaLiquidoModel("1");
         assertThrows(NullPointerException.class,
             ()->{
-                ver.inizializza();
+                verModel.inizializza();
             });
         
     }
     
     @Test
     public void FiveShouldExitPlay() {
-        InputStream in = new ByteArrayInputStream("5".getBytes());
+        String input = 
+            System.lineSeparator() + 
+            "5" + 
+            System.lineSeparator() + 
+            System.lineSeparator();
+        
+        InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        assertFalse(ver.play(new Scanner(System.in)));
+        assertFalse(ver.play(new Scanner(System.in), "gloria"));
     }
 
     @Test
     public void FourShouldResetPlay() {
         try {
-            ver.mosse = 100;
-            InputStream in = new ByteArrayInputStream("4".getBytes());
+            String input = 
+            System.lineSeparator() + "4";
+            
+            
+            verModel.setMosse(100);
+            InputStream in = new ByteArrayInputStream(input.getBytes());
             System.setIn(in);
-            ver.play(new Scanner(System.in));
+            ver.play(new Scanner(System.in), "Giovanni");
         }
         catch (Exception ex) {
-            assertEquals(0, ver.mosse);
+            assertEquals(0, verModel.getMosse());
         }
     }
     @Test
     public void RigthMoveShouldIncreaseDecreaseLevel() {
         try {
-            var move = "1" + System.lineSeparator() +
-            "2" + System.lineSeparator();
+            var move = 
+                System.lineSeparator() +
+                "1" + System.lineSeparator() +
+                "2" + System.lineSeparator();
 
             InputStream in = new ByteArrayInputStream(move.getBytes());
             System.setIn(in);
-            ver.play(new Scanner(System.in));
+            ver.play(new Scanner(System.in), "andrea");
         }
         catch (Exception ex) {
-            assertEquals(3, ver.bicchieri[0].getLivello());
-            assertEquals(5, ver.bicchieri[1].getLivello());
+            assertEquals(3, verModel.getBicchieri(0).getLivello());
+            assertEquals(5, verModel.getBicchieri(1).getLivello());
         }
     }
 
@@ -87,13 +105,15 @@ public class VersaLiquidoTest {
         PrintStream print = new PrintStream(os);
 
         try {
-            var move = "1" + System.lineSeparator() +
-            "1" + System.lineSeparator();
+            var move = 
+                System.lineSeparator() +
+                "1" + System.lineSeparator() +
+                "1" + System.lineSeparator();
 
             InputStream in = new ByteArrayInputStream(move.getBytes());
             System.setIn(in);
             System.setOut(print);
-            ver.play(new Scanner(System.in));
+            ver.play(new Scanner(System.in), "gloria");
         }
         catch (Exception ex) {
             String actualOutput = os.toString();
@@ -106,13 +126,15 @@ public class VersaLiquidoTest {
         PrintStream print = new PrintStream(os);
 
         try {
-            var move = "2" + System.lineSeparator() +
-            "1" + System.lineSeparator();
+            var move = 
+                System.lineSeparator() +
+                "2" + System.lineSeparator() +
+                "1" + System.lineSeparator();
 
             InputStream in = new ByteArrayInputStream(move.getBytes());
             System.setIn(in);
             System.setOut(print);
-            ver.play(new Scanner(System.in));
+            ver.play(new Scanner(System.in), "giovanni");
         }
         catch (Exception ex) {
             String actualOutput = os.toString();
@@ -126,15 +148,17 @@ public class VersaLiquidoTest {
         PrintStream print = new PrintStream(os);
 
         try {
-            var move = "1" + System.lineSeparator() +
-            "2" + System.lineSeparator() +
-            "1" + System.lineSeparator() +
-            "1" + System.lineSeparator();
+            var move = 
+                System.lineSeparator() +
+                "1" + System.lineSeparator() +
+                "2" + System.lineSeparator() +
+                "1" + System.lineSeparator() +
+                "1" + System.lineSeparator();
 
             InputStream in = new ByteArrayInputStream(move.getBytes());
             System.setIn(in);
             System.setOut(print);
-            ver.play(new Scanner(System.in));
+            ver.play(new Scanner(System.in), "andrea");
         }
         catch (Exception ex) {
             String actualOutput = os.toString();
@@ -147,12 +171,14 @@ public class VersaLiquidoTest {
         PrintStream print = new PrintStream(os);
 
         try {
-            var move = "1" + System.lineSeparator() +
-            "5" + System.lineSeparator();
+            var move = 
+                System.lineSeparator() +
+                "1" + System.lineSeparator() +
+                "5" + System.lineSeparator();
             InputStream in = new ByteArrayInputStream(move.getBytes());
             System.setIn(in);
             System.setOut(print);
-            ver.play(new Scanner(System.in));
+            ver.play(new Scanner(System.in), "gloria");
         }
         catch (Exception ex) {
             String actualOutput = os.toString();
@@ -162,8 +188,8 @@ public class VersaLiquidoTest {
 
     @Test
     public void resetShouldSetZeroToMosse() {
-        ver.mosse = 100;
-        ver.reset();
-        assertEquals(0, ver.mosse);
+        verModel.setMosse(100);
+        verModel.reset();
+        assertEquals(0, verModel.getMosse());
     }
 }

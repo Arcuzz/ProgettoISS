@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pac.Aiutante;
-import pac.Difficulty;
+import pac.DifficultyModel;
 import pac.GameMemento;
 import pac.Piano;
 import pac.stanze.Npc;
@@ -32,7 +32,8 @@ public class GameMementoTest {
         
     InputStream in = new ByteArrayInputStream(initValues.getBytes());
     
-    Difficulty diff = new Difficulty(new Scanner(in));
+    DifficultyModel diff = new DifficultyModel();
+    
     ArrayList<String> temi = new ArrayList<String>();
     Piano piano = new Piano(1, "1", "Italiano", new ArrayList<Npc>());
     String nome = "Glo";

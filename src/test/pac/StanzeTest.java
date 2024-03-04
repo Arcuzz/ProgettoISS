@@ -1,5 +1,6 @@
 package test.pac;
-import pac.Prova;
+
+import pac.ProvaModel;
 import pac.stanze.*;
 
 import static org.junit.Assert.assertEquals;
@@ -52,15 +53,15 @@ public class StanzeTest {
     }
     @Test
     public void QuestionRoomWithTestShouldBeCreated() {
-        Domanda q = new Domanda(new Prova("Come ti chiami?", "Gloria", "Tu",1));
-        assertEquals("Come ti chiami?", q.prova.domanda);
-        assertEquals("Gloria", q.prova.risposta);
-        assertEquals("Tu", q.prova.indizioPrincipale);
+        Domanda q = new Domanda(new ProvaModel("Come ti chiami?", "Gloria", "Tu"));
+        assertEquals("Come ti chiami?", q.prova.getDomanda());
+        assertEquals("Gloria", q.prova.getRisposta());
+        assertEquals("Tu", q.prova.getIndizioPrincipale());
         assertEquals('D', q.id);
     }
     @Test
     public void QuestionRoomShouldResponseRight() {
-        Domanda q = new Domanda(new Prova("Come ti chiami?", "Gloria", "Tu",1));
+        Domanda q = new Domanda(new ProvaModel("Come ti chiami?", "Gloria", "Tu"));
         InputStream in = new ByteArrayInputStream("Gloria".getBytes());
         System.setIn(in);
         q.idle(new Scanner(System.in), null);

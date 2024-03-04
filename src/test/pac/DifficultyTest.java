@@ -14,11 +14,15 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.junit.Test;
 
-import pac.Difficulty;
+import pac.DifficultyModel;
+import pac.DifficultyView;
+import pac.DifficultyController;
 import pac.Grafica;
 
 public class DifficultyTest {
-    Difficulty difficulty; 
+    DifficultyController difficulty;
+    DifficultyModel difficultyModel; 
+    DifficultyView difficultyView; 
 
     @Before 
     public void initClass() {
@@ -32,7 +36,9 @@ public class DifficultyTest {
         
         InputStream in = new ByteArrayInputStream(initValues.getBytes());
         System.setIn(in);
-        difficulty = new Difficulty(new Scanner(System.in));
+        difficultyModel = new DifficultyModel();
+        difficultyView = new DifficultyView();
+        difficulty = new DifficultyController(difficultyView, difficultyModel);
     } 
 
 
@@ -46,8 +52,8 @@ public class DifficultyTest {
         System.setIn(in);
         difficulty.aiutoFacile(new Scanner(in));
 
-        assertEquals("Galgith", difficulty.aiutante.nome);
-        assertEquals(" il Saggio", difficulty.aiutante.titolo);
+        assertEquals("Galgith", difficultyModel.getAiutante().nome);
+        assertEquals(" il Saggio", difficultyModel.getAiutante().titolo);
 
     }
 
@@ -57,12 +63,12 @@ public class DifficultyTest {
         PrintStream print = new PrintStream(os);
         System.setOut(print);
             
-        difficulty.printData();
+        difficultyView.printData(difficultyModel.getDifficolta(),true, difficultyModel.getNumPiani());
 
         var output =
-            "Statica: " + difficulty.statica + "\n" +
-            "difficolta: " + difficulty.difficolta + "\n" +
-            "Numero piani: " + difficulty.numPiani + "\n";
+            "Statica: true\n" +
+            "difficolta: " + difficultyModel.getDifficolta() + "\n" +
+            "Numero piani: " + difficultyModel.getNumPiani() + "\n";
 
         assertEquals(output, os.toString());
     }
@@ -77,8 +83,8 @@ public class DifficultyTest {
         System.setIn(in);
         difficulty.sceltaAiutante(new Scanner(in));
 
-        assertEquals("Galgith", difficulty.aiutante.nome);
-        assertEquals(" il Saggio", difficulty.aiutante.titolo);
+        assertEquals("Galgith", difficultyModel.getAiutante().nome);
+        assertEquals(" il Saggio", difficultyModel.getAiutante().titolo);
     }
 
     @Test
@@ -91,8 +97,8 @@ public class DifficultyTest {
         System.setIn(in);
         difficulty.sceltaAiutante(new Scanner(in));
 
-        assertEquals("Boris", difficulty.aiutante.nome);
-        assertEquals(" il Cronistorico", difficulty.aiutante.titolo);
+        assertEquals("Boris", difficultyModel.getAiutante().nome);
+        assertEquals(" il Cronistorico", difficultyModel.getAiutante().titolo);
     }
 
     @Test
@@ -105,8 +111,8 @@ public class DifficultyTest {
         System.setIn(in);
         difficulty.sceltaAiutante(new Scanner(in));
 
-        assertEquals("Rendar", difficulty.aiutante.nome);
-        assertEquals(" il Linguista", difficulty.aiutante.titolo);
+        assertEquals("Rendar", difficultyModel.getAiutante().nome);
+        assertEquals(" il Linguista", difficultyModel.getAiutante().titolo);
     }
 
     @Test
@@ -119,8 +125,8 @@ public class DifficultyTest {
         System.setIn(in);
         difficulty.sceltaAiutante(new Scanner(in));
 
-        assertEquals("Sanga", difficulty.aiutante.nome);
-        assertEquals(" il Matematico", difficulty.aiutante.titolo);
+        assertEquals("Sanga", difficultyModel.getAiutante().nome);
+        assertEquals(" il Matematico", difficultyModel.getAiutante().titolo);
     }
 
     @Test
@@ -179,9 +185,9 @@ public class DifficultyTest {
 
     @Test
     public void testSetDiff() {
-        difficulty.setDiff("Facile", 3);
-        assertEquals("Facile", difficulty.difficolta);
-        assertEquals(3, difficulty.numPiani);
+        difficultyModel.setDiff("Facile", 3);
+        assertEquals("Facile", difficultyModel.getDifficolta());
+        assertEquals(3, difficultyModel.getNumPiani());
     }
 
     @Test

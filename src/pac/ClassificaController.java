@@ -30,5 +30,4 @@ public class ClassificaController implements Serializable {
     public void stampaClassifica(){
         view.stampaClassifica(model.getRp());
     }
-
 }

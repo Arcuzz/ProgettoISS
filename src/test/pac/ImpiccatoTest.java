@@ -13,72 +13,88 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.junit.Test;
 
-import pac.minigiochi.Impiccato;
+import pac.minigiochi.ImpiccatoController;
+import pac.minigiochi.ImpiccatoModel;
+import pac.minigiochi.ImpiccattoView;
 
 
 public class ImpiccatoTest {
     
-    private Impiccato impiccato;
+    private ImpiccatoController impiccato;
+    private ImpiccatoModel impiccatoModel;
 
     @Before
     public void initClass() {
-        impiccato = new Impiccato("EasyTest",1,"1");
+        impiccatoModel = new ImpiccatoModel("EasyTest",1,"1");
+        impiccato = new ImpiccatoController(impiccatoModel, new ImpiccattoView());
     }
 
     @Test
     public void RankOneShouldDispayFirstAndLastChars() {
-        impiccato.rank = 1;
-        impiccato.inizializza();
-        assertEquals("E______t", impiccato.guessed.toString());
+        impiccatoModel.rank = 1;
+        impiccatoModel.inizializza();
+        assertEquals("E______t", impiccatoModel.guessed.toString());
     }
     @Test
     public void RankTwoShouldDispayFirstChar() {
-        impiccato.rank = 2;
-        impiccato.inizializza();
-        assertEquals("E_______", impiccato.guessed.toString());
+        impiccatoModel.rank = 2;
+        impiccatoModel.inizializza();
+        assertEquals("E_______", impiccatoModel.guessed.toString());
     }
     @Test
     public void OtherRankShouldDispayanyChars() {
-        impiccato.rank = 0;
-        impiccato.inizializza();
-        assertEquals("________", impiccato.guessed.toString());
+        impiccatoModel.rank = 0;
+        impiccatoModel.inizializza();
+        assertEquals("________", impiccatoModel.guessed.toString());
     }
     
     @Test
     public void CorrectAnswerShouldStopPlayWithTrue() {
-        InputStream in = new ByteArrayInputStream(impiccato.secret.getBytes());
+        String inputs =  
+            "s" + System.lineSeparator() + System.lineSeparator() +
+            impiccatoModel.secret + System.lineSeparator() + System.lineSeparator();
+    
+        InputStream in = new ByteArrayInputStream(inputs.getBytes());
         System.setIn(in);
-        assertTrue(impiccato.play(new Scanner(System.in)));
+        assertTrue(impiccato.play(new Scanner(System.in), "Gloria"));
     }
 
     @Test
     public void wrongAnswerShouldStopPlayWithFalse() {
-        impiccato.remainingAttempts = 9;
-        InputStream in = new ByteArrayInputStream("Hello Guys".getBytes());
+        impiccatoModel.remainingAttempts = 9;
+        String inputs =  
+            "s" + System.lineSeparator() + System.lineSeparator() +
+            "Hello Guys" + System.lineSeparator() + System.lineSeparator();
+
+        InputStream in = new ByteArrayInputStream(inputs.getBytes() );
         System.setIn(in);
-        assertFalse(impiccato.play(new Scanner(System.in)));
+        assertFalse(impiccato.play(new Scanner(System.in), "Giovanni"));
     }
 
     @Test
     public void wordExitShouldStopPlayWithFalse() {
-        impiccato.remainingAttempts = 9;
-        InputStream in = new ByteArrayInputStream("exit".getBytes());
+        impiccatoModel.remainingAttempts = 9;
+        String inputs =  
+        "s" + System.lineSeparator() + System.lineSeparator() +
+        "exit" + System.lineSeparator() + System.lineSeparator();
+
+        InputStream in = new ByteArrayInputStream(inputs.getBytes());
         System.setIn(in);
-        assertFalse(impiccato.play(new Scanner(System.in)));
+        assertFalse(impiccato.play(new Scanner(System.in), "Andrea"));
     }
 
     @Test
     public void singleWrongCharShouldDecreaseAttemps() {
-        impiccato.remainingAttempts = 10;
+        impiccatoModel.remainingAttempts = 10;
         String inputs = "m" + System.lineSeparator() + 
         "a" + System.lineSeparator() +
         "r" + System.lineSeparator() +
-        impiccato.secret + System.lineSeparator(); 
+        impiccatoModel.secret + System.lineSeparator() + System.lineSeparator();
 
         InputStream in = new ByteArrayInputStream(inputs.getBytes());
         System.setIn(in);
-        assertTrue(impiccato.play(new Scanner(System.in)));
-        assertEquals(8, impiccato.remainingAttempts);
+        assertTrue(impiccato.play(new Scanner(System.in), "Gloria"));
+        assertEquals(9, impiccatoModel.remainingAttempts);
     }
 
 

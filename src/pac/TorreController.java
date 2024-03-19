@@ -42,7 +42,7 @@ public class TorreController implements Serializable {
             }
             if(out == 1 && model.getLivello()+1 <= model.getDiff().getNumPiani()){
                 penalty = time_penalty(start, Instant.now(), true, pro);
-                view.fineLvl(model.getLivello(), penalty, out);
+                view.fineLvl(model.getLivello(), penalty, pro.getPunteggio_totale());
                 model.increaseLvl();
                 view.resumeGame();
                 scan.nextLine();
@@ -65,7 +65,7 @@ public class TorreController implements Serializable {
 
     public long time_penalty(Instant start, Instant end, boolean end_plan, ProtagonistaModel pro){
         long tot = Duration.between(start, end).toSeconds() + model.getTime();
-        if (end_plan) pro.setPunteggio_totale(pro.getPunteggio_totale() - (int) (tot/2));
+        if (end_plan) pro.setPunteggio_totale(pro.getPunteggio_totale() - (int) (tot/6));
         return tot;
     }
 

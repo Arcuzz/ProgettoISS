@@ -15,9 +15,11 @@ public class TorreView {
                 Grafica.sep+"Per lui oggi è un giorno importante: deve sostenere il suo ultimo esame.\n" +
                 Grafica.sep+"Apre la bocca per sbadigliare ma si accorge di non potere emettere alcun suono.\n" +
                 Grafica.sep+"Spaventato viene preso dal panico e per alcuni minuti prova in tutti i modi a parlare, a gridare, cantare ma senza risultato.\n" +
-                Grafica.sep+"Poi torna lucido: si ricordò di aver sentito parlare di una \"Torre della Conoscenza\", in cima alla quale vi era un artefatto sacro in grado di esaudire un desiderio.\n" +
+                Grafica.sep+"Poi torna lucido: si ricordò di aver sentito parlare di una \"Torre della Conoscenza\n" +
+                Grafica.sep+"In cima alla quale vi era un artefatto sacro in grado di esaudire un desiderio.\n" +
                 Grafica.sep+"Con la speranza nel cuore e un aiutante al suo fianco, si mette alla ricerca della Torre e appena la trova, comincia la sua ascesa.\n");
-        System.out.print(Grafica.sep+"Inserisci un carattere qualunque per andare avanti + ");
+        System.out.println(Grafica.sep+"Inserisci un carattere qualunque per andare avanti");
+        System.out.print(Grafica.sep+"+ ");
     }
 
     public void correctSave(){

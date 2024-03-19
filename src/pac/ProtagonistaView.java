@@ -49,30 +49,34 @@ public class ProtagonistaView {
     }
 
     public void invalidDirection(){
-        System.out.println("\n"+ Grafica.sep+"Direzione non valida");
+        System.out.println("\n"+ Grafica.sep+"Ouch! Hai sbattuto contro un muro, ti consiglio di utilizzare le porte!");
+        System.out.println(Grafica.sep+"Premi invio per riprendere");
+        System.out.print(Grafica.sep+"+ ");
     }
 
     public void helpHeader(){
         System.out.println(Grafica.sep+"--- SEZIONE DI AIUTO ---");
         System.out.println(Grafica.sep+"Digita 1 per una spiegazione delle meccaniche di gioco");
         System.out.println(Grafica.sep+"Digita 2 per andare immediatamente al prossimo piano");
-        System.out.println(Grafica.sep+">> ");
+        System.out.print(Grafica.sep+">> ");
+    }
+
+    public void invalidInput(){
+        System.out.println(Grafica.sep + "Input sbagliato");
     }
 
     public void helpBody(){
-        System.out.println("""
-                    Lo scopo del gioco è completare diversi livelli (da 3 a 5)
-                    Ogni livello contiene un certo numero di domande a cui rispondere
-                    Alcune domande sono a risposta chiusa, e dovrai digitare solo la lettera della risposta che credi corretta
-                    Altre domande sono a risposta aperta, e ti verrà suggerito il formato della risposta se è più di una parola o un numero
-                    Rispondere "exit" ti fa tornare al movimento senza rispondere alla domanda, che ti verrà riproposta al rientro in quella stanza
-                    IMPORTANTE: rispondere "help" a una domanda ti darà la risposta esatta da inserire (viene detto solo qui)
-                    Dopo aver risposto a tutte le domande ti verrà chiesto se vuoi andare al piano successivo
-                    Se rispondi no, puoi comunque avanzare tornando alla stanza di partenza ("S")
-                    Ogni livello contiene anche un minigioco, sfide più complesse e danno più punti, ma totalmente opzionali
-                    I punti dati da domande e minigiochi non sono necessari, esistono per pura competizione (alla fine del gioco viene stampata una classifica)
-                    Durante il movimento muoverti digitando W|A|S|D, stampare un riepilogo delle statistiche con R o questa sezione di aiuto con H
-                    Quando vuoi andare avanti, inserisci un carattere qualunque:""");
+        System.out.print("\n" + Grafica.sep+"Lo scopo del gioco è completare diversi livelli (da 3 a 5)\n" +
+                Grafica.sep+"Ogni livello contiene un certo numero di domande a cui rispondere\n" +
+                Grafica.sep+"Alcune domande sono a risposta chiusa, e dovrai digitare solo la lettera della risposta che credi corretta\n" +
+                Grafica.sep+"Altre domande sono a risposta aperta, e ti verrà suggerito il formato della risposta se è più di una parola o un numero\n" +
+                Grafica.sep+"Rispondere \"exit\" ti fa tornare al movimento senza rispondere alla domanda, che ti verrà riproposta al rientro in quella stanza\n" +
+                Grafica.sep+"IMPORTANTE: rispondere \"help\" a una domanda ti darà la risposta esatta da inserire (viene detto solo qui)\n" +
+                Grafica.sep+"Dopo aver risposto a tutte le domande ti verrà chiesto se vuoi andare al piano successivo\n" +
+                Grafica.sep+"Se rispondi no, puoi comunque avanzare tornando alla stanza di partenza (\"S\")\n" +
+                Grafica.sep+"Ogni livello contiene anche un minigioco, sfide più complesse e danno più punti, ma totalmente opzionali\n" +
+                Grafica.sep+"I punti dati da domande e minigiochi non sono necessari, esistono per pura competizione (alla fine del gioco viene stampata una classifica)\n" +
+                Grafica.sep+"Durante il movimento muoverti digitando W|A|S|D, stampare un riepilogo delle statistiche con R o questa sezione di aiuto con H\n\n");
     }
 
     public void vision(int livello, Stanza[][] visited, int x, int y) {

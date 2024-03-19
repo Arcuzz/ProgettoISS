@@ -31,19 +31,31 @@ public class ProtagonistaController implements Serializable {
         switch (in) {
             case "d","D":
                 if(legal_coord(model.getX(), model.getY()+1) && legal_cell(model.getX(), model.getY()+1)) model.setY(model.getY() + 1);
-                else view.invalidDirection();
+                else{
+                    view.invalidDirection();
+                    scan.nextLine();
+                }
                 break;
             case "a","A":
                 if(legal_coord(model.getX(), model.getY()-1) && legal_cell(model.getX(), model.getY()-1)) model.setY(model.getY() - 1);
-                else view.invalidDirection();
+                else{
+                    view.invalidDirection();
+                    scan.nextLine();
+                }
                 break;
             case "w","W":
                 if(legal_coord(model.getX()-1, model.getY()) && legal_cell(model.getX()-1, model.getY())) model.setX(model.getX() - 1);
-                else view.invalidDirection();
+                else{
+                    view.invalidDirection();
+                    scan.nextLine();
+                }
                 break;
             case "s","S":
                 if(legal_coord(model.getX()+1, model.getY()) && legal_cell(model.getX()+1, model.getY())) model.setX(model.getX() + 1);
-                else view.invalidDirection();
+                else{
+                    view.invalidDirection();
+                    scan.nextLine();
+                }
                 break;
             case "r","R":
                 riepilogo();
@@ -123,10 +135,20 @@ public class ProtagonistaController implements Serializable {
 
     public void help(Scanner scan){
         view.helpHeader();
-        switch(Integer.parseInt(scan.nextLine())){
-            case 1: view.helpBody();
-                scan.nextLine(); break;
-            case 2: model.getPiano().dom_sup = model.getPiano().n_dom; break;
+        String input = scan.nextLine();
+        if (!input.matches("\\d+")) view.invalidInput();
+        else {
+            int choice = Integer.parseInt(input);
+            switch (choice) {
+                case 1:
+                    view.helpBody();
+                    break;
+                case 2:
+                    model.getPiano().dom_sup = model.getPiano().n_dom;
+                    break;
+                default:
+                    view.invalidInput();
+            }
         }
         view.resumeGame();
     }

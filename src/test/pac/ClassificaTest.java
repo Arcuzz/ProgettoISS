@@ -46,27 +46,11 @@ public class ClassificaTest {
         assertEquals("Andrea, Gloria", model.rp.get(0).nome);
     }
 
-
-    @Test
-    public void testScriviClassifica() throws IOException {
-        model.file = File.createTempFile("Classifica", "tmp");
-        model.file.deleteOnExit();
-
-        
-        var output = "Andrea\n15\nGiovanni\n13\nGloria\n10\n";
-
-        model.scriviClassifica();
-        assertEquals(output, new String(Files.readAllBytes(model.file.toPath())));
-        model.file.delete();
-    }
-
     @Test
     public void testStampaClassifica() {
         OutputStream os = new ByteArrayOutputStream();
         PrintStream print = new PrintStream(os);
         System.setOut(print);
-
-        
 
         var output = "\n" + Grafica.sep+"Classifica: \n";
         
@@ -77,6 +61,18 @@ public class ClassificaTest {
 
         leaderboard.stampaClassifica();
         assertEquals(output, os.toString());
+    }
+
+    @Test
+    public void testScriviClassifica() throws IOException {
+        model.file = File.createTempFile("Classifica", "tmp");
+        model.file.delete();
+
+        var output = "Andrea\n15\nGiovanni\n13\nGloria\n10\n";
+
+        model.scriviClassifica();
+        assertEquals(output, new String(Files.readAllBytes(model.file.toPath())));
+        model.file.delete();
     }
 
     @Test

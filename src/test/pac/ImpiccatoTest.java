@@ -22,10 +22,12 @@ public class ImpiccatoTest {
     
     private ImpiccatoController impiccato;
     private ImpiccatoModel impiccatoModel;
+    private String secret;
 
     @Before
     public void initClass() {
-        impiccatoModel = new ImpiccatoModel("EasyTest",1,"1");
+        impiccatoModel = new ImpiccatoModel(1,"1");
+        secret = impiccatoModel.getSecret();
         impiccato = new ImpiccatoController(impiccatoModel, new ImpiccattoView());
     }
 
@@ -33,26 +35,43 @@ public class ImpiccatoTest {
     public void RankOneShouldDispayFirstAndLastChars() {
         impiccatoModel.rank = 1;
         impiccatoModel.inizializza();
-        assertEquals("E______t", impiccatoModel.guessed.toString());
+
+        String str = "" + secret.charAt(0);
+        for (var i = 1; i <= secret.length() - 2; i++) {
+            str += "_";
+        }
+        str += secret.charAt(secret.length() - 1);
+        assertEquals(str, impiccatoModel.guessed.toString());
     }
     @Test
     public void RankTwoShouldDispayFirstChar() {
         impiccatoModel.rank = 2;
         impiccatoModel.inizializza();
-        assertEquals("E_______", impiccatoModel.guessed.toString());
+
+        String str = "" + secret.charAt(0);
+        for (var i = 1; i <= secret.length() - 1; i++) {
+            str += "_";
+        }
+
+        assertEquals(str, impiccatoModel.guessed.toString());
     }
     @Test
     public void OtherRankShouldDispayanyChars() {
         impiccatoModel.rank = 0;
         impiccatoModel.inizializza();
-        assertEquals("________", impiccatoModel.guessed.toString());
+
+        String str = "";
+        for (var i = 0; i <= secret.length() - 1; i++) {
+            str += "_";
+        }
+        assertEquals(str, impiccatoModel.guessed.toString());
     }
     
     @Test
     public void CorrectAnswerShouldStopPlayWithTrue() {
         String inputs =  
             "s" + System.lineSeparator() + System.lineSeparator() +
-            impiccatoModel.secret + System.lineSeparator() + System.lineSeparator();
+            impiccatoModel.getSecret() + System.lineSeparator() + System.lineSeparator();
     
         InputStream in = new ByteArrayInputStream(inputs.getBytes());
         System.setIn(in);
@@ -86,17 +105,13 @@ public class ImpiccatoTest {
     @Test
     public void singleWrongCharShouldDecreaseAttemps() {
         impiccatoModel.remainingAttempts = 10;
-        String inputs = "m" + System.lineSeparator() + 
-        "a" + System.lineSeparator() +
-        "r" + System.lineSeparator() +
-        impiccatoModel.secret + System.lineSeparator() + System.lineSeparator();
+        int attemps = 10;
+        String inputs = System.lineSeparator() + "m" + System.lineSeparator() + 
+        impiccatoModel.getSecret() + System.lineSeparator() + System.lineSeparator();
 
         InputStream in = new ByteArrayInputStream(inputs.getBytes());
         System.setIn(in);
         assertTrue(impiccato.play(new Scanner(System.in), "Gloria"));
-        assertEquals(9, impiccatoModel.remainingAttempts);
+        assertEquals(attemps, impiccatoModel.remainingAttempts);
     }
-
-
-    
 }

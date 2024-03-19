@@ -1,6 +1,8 @@
 package pac;
 
-public class RecordPersona{
+import java.io.Serializable;
+
+public class RecordPersona implements Serializable {
     public String nome;
     public int punteggio;
     

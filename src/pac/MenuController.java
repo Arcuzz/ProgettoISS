@@ -59,6 +59,7 @@ public class MenuController {
 
                         if (nome.equals("d")){
                             view.menu_1();
+                            gct_Controller.printCharSnapshot();
                             view.deleteGameFile();
                             String to_del = scan.nextLine();
                             if (model.getGameCareTaker().check_save(to_del) && !to_del.equals("b")){

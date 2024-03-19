@@ -89,7 +89,7 @@ public class TorreModel implements Serializable {
     }
 
     public void initNPC(){
-        ImpiccatoModel imp_Model = new ImpiccatoModel("Giovanni", 10, this.diff.getDifficolta());
+        ImpiccatoModel imp_Model = new ImpiccatoModel(10, this.diff.getDifficolta());
         ImpiccattoView imp_View = new ImpiccattoView();
         this.npc.add(new Npc("Aldo", imp_Model, imp_View, new ImpiccatoController(imp_Model, imp_View)));
 

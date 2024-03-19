@@ -15,16 +15,15 @@ public class Questions implements Serializable{
         this.numDomande = livello+livello+1;
         setRank();
         //int totalQuestions = countTotalQuestions();
-        //System.out.println("\nScelto " + this.numDomande + " domande su " + totalQuestions +" di "+tema+" per il piano " + livello);
-        String path = "resources"+ File.separator +"Subjects" + File.separator + this.tema + File.separator + "enigmi" + this.rank + ".txt";
+        // Path per jar
+        String path = "resources/Subjects/" + this.tema + "/enigmi" + this.rank + ".txt";
+        // Path per IntelliJ
+        //String path = "resources"+ File.separator +"Subjects" + File.separator + this.tema + File.separator + "enigmi" + this.rank + ".txt";
         this.is = Questions.class.getClassLoader().getResourceAsStream(path);
         addQuestions();
-        //printProve();
-
     }
 
     public void addQuestions(){
-
         if (this.is != null){
             try (BufferedReader br = new BufferedReader(new InputStreamReader(is))){
                 String dom;
@@ -42,24 +41,6 @@ public class Questions implements Serializable{
         }
     }
 
-    // OLD VERSION
-//    public void addQuestions() throws FileNotFoundException {
-//
-//        File file = new File("Subjects" + File.separator + this.tema + File.separator + "enigmi" + this.rank + ".txt");
-//        System.out.println(file.getAbsolutePath());
-//        Scanner scan = new Scanner(file);
-//        while(scan.hasNextLine()){
-//            String dom = scan.nextLine();
-//            String ris = scan.nextLine();
-//            String hint = scan.nextLine();
-//            if(dom.contains("\\n")) dom = dom.replace("\\n","\n");
-//            domande.add(new Prova(dom,ris,hint,this.rank));
-//        }
-//        scan.close();
-//        Collections.shuffle(this.domande);
-//        this.domande.removeIf(n -> (this.domande.indexOf(n) >= this.numDomande)); //solo con > ne mette uno in più
-//    }
-
     //non necessario
 
     public int countTotalQuestions() throws FileNotFoundException {
@@ -71,28 +52,10 @@ public class Questions implements Serializable{
             }catch (IOException e){
                 e.printStackTrace();
             }
-        }//else  System.out.println("\n"+ Grafica.sep+"Fine caricamento domande");
+        }
         return count/3;
     }
 
-    // OLD VERSION
-//    public int countTotalQuestions() throws FileNotFoundException {
-//        File file = new File("../../../Subjects" + File.separator + this.tema + File.separator + "enigmi"+ this.rank + ".txt");
-//        System.out.println("count: " + file.getAbsolutePath());
-//        Scanner scan = new Scanner(file);
-//        int count = 0;
-//        while(scan.hasNextLine()) {
-//            count++;
-//            scan.nextLine();
-//        }
-//        scan.close();
-//        return count/3;
-//    }
-
-//    public void printProve(){
-//        for(Prova item : this.domande)
-//            item.summary();
-//    }
     public void setRank(){
         switch (this.difficolta) {
             case "facile" -> this.rank = 1;

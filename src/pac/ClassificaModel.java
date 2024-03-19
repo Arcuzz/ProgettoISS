@@ -1,70 +1,182 @@
 package pac;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import pac.stanze.Domanda;
+import pac.stanze.Npc;
 
-public class ClassificaModel implements Serializable{
+import java.io.Serializable;
+import java.util.Scanner;
 
-    public File file = new File("local/Classifica.txt");
-    public ArrayList<RecordPersona> rp = new ArrayList<>();
-    public int righe;
-    
-    public ClassificaModel() throws FileNotFoundException {
+public class ProtagonistaController implements Serializable {
 
-        try {
-            Path filePath = Paths.get(file.toURI());
-            Path parentDir = filePath.getParent();
+    private static final int[][] direzioni = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    private ProtagonistaModel model;
+    private ProtagonistaView view;
 
-            if (parentDir != null && !Files.exists(parentDir)) {
-                Files.createDirectories(parentDir);
+    public ProtagonistaController(ProtagonistaModel model, ProtagonistaView view){
+        this.model = model;
+        this.view = view;
+    }
+
+    public void start(Piano piano){
+        model.start(piano);
+        aggiungi_adj();
+    }
+
+    public int move(Scanner scan){
+        String in;
+        view.vision(model.getPiano().livello, model.getVisited(), model.getX(), model.getY());
+        //System.out.println("\nRisolte: "+this.piano.dom_sup + " | Totali: " + this.piano.n_dom);
+        view.chooseDirection();
+        in = scan.nextLine();
+        switch (in) {
+            case "d","D":
+                if(legal_coord(model.getX(), model.getY()+1) && legal_cell(model.getX(), model.getY()+1)) model.setY(model.getY() + 1);
+                else{
+                    view.invalidDirection();
+                    scan.nextLine();
+                }
+                break;
+            case "a","A":
+                if(legal_coord(model.getX(), model.getY()-1) && legal_cell(model.getX(), model.getY()-1)) model.setY(model.getY() - 1);
+                else{
+                    view.invalidDirection();
+                    scan.nextLine();
+                }
+                break;
+            case "w","W":
+                if(legal_coord(model.getX()-1, model.getY()) && legal_cell(model.getX()-1, model.getY())) model.setX(model.getX() - 1);
+                else{
+                    view.invalidDirection();
+                    scan.nextLine();
+                }
+                break;
+            case "s","S":
+                if(legal_coord(model.getX()+1, model.getY()) && legal_cell(model.getX()+1, model.getY())) model.setX(model.getX() + 1);
+                else{
+                    view.invalidDirection();
+                    scan.nextLine();
+                }
+                break;
+            case "r","R":
+                riepilogo();
+                scan.nextLine();
+                break;
+            case "h","H":
+                help(scan);
+                scan.nextLine();
+                break;
+            case "exit": return 3;
+        }
+        if(checkRoom(scan) == '+') return 2;
+        if(nextFloor(scan)) return 1; // si continua al prossimo piano
+        aggiungi_adj();
+        return 0;
+    }
+
+    public boolean nextFloor(Scanner scan){
+        String in;
+        if (model.getPiano().dom_sup == model.getPiano().n_dom && !last()){
+            view.nextFloor();
+            in = scan.nextLine();
+            if(in.equalsIgnoreCase("s")) return true;
+            model.setLast_d(model.getLast_d() + 1);
+        }
+        else if (model.getPiano().mat[model.getX()][model.getY()].id == 'S' && model.getPiano().dom_sup == model.getPiano().n_dom){
+            view.nextFloor();
+            in = scan.nextLine();
+            return in.equalsIgnoreCase("s");
+        }
+        return false;
+    }
+
+    public char checkRoom(Scanner scan){
+        if (model.getPiano().mat[model.getX()][model.getY()].id == 'D' && !((Domanda)model.getPiano().mat[model.getX()][model.getY()]).risposta){
+            Domanda d = (Domanda)model.getPiano().mat[model.getX()][model.getY()];
+            view.startDom();
+            d.idle(scan,model.getAiutante());
+
+            if(d.risposta){
+                int p = model.getPiano().livello * (10-d.prova.getContaErrori());
+                if(d.prova.getContaErrori()>2) p = 5*model.getPiano().livello;
+                model.setPunteggio_totale(model.getPunteggio_totale() + p);
+                model.setPunti_dom(model.getPunti_dom() + p);
+                model.setN_dom_risposte(model.getN_errori_dom() + 1);
+                model.setN_errori_dom(model.getN_errori_dom() + d.prova.getContaErrori());
+                view.score(p);
+                model.getPiano().dom_sup++;
+                view.resumeGame();
+                scan.nextLine();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            return 'D';
         }
+        else if (model.getPiano().mat[model.getX()][model.getY()].id == 'N' && !((Npc)model.getPiano().mat[model.getX()][model.getY()]).res){
+            Npc n = (Npc)model.getPiano().mat[model.getX()][model.getY()];
+            Grafica.clearConsole();
 
-        this.rp = new ArrayList<>();
-        this.righe = 0;
-        this.caricaClassifica();
-    }
-
-    private void caricaClassifica() throws FileNotFoundException {
-        if (!this.file.exists()) return;
-
-        Scanner scan = new Scanner(this.file);
-        while (scan.hasNextLine() && this.righe <= 10) {
-            String nome = scan.nextLine();
-            int punteggio = Integer.parseInt(scan.nextLine());
-            this.rp.add(new RecordPersona(nome, punteggio));
-            this.righe += 2;
+            n.idle(scan);
+            if(n.res){
+                model.setPunteggio_totale(model.getPunteggio_totale() + n.model.punti);
+                model.setN_mini_risolti(model.getN_mini_risolti() + 1);
+                model.setPunti_mini(model.getPunti_mini() + n.model.punti);
+                view.score(n.model.punti);
+                view.resumeGame();
+                scan.nextLine();
+            }
+            return 'N';
         }
-        scan.close();
-    }
-    
-    public void addRecord(RecordPersona rec){
-        this.rp.add(rec);
-    }
-
-    public ArrayList<RecordPersona> getRp(){
-        return this.rp;
+        else if (model.getPiano().mat[model.getX()][model.getY()].id == '+'){
+            view.saveGame();
+            if(scan.nextLine().equalsIgnoreCase("s")){
+                return '+';
+            }
+        }
+        return 'v';
     }
 
-    public void swap(int i, int j){
-        Collections.swap(this.rp,i,j);
+    public void help(Scanner scan){
+        view.helpHeader();
+        String input = scan.nextLine();
+        if (!input.matches("\\d+")) view.invalidInput();
+        else {
+            int choice = Integer.parseInt(input);
+            switch (choice) {
+                case 1:
+                    view.helpBody();
+                    break;
+                case 2:
+                    model.getPiano().dom_sup = model.getPiano().n_dom;
+                    break;
+                default:
+                    view.invalidInput();
+            }
+        }
+        view.resumeGame();
     }
 
-    public void scriviClassifica() throws IOException {
-        FileWriter fw = new FileWriter(this.file);
-        for (RecordPersona recordPersona : this.getRp())
-            fw.write(recordPersona.nome + "\n" + recordPersona.punteggio + "\n");
-        fw.close();
+    public void riepilogo(){
+        view.riepilogo(model.getNome(), model.getPiano().difficolta, model.getPunteggio_totale(), model.getPiano().livello, model.getPiano().tema, model.getN_dom_risposte(), model.getN_dom_risposte(), model.getN_mini_risolti(), model.getPunti_mini(), model.getPunti_dom());
+        view.resumeGame();
     }
 
-    public void removeRp(int i){
-        this.getRp().remove(i);
+    public void aggiungi_adj(){
+        for(int[] direzione: direzioni){
+            int n_rig = model.getX() + direzione[0];
+            int n_col = model.getY() + direzione[1];
+            if(legal_coord(n_rig, n_col) && model.getPiano().mat[n_rig][n_col] != null && model.getVisited()[n_rig][n_col] == null){
+                model.getVisited()[n_rig][n_col] = model.getPiano().mat[n_rig][n_col];
+            }
+        }
+    }
+
+    public boolean legal_cell(int x, int y){
+        return (model.getPiano().mat[x][y] != null && model.getPiano().mat[x][y].id != '#');
+    }
+
+    public boolean legal_coord(int x, int y){
+        return (x >= 0 && x < model.getPiano().mat.length && y >= 0 && y < model.getPiano().mat.length);
+    }
+
+    public boolean last(){
+        return model.getLast_d() > 0;
     }
 }
-
-

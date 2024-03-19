@@ -21,6 +21,7 @@ public class MemoryController extends MinigiocoController implements Serializabl
         view.initGraphic(nome);
         sca.nextLine();
         view.startGame(model.getNumeri().size(), model.getRank());
+        view.pressToStart();
         String in = sca.nextLine();
         if(in.equals("n")){
             reset();

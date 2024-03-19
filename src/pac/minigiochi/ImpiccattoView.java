@@ -2,6 +2,7 @@ package pac.minigiochi;
 
 import pac.Grafica;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.io.Serializable;
 
 public class ImpiccattoView extends MinigiocoView implements Serializable {
@@ -19,6 +20,8 @@ public class ImpiccattoView extends MinigiocoView implements Serializable {
         Grafica.clearConsole();
         System.out.println(Grafica.Minigame);
         System.out.println("\n\n" + Grafica.sep+"--- Gioco dell'impiccato ---");
+        System.out.println("\n"+Grafica.sep + "Indovina la parola, puoi provare con delle lettere o con delle stringhe, se sei sicuro puoi anche cercare di indovinare la parola intera");
+        System.out.println(Grafica.sep + "Hai a disposizione " + val[0] + " tentativi");
         System.out.println("\n"+Grafica.sep+"Pronto? [s/n]");
         System.out.print(Grafica.sep+"#: ");
 
@@ -27,6 +30,8 @@ public class ImpiccattoView extends MinigiocoView implements Serializable {
     public void showGame(StringBuilder guessed, int remainingAttempts){
         Grafica.clearConsole();
         System.out.println(Grafica.Minigame);
+        System.out.println("\n\n" + Grafica.sep+"--- Gioco dell'impiccato ---");
+        System.out.println("\n"+Grafica.sep + "Indovina la parola, puoi provare con delle lettere o con delle stringhe, se sei sicuro puoi anche cercare di indovinare la parola intera");
         System.out.println("\n"+Grafica.sep+"Parola da indovinare:");
         System.out.println(Grafica.sep+guessed);
         System.out.println("\n" + Grafica.sep+"Hai a disposizione " + remainingAttempts + " tentativi");

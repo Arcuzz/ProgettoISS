@@ -32,6 +32,8 @@ public class GameCaretakerView {
                 System.out.println(Grafica.sep+"+                                                          +");
                 System.out.println(Grafica.sep+"+   "+i+")    Nome: "+nome+"          Data: "+mem.getDate()+"     +");
                 System.out.println(Grafica.sep+"+                                                          +");
+                System.out.println(Grafica.sep+"+    Piano: "+mem.getPiano().livello+"      Punti: "+mem.getTotal_points()+"           Tempo: "+mem.getTime()+"s          +");
+                System.out.println(Grafica.sep+"+                                                          +");
                 System.out.println(Grafica.sep+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 i++;
             }

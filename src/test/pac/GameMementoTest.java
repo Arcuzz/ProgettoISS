@@ -9,8 +9,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import java.util.Scanner;
-
 import org.junit.Before;
 import org.junit.Test;
 

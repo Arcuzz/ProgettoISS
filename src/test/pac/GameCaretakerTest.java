@@ -17,14 +17,17 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import pac.Aiutante;
-import pac.Difficulty;
-import pac.GameCaretaker;
+import pac.DifficultyController;
+import pac.DifficultyModel;
+import pac.DifficultyView;
+import pac.GameCaretakerController;
+import pac.GameCaretakerModel;
+import pac.GameCaretakerView;
 import pac.GameMemento;
 import pac.Grafica;
 import pac.Piano;
@@ -42,7 +45,10 @@ public class GameCaretakerTest {
         
     InputStream in = new ByteArrayInputStream(initValues.getBytes());
     
-    Difficulty diff = new Difficulty(new Scanner(in));
+    DifficultyModel diffM = new DifficultyModel();
+    DifficultyController diffC = new DifficultyController(new DifficultyView(), diffM);
+    
+    
     ArrayList<String> temi = new ArrayList<String>();
     Piano piano = new Piano(1, "1", "Italiano", new ArrayList<Npc>());
     String nome = "Glo";
@@ -54,14 +60,15 @@ public class GameCaretakerTest {
     long time = Calendar.getInstance().getTimeInMillis();
     int total_points = 10;
     
-    GameCaretaker gamec;
+    GameCaretakerModel gameM;
+    GameCaretakerController gameC;
     GameMemento memento;
 
     @Before 
     public void initClass() {
-        gamec = new GameCaretaker();
+        gameM = new GameCaretakerModel();
         memento = new GameMemento(
-            diff,
+            diffM,
             temi,
             piano,
             nome,
@@ -74,31 +81,33 @@ public class GameCaretakerTest {
             time
         );
 
-        gamec.addSnapshot(memento);
+        gameC = new GameCaretakerController(gameM, new GameCaretakerView());
+
+        gameM.addSnapshot(memento);
     }
 
 
     @Test
     public void testAddSnapshot() {
-        assertEquals(1, gamec.getSnapshots().size());
+        assertEquals(1, gameM.getSnapshots().size());
     }
 
     @Test
     public void testCheck_duplicate_name() {
-        assertTrue(gamec.check_duplicate_name("Glo"));
+        assertTrue(gameM.check_duplicate_name("Glo"));
     }
 
     @Test
     public void testCheck_save() {
-        assertTrue(gamec.check_save("Glo"));
-        assertFalse(gamec.check_save("Giovanni"));
+        assertTrue(gameM.check_save("Glo"));
+        assertFalse(gameM.check_save("Giovanni"));
     }
 
     @Test
     public void testGetSnapshot() {
-        gamec.addSnapshot(memento);
-        assertEquals("Glo", gamec.getSnapshot("Glo", 1).getNome());
-        assertNull(gamec.getSnapshot("Glo", 3));
+        gameM.addSnapshot(memento);
+        assertEquals("Glo", gameM.getSnapshot("Glo", 1).getNome());
+        assertNull(gameM.getSnapshot("Glo", 3));
     }
 
     @Test
@@ -109,18 +118,18 @@ public class GameCaretakerTest {
         Writer out = new FileWriter(gameFile.getAbsolutePath());
         PrintWriter printF = new PrintWriter(out);
         
-        printF.print(gamec.getSnapshots());
+        printF.print(gameM.getSnapshots());
         printF.close();
         
         OutputStream os = new ByteArrayOutputStream();
         PrintStream print = new PrintStream(os);
         System.setOut(print);
           
-        gamec.removeSnapshot("Glo");
-        assertEquals(0, gamec.getSnapshots().size());
+        gameM.removeSnapshot("Glo");
+        assertEquals(0, gameM.getSnapshots().size());
 
-        gamec.loadGameFile("Games.txt");
-        assertEquals(1, gamec.getSnapshots().size());
+        gameC.loadGameFile("Games.txt");
+        assertEquals(1, gameM.getSnapshots().size());
         
         var output = Grafica.sep + "Game file loaded\n";
         assertTrue(os.toString().contains(output)); 
@@ -132,7 +141,7 @@ public class GameCaretakerTest {
         PrintStream print = new PrintStream(os);
         System.setOut(print);
             
-        gamec.printSnapshots("Glo");
+        gameC.printSnapshots("Glo");
 
         var output = "sono presenti i seguenti salvataggi";
         assertTrue(os.toString().contains(output));    
@@ -144,7 +153,7 @@ public class GameCaretakerTest {
         PrintStream print = new PrintStream(os);
         System.setOut(print);
             
-        gamec.printSnapshots("Andrea");
+        gameC.printSnapshots("Andrea");
         var output = Grafica.sep+"Non è presente alcun salavataggio\n";
         assertEquals(output, os.toString());  
     }
@@ -155,7 +164,7 @@ public class GameCaretakerTest {
         PrintStream print = new PrintStream(os);
         System.setOut(print);
             
-        gamec.printPerSnapshots();
+        gameC.printCharSnapshot();
         var output = "Sono presenti salvataggi per i seguenti personaggi";
         assertTrue(os.toString().contains(output)); 
 
@@ -165,8 +174,8 @@ public class GameCaretakerTest {
 
     @Test
     public void testRemoveSnapshot() {
-        gamec.removeSnapshot("Glo");
-        assertEquals(0, gamec.getSnapshots().size());
+        gameM.removeSnapshot("Glo");
+        assertEquals(0, gameM.getSnapshots().size());
     }
 
     @Test
@@ -178,7 +187,7 @@ public class GameCaretakerTest {
         PrintStream print = new PrintStream(os);
         System.setOut(print);
             
-        gamec.saveGame("Games.txt");
+        gameC.saveGame("Games.txt");
         var output = Grafica.sep + "Game saved.\n";
         assertTrue(os.toString().contains(output)); 
         gameFile.delete();

@@ -1,14 +1,23 @@
 package pac.minigiochi;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class ImpiccatoModel extends MinigiocoModel implements Serializable {
-    public String secret;
+
+    private static final String[] dictionary = new String[] {"Andrea", "Gloria", "Giovanni", "Corallo", "Globalizzazione", "Transoceanico", "Almanacco", "Aracnofobia", "Onomatopea", "Spinterogeno", "Sillogismo", "Poliptoto", "Trabiccolo", "Idilliaco", "Pernicioso"};
+    private String secret;
     public StringBuilder guessed;
     public int remainingAttempts;
 
-    public ImpiccatoModel(String secret, int maxAttempts, String difficolta){
-        this.secret = secret;
+    public String getSecret(){
+        return this.secret;
+    }
+
+    public ImpiccatoModel(int maxAttempts, String difficolta){
+        Random rand = new Random();
+        int sec = rand.nextInt(15);
+        this.secret = ImpiccatoModel.dictionary[sec];
         this.remainingAttempts = maxAttempts;
         this.difficolta = difficolta;
         inizializza();
